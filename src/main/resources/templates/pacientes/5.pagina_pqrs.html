@@ -11,7 +11,7 @@
           rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/1.estilos_pagina_inicio.css}">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/5.estilos_pagina_pqrs.css}" />
+    <link rel="stylesheet" th:href="@{/css/estilos-form.css}" />
 </head>
 <body>
 <header th:insert="Layouts/header_footerPaciente :: header"></header>
@@ -19,41 +19,42 @@
 <main class="cuerpo_indrugs">
     <div th:insert="Layouts/header_footerPaciente :: error"></div>
     <div class="contenido">
-        <h1 class="titulo_pqrs">Formulario de PQRS</h1>
-        <h2 class="solicitud">Enviar una solicitud</h2>
-        <h3 class="solicitud">Todos los campos son obligatorios</h3>
+        <div class="contenedor-form">
+            <h1 class="titulo">Formulario de PQRS</h1>
 
-        <form method="post" th:action="@{/guardar-pqrs}"
-              th:object="${pqrs}"
-              class="row mx-auto mt-3 g-3 needs-validation" novalidate>
+            <form method="post" th:action="@{/guardar-pqrs}"
+                  th:object="${pqrs}"
+                  class="custom-form row mx-auto mt-3 g-3 needs-validation" novalidate>
 
-            <input type="hidden" th:field="*{usuarioid}" th:value="${usuarioLogueado.idUsuario}" />
+                <input type="hidden" th:field="*{usuarioid}" th:value="${usuarioLogueado.idUsuario}" />
 
-            <h4 class="solicitud">Elija un tipo de solicitud a continuación...</h4>
-            <div class="col-12">
-                <label for="tipoPqrs" class="form-label">Tipo:</label>
-                <select id="tipoPqrs" th:field="*{tipoPqrs}" class="form-select" required>
-                    <option value="" disabled selected>Seleccione una opción</option>
-                    <option value="Petición">Petición</option>
-                    <option value="Queja">Queja</option>
-                    <option value="Reclamo">Reclamo</option>
-                    <option value="Sugerencia">Sugerencia</option>
-                </select>
-                <div class="valid-feedback">Correcto.</div>
-                <div class="invalid-feedback">Por favor seleccione un tipo.</div>
-            </div>
+                <h5 class="solicitud">Todos los campos son obligatorios</h5>
+                <h6 class="soli//citud">Elija un tipo de solicitud a continuación...</h6>
+                <div class="col-12">
+                    <label for="tipoPqrs" class="form-label">Tipo:</label>
+                    <select id="tipoPqrs" th:field="*{tipoPqrs}" class="form-select" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                        <option value="Petición">Petición</option>
+                        <option value="Queja">Queja</option>
+                        <option value="Reclamo">Reclamo</option>
+                        <option value="Sugerencia">Sugerencia</option>
+                    </select>
+                    <div class="valid-feedback">Correcto.</div>
+                    <div class="invalid-feedback">Por favor seleccione un tipo.</div>
+                </div>
 
-            <div class="col-12">
-                <label for="motivo" class="form-label">Motivo:</label>
-                <textarea id="motivo" th:field="*{motivo}" class="form-control" rows="4" required></textarea>
-                <div class="valid-feedback">Correcto.</div>
-                <div class="invalid-feedback">Por favor ingrese su motivo.</div>
-            </div>
+                <div class="col-12">
+                    <label for="motivo" class="form-label">Motivo:</label>
+                    <textarea id="motivo" th:field="*{motivo}" class="form-control" rows="4" required></textarea>
+                    <div class="valid-feedback">Correcto.</div>
+                    <div class="invalid-feedback">Por favor ingrese su motivo.</div>
+                </div>
 
-            <div class="col-12">
-                <button class="btn btn-primary" type="submit">Enviar PQRS</button>
-            </div>
-        </form>
+                <div class="text-center col-12">
+                    <button class="btn btnform" type="submit">Enviar PQRS</button>
+                </div>
+            </form>
+        </div>
     </div>
 </main>
 

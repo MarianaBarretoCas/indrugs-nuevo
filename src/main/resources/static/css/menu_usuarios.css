@@ -1,49 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
-
+:root {
+    --background-color: linear-gradient(90deg, #022c5c, #104585);
+    --text-color: #022c5c;
+    --iconos: #063163;
+    --lineas: #adc8fa;
+    --table-header: #f8f9fa;
+    --table-hover: #f1f4f9;
+    --border-color: #e9ecef;
+}
 /*TABLA*//* typography */
-
-html {
-    font-family: quicksand;
-  }
-th{
-    text-align: center;
-}
- 
-  
-  tbody td {
-    text-align: center;
-  }
-
-  .tabla_usuarios{
-    text-align:center;
-  }
-
-  
-  .tabla1 {
-
-    background-color: #f8f7fc;
+    .filtrar-usuarios{
+    display: flex;
+    height: 2rem;
     width: 100%;
-  } 
-
-.btn{
-    width: 100%;
-    padding: 10px;
-    background-color: rgb(107, 209, 12);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-   
+    gap: 2rem;
+    margin: 1rem;
+        align-items: center;
+    }
+label{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-right: 0.5rem;
+    align-items: center;
+    display: flex;
+    font-size: 1rem;
 }
 
-.btn:hover {
-    background-color:rgb(94, 180, 14) ; 
-
-}
-h1{
-    text-align: center;
-    margin-bottom: 3%;
-    font-family: Quicksand;
-}
-
+.btnfiltro{
+    height: 3rem;
+    margin: 2px;
+    }

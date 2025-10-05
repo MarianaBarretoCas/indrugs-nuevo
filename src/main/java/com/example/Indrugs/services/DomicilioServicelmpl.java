@@ -22,8 +22,8 @@ public class DomicilioServicelmpl implements DomicilioService{
         this.domicilioRepository=domicilioRepository;
     }
     @Override
-    public List<DomicilioDTO> read() {
-        List<Domicilio> domicilio = domicilioRepository.findAll();
+    public List<DomicilioDTO> read(Long idUsuario) {
+        List<Domicilio> domicilio = domicilioRepository.findByVehiculo_IdPropietario_IdUsuario(idUsuario);
         return domicilio.stream()
                 .map(DomicilioMapper::entityToDto)
                 .collect(Collectors.toList());

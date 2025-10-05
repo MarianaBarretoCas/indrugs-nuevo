@@ -10,6 +10,9 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link th:href="@{/css/1.estilos_pagina_inicio.css}" rel="stylesheet" />
     <link th:href="@{/css/15.estilos_pagina_domiciliario.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/3.estilos_página_control.css}">
+    <link rel="stylesheet" th:href="@{/css/estilos-form.css}">
 </head>
 <body>
 <header th:insert="Layouts/header_footerDomi :: header"></header>
@@ -18,44 +21,48 @@
     <div th:insert="Layouts/header_footerDomi :: error"></div>
 
     <div class="contenido">
-        <h1>Domicilios</h1>
         <div th:if="${domicilios != null and !domicilios.isEmpty()}">
-            <table id="tabla1" class="table">
-                <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Ubicación</th>
-                    <th>Fecha de Entrega</th>
-                    <th>Vehículo</th>
-                    <th>Orden</th>
-                    <th>Teléfono</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="domicilio : ${domicilios}">
-                    <td th:text="${domicilio.idDomicilio}"></td>
-                    <td th:text="${domicilio.ubicacionDomicilio}"></td>
-                    <td th:text="${#temporals.format(domicilio.fechaEntregaDomicilio, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td th:text="${domicilio.idVehiculo}"></td>
-                    <td th:text="${domicilio.idOrden}"></td>
-                    <td th:text="${domicilio.telefonoOrden}"></td>
-<!--                    <td>telefono</td>-->
-<!--                    <td>-->
-<!--                        <a th:href="@{/domicilios/eliminar/{id}(id=${domicilio.idDomicilio})}" class="btn btn-danger">Eliminar</a>-->
-<!--                    </td>-->
-                    <td th:text="${domicilio.estadoDomicilio}"></td>
-                    <td>
-                        <a th:href="@{/actualizar/domicilio/{idDomicilio}(idDomicilio=${domicilio.idDomicilio})}" class="btn btn-success">Entregar</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <div class="table-header">
+                    <h2 class="section-title">Domicilios</h2>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="tabla1" class="table custom-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ubicación</th>
+                            <th>Fecha de Entrega</th>
+                            <th>Vehículo</th>
+                            <th>Orden</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="domicilio : ${domicilios}">
+                            <td th:text="${domicilio.idDomicilio}"></td>
+                            <td th:text="${domicilio.ubicacionDomicilio}"></td>
+                            <td th:text="${#temporals.format(domicilio.fechaEntregaDomicilio, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${domicilio.idVehiculo}"></td>
+                            <td th:text="${domicilio.idOrden}"></td>
+                            <td th:text="${domicilio.telefonoOrden}"></td>
+                            <td th:text="${domicilio.estadoDomicilio}"></td>
+                            <td>
+                                <a th:href="@{/actualizar/domicilio/{idDomicilio}(idDomicilio=${domicilio.idDomicilio})}" class="btn btnform">Entregar</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div th:if="${domicilios == null or domicilios.isEmpty()}">
             <p>No hay domicilios registrados.</p>
         </div>
+    </div>
 </main>
 
 <footer th:insert="Layouts/header_footerDomi :: footer"></footer>

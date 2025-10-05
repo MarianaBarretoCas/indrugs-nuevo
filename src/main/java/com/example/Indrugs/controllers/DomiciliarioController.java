@@ -70,7 +70,7 @@ public class DomiciliarioController {
         if (usuario == null) {
             return "redirect:/login"; // si no está logueado
         }
-        List<DomicilioDTO> domicilio= domicilioService.read();
+        List<DomicilioDTO> domicilio= domicilioService.read(usuario.getIdUsuario());
         model.addAttribute("domicilios", domicilio);
         return "domiciliario/15.pagina_domicilio_domi";
     }

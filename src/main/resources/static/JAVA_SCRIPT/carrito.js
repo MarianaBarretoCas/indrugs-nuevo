@@ -14,6 +14,7 @@
       mostrarCarrito();
   }
 
+
   /* ================================
      AGREGAR AL CARRITO (con validación stock)
   ================================ */
@@ -124,7 +125,7 @@
       if (!contenedor) return; // prevenir error si no existe el div
 
       if (carrito.length === 0) {
-          contenedor.innerHTML = "<p>🛒 Carrito vacío</p>";
+          contenedor.innerHTML = "<p>El carrito de medicamentos está vacío</p>";
           return;
       }
 
@@ -137,7 +138,7 @@
               let medicamento = await response.json();
 
               html += `
-                  <div style="border:1px solid #ccc; margin:5px; padding:10px;">
+                  <div class="medicamento-item">
                       <img src="${medicamento.imagenMedicamento}" th:alt="${medicamento.nombreMedicamento}" width="50">
                       <strong>${medicamento.nombreMedicamento}</strong>
                       <p>${medicamento.descripcionMedicamento}</p>
@@ -146,7 +147,7 @@
                         <input type="number" min="1" value="${item.cantidad}"
                                onchange="actualizarCantidad(${item.idMedicamento}, this.value)">
                       </p>
-                      <button onclick="eliminarDelCarrito(${item.idMedicamento})">Eliminar</button>
+                      <button class="btn" onclick="eliminarDelCarrito(${item.idMedicamento})">Eliminar</button>
                   </div>
               `;
           } catch (error) {
@@ -155,9 +156,21 @@
       }
 
       html += `
-      <button onclick="limpiarCarrito()">Vaciar carrito</button>`;
+            <div class="btn_carro">
+            <button class="btn" onclick="limpiarCarrito()">Vaciar carrito</button>
+            <button class="btn"  onclick="window.location.href='/4.pagina_domicilio'">Solicitar</button>
+            </div>
+
+      `;
       contenedor.innerHTML = html;
   }
 
   // Ejecutar al cargar la página del carrito
   document.addEventListener("DOMContentLoaded", mostrarCarrito);
+
+     window.addEventListener("DOMContentLoaded", function() {
+            let mensaje = /*[[${mensaje}]]*/ '';
+            if (mensaje && mensaje.length > 0) {
+                localStorage.removeItem("carrito");
+            }
+        });

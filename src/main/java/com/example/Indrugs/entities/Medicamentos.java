@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -24,4 +27,7 @@ public class Medicamentos {
     // Nuevo campo para imagen
     @Column(name = "IMAGEN_MEDICAMENTO")
     private String imagenMedicamento;
+
+    @OneToMany(mappedBy = "medicamento")
+    private List<OrdenMedicamento> ordenMedicamentos = new ArrayList<>();
 }

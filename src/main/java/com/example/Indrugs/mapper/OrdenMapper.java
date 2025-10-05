@@ -1,6 +1,8 @@
 package com.example.Indrugs.mapper;
 
+import com.example.Indrugs.DTO.ItemDTO;
 import com.example.Indrugs.DTO.OrdenDTO;
+import com.example.Indrugs.DTO.OrdenMedicamentoDTO;
 import com.example.Indrugs.entities.Medicamentos;
 import com.example.Indrugs.entities.Orden;
 import com.example.Indrugs.entities.Usuario;
@@ -31,57 +33,23 @@ public class OrdenMapper {
         dto.setFechaEntrega(orden.getFechaEntrega());
         dto.setDireccionOrden(orden.getDireccionOrden());
         dto.setTelefonoOrden(orden.getTelefonoOrden());
-        dto.setCantidad(orden.getCantidad());
         dto.setEstadoOrden(orden.getEstadoOrden());
 //        dto.setFormulaMedica(orden.getFormulaMedica());
-
-        // Mapear medicamentos
-        if (orden.getMedicamentos() != null && !orden.getMedicamentos().isEmpty()) {
-            dto.setMedicamentos(
-                    orden.getMedicamentos().stream()
-                            .map(Medicamentos::getNombreMedicamento)
-                            .collect(Collectors.toList())
-            );
-            // Tomar el primer medicamento como nombre principal
-            Medicamentos primerMedicamento = orden.getMedicamentos().get(0);
-            dto.setNombreMedicamento(primerMedicamento.getNombreMedicamento());
-            dto.setIdMedicamento(primerMedicamento.getIdMedicamento());
-
-        } else {
-            dto.setMedicamentos(new ArrayList<>());
+        if (orden.getOrdenMedicamentos() != null) {
+            List<OrdenMedicamentoDTO> meds = orden.getOrdenMedicamentos().stream()
+                    .map(om -> {
+                        OrdenMedicamentoDTO medDTO = new OrdenMedicamentoDTO();
+                        medDTO.setIdMedicamento(om.getMedicamento().getIdMedicamento());
+                        medDTO.setNombreMedicamento(om.getMedicamento().getNombreMedicamento());
+                        medDTO.setCantidad(om.getCantidad());
+                        return medDTO;
+                    })
+                    .collect(Collectors.toList());
+            dto.setMedicamentos(meds);
         }
 
         return dto;
-//        if (orden == null) {
-//            return null;
-//        }
 //
-//        OrdenDTO dto = new OrdenDTO();
-//        dto.setIdOrden(orden.getIdOrden());
-//
-//
-//        if (orden.getPaciente() != null) {
-//            dto.setPacienteNombre(orden.getPaciente().getNombre());
-//        }
-//
-//        dto.setEpsOrden(orden.getEpsOrden());
-//        dto.setFechaEntrega(orden.getFechaEntrega());
-//        dto.setDireccionOrden(orden.getDireccionOrden());
-//        dto.setTelefonoOrden(orden.getTelefonoOrden());
-//        dto.setCantidad(orden.getCantidad());
-//        dto.setEstadoOrden(orden.getEstadoOrden());
-//
-//        if (orden.getMedicamentos() != null && !orden.getMedicamentos().isEmpty()) {
-//            dto.setMedicamentos(
-//                    orden.getMedicamentos().stream()
-//                            .map(Medicamentos::getNombreMedicamento)
-//                            .collect(Collectors.toList())
-//            );
-//        } else {
-//            dto.setMedicamentos(new ArrayList<>());
-//        }
-//
-//        return dto;
     }
 
 
@@ -107,18 +75,8 @@ public class OrdenMapper {
         orden.setFechaEntrega(ordenDTO.getFechaEntrega());
         orden.setDireccionOrden(ordenDTO.getDireccionOrden());
         orden.setTelefonoOrden(ordenDTO.getTelefonoOrden());
-        orden.setCantidad(ordenDTO.getCantidad());
         orden.setEstadoOrden(ordenDTO.getEstadoOrden());
 //        orden.setFormulaMedica(ordenDTO.getFormulaMedica());
-
-
-        if (ordenDTO.getIdMedicamento() != null) {
-            Medicamentos medicamento = new Medicamentos();
-            medicamento.setIdMedicamento(ordenDTO.getIdMedicamento());
-            List<Medicamentos> medicamentosList = new ArrayList<>();
-            medicamentosList.add(medicamento);
-            orden.setMedicamentos(medicamentosList);
-        }
 
 
         return orden;
@@ -141,9 +99,6 @@ public class OrdenMapper {
         }
         if (ordenDTO.getTelefonoOrden() != null) {
             orden.setTelefonoOrden(ordenDTO.getTelefonoOrden());
-        }
-        if (ordenDTO.getCantidad() != null) {
-            orden.setCantidad(ordenDTO.getCantidad());
         }
         if (ordenDTO.getEstadoOrden() != null) {
             orden.setEstadoOrden(ordenDTO.getEstadoOrden());

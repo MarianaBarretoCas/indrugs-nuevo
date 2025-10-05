@@ -5,7 +5,6 @@ html{
 }
 /*toda la pagina*/
 body{
-    font-family: Quicksand;
     margin: 0;
 }
 
@@ -30,11 +29,6 @@ body{
         color:rgb(212, 239, 250);
         text-decoration: none;
     }
-@media only screen and (max-width:767px){
-.cuerpo_indrugs{
-    margin-top: 28rem;
-}
-}
 
 /*Body*/
 .cuerpo_indrugs{

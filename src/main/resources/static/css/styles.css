@@ -239,6 +239,23 @@ small {
 }
 
 /*Fin head*/
+.btn {
+    width: 50%;
+    background: #2cb4c9;
+    color: white;
+    padding: 12px 18px;
+    margin: 8px auto;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #2ec6da;
+    transform: translateY(-2px);
+}
 /*empieza footer*/
 
 .footer {

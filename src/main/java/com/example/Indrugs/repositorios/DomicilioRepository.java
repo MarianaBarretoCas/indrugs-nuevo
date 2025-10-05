@@ -3,6 +3,7 @@ package com.example.Indrugs.repositorios;
 
 import com.example.Indrugs.entities.Domicilio;
 import com.example.Indrugs.entities.Usuario;
+import com.example.Indrugs.entities.Vehiculo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,5 +15,5 @@ public interface DomicilioRepository extends JpaRepository<Domicilio, Long> {
     List<Domicilio> findTop3ByOrderByIdDomicilioDesc();
     long countByEstadoDomicilio(String estadoDomicilio);
     Optional<Domicilio> findByIdDomicilio(Long idDomicilio);
-
+    List<Domicilio> findByVehiculo_IdPropietario_IdUsuario(Long idUsuario);
 }

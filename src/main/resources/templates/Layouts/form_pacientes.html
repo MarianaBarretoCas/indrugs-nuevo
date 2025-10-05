@@ -71,8 +71,65 @@
                             <div class="invalid-feedback">Por favor ingrese una hora.</div>
                         </div>
                         <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn" data-bs-dismiss="modal">Cancelar</button>
-                            <button class="btn" type="submit">Agregar</button>
+                            <button class="btn btnform" type="submit">Agregar</button>
+                            <button type="button" class="btn btnform" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:fragment="form_inventario">
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="formModalLabel">Agregar medicamento</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" th:action="@{/procesar_inventario}" th:object="${invetarioDTO}"
+                          class="custom-form row mx-auto mt-3 g-3 needs-validation" novalidate>
+                        <div class="col-12">
+                            <label>Medicamento:</label>
+                            <select th:field="*{nombreMedicamento}" class="form-select" required>
+                                <option th:each="med : ${medicamentos}"
+                                        th:value="${med.nombreMedicamento}"
+                                        th:text="${med.nombreMedicamento}"></option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label>Fecha entrada:</label>
+                            <input type="datetime-local" th:field="*{fechaEntrada}" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label>Fecha salida:</label>
+                            <input type="datetime-local" th:field="*{fechaSalida}" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label>Stock:</label>
+                            <input type="number" th:field="*{stock}" min="1" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label>Vencimiento:</label>
+                            <input type="date" th:field="*{vencimiento}" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label>Estado:</label>
+                            <select th:field="*{estadoMed}" class="form-select" required>
+                                <option value="ACTIVO">Activo</option>
+                                <option value="INACTIVO">Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button class="btn btnform" type="submit">Agregar</button>
+                            <button type="button" class="btn btnform" data-bs-dismiss="modal">Cancelar</button>
                         </div>
                     </form>
                 </div>
@@ -81,68 +138,103 @@
     </div>
 </div>
 
-<div th:fragment="form-domicilio">
+<div th:fragment="form_medicamento">
     <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content p-3">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="formModalLabel">Solicitar medicamento</h4>
+                    <h4 class="modal-title" id="formModalLabel">Agregar medicamento</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/guardar}" method="post" enctype="multipart/form-data" id="formuno"
-                          class="custom-form mt-3 g-3 needs-validation" novalidate th:object="${orden}">
-
-                        <input type="hidden" th:field="*{paciente}" th:value="${usuarioLogueado.idUsuario}" />
-                        <input type="hidden" name="idMedicamento" th:value="${medicamento.idMedicamento}" />
-                        <!--            <input type="hidden" th:field="*{idMedicamento}" th:value="${medicamento.idMedicamento}" />-->
-                        <input type="hidden" th:field="*{pacienteNombre}" />
-                        <input type="hidden" th:field="*{nombreMedicamento}" />
-                        <input type="hidden" th:field="*{cantidad}" />
-                        <input type="hidden" th:field="*{estadoOrden}" />
+                    <form th:action="@{/guardar-medicamento}" method="post" enctype="multipart/form-data"
+                          th:object="${medicamentoDTO}"
+                          id="formuno" class="custom-form row mt-3 g-3 needs-validation" novalidate>
 
                         <div class="col-12">
-                            <label for="eps">EPS:</label>
-                            <input type="text" id="eps" th:field="*{epsOrden}" class="form-control" required />
+                            <label for="nombres" class="form-label" id="form_text">Nombre del medicamento: </label>
+                            <input type="text" id="nombres" name="nombreMedicamento" class="form-control" required>
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese un nombre.</div>
                         </div>
 
                         <div class="col-12">
-                            <label for="direccion">Dirección:</label>
-                            <input type="text" id="direccion" th:field="*{direccionOrden}" class="form-control"
-                                   required />
+                            <label for="descripcion" class="form-label" id="form_text">Descripción del medicamento: </label>
+                            <input type="text" id="descripcion" name="descripcionMedicamento" class="form-control" required>
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese una descripción.</div>
                         </div>
 
                         <div class="col-12">
-                            <label for="telefono">Teléfono:</label>
-                            <input type="tel" id="telefono" th:field="*{telefonoOrden}" class="form-control" required />
+                            <label for="imagen" class="form-label" id="form_text">Imagen del medicamento: </label>
+                            <input type="file" id="imagen" name="imagenFile" class="form-control" accept="image/*" required>
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor seleccione una imagen.</div>
                         </div>
 
-                        <!--            <div class="col-12">-->
-                        <!--                <label for="cantidad">Cantidad:</label>-->
-                        <!--                <input type="number" id="cantidad" th:field="*{cantidad}" class="form-control" required />-->
-                        <!--            </div>-->
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button class="btn btnform" type="submit">Agregar</button>
+                            <button type="button" class="btn btnform" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        <div class="col-12">
-                            <label for="fecha">Fecha Entrega:</label>
-                            <input type="datetime-local" id="fecha" th:field="*{fechaEntrega}" class="form-control"
-                                   required />
+<div th:fragment="form_vehiculo">
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="formModalLabel">Agregar vehículo</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/agregar_vehiculo}"
+                          method="post"
+                          th:object="${vehiculo}"
+                          class="custom-form row mt-3 g-3 needs-validation" novalidate>
+
+                        <!-- Propietario logueado -->
+                        <input type="hidden" name="idUsuario" th:value="${usuarioLogueado.idUsuario}" />
+
+                        <div class="col-12 mt-2 mb-2">
+                            <label for="tipoVehiculo" class="form-label">Tipo de vehículo:</label>
+                            <select id="tipoVehiculo" th:field="*{tipoVehiculo}" class="form-select" required>
+                                <option value="" selected disabled>Elija tipo de vehículo</option>
+                                <option value="Moto">Moto</option>
+                                <option value="Carro">Carro</option>
+                            </select>
                         </div>
 
-                        <!--            <div class="col-12">-->
-                        <!--                <label for="formulaMedica">Fórmula Médica:</label>-->
-                        <!--                <input type="file" id="formulaMedica" name="formulaFile" accept=".pdf,.jpg,.jpeg,.png" required/>-->
+                        <div class="col-12 mt-2 mb-2">
+                            <label for="placa" class="form-label">Número de placa:</label>
+                            <input type="text" id="placa" th:field="*{placaVehiculo}" class="form-control" minlength="6" maxlength="6" required />
+                        </div>
 
-                        <!--&lt;!&ndash;                <input type="file" id="formulaMedica" th:field="*{formulaMedica}" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required />&ndash;&gt;-->
-                        <!--            </div>-->
-                        <div class="espacio">
-                            <p>
+                        <div class="col-12 mt-2 mb-2">
+                            <label for="color" class="form-label">Color:</label>
+                            <input type="text" id="color" th:field="*{colorVehiculo}" class="form-control" required />
+                        </div>
 
-                            </p>
+                        <div class="col-12 mt-2 mb-2">
+                            <label for="marca" class="form-label">Marca:</label>
+                            <input type="text" id="marca" th:field="*{marcaVehiculo}" class="form-control" required />
+                        </div>
+
+                        <div class="col-12 mt-2 mb-2">
+                            <label for="estado" class="form-label">Estado:</label>
+                            <select id="estado" th:field="*{estadoVehiculo}" class="form-select" required>
+                                <option value="" selected disabled>Elija estado</option>
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
                         </div>
                         <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" id="enviar_solicitud" class="btn">Enviar
-                                Solicitud</button>
+                            <button class="btn btnform" type="submit">Agregar</button>
+                            <button type="button" class="btn btnform" data-bs-dismiss="modal">Cancelar</button>
                         </div>
                     </form>
                 </div>

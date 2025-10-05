@@ -91,7 +91,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 
         if (!passwordEncoder.matches(password, usuario.getPassword())) {
             throw new RuntimeException("Contraseña incorrecta");
+        } else if (usuario.getEstado().equals("INACTIVO")) {
+            throw new RuntimeException("Usuario inactivo, contacte con el administrador");
         }
+
 
         return usuario;
     }

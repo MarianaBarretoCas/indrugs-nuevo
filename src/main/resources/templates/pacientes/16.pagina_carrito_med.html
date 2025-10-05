@@ -22,11 +22,14 @@
   <div th:insert="Layouts/header_footerPaciente :: error"></div>
 
   <div class="contenido">
-    <h1 id="titulo_control">Medicamentos solicitados</h1>
+    <h1 id="titulo_control" class="text-center">Medicamentos solicitados</h1>
 
     <div id="carritoContainer" class="carrito"></div>
 
-    <a th:href="@{/8.pagina_med}" class="btn btn-primary">Nuevo medicamento</a>
+    <div class="text-center me-3">
+      <a th:href="@{/8.pagina_med}" class="btn">Nuevo medicamento</a>
+    </div>
+
 <!--    <div class="text-center me-3">-->
 <!--      <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="confirmarOrden()" data-bs-target="#formModal">-->
 <!--        Confirmar domicilio-->
@@ -36,6 +39,7 @@
 
 <footer th:insert="Layouts/header_footerPaciente :: footer"></footer>
 <script>
+
   (() => {
           'use strict';
           const forms = document.querySelectorAll('.needs-validation');

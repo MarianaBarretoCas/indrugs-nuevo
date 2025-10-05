@@ -30,20 +30,22 @@ public class VehiculoController {
         }
         List<VehiculoDTO> vehiculos = vehiculoService.read(usuario.getIdUsuario());
         model.addAttribute("vehiculos", vehiculos);
+        //form
+        model.addAttribute("usuarioLogueado",  usuario);
+        model.addAttribute("vehiculo", new VehiculoDTO());
         return "domiciliario/12.pagina_vehiculos";
     }
 
-    @GetMapping("13_pagina_agregar_vehiculo")
-    public String mostrarFormularioAgregar(Model model, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-
-        if (usuario == null) {
-            return "redirect:/login"; // Si no está logueado
-        }
-        model.addAttribute("usuarioLogueado",  usuario);
-        model.addAttribute("vehiculo", new VehiculoDTO());
-        return "domiciliario/13_pagina_agregar_vehiculo";
-    }
+//    @GetMapping("13_pagina_agregar_vehiculo")
+//    public String mostrarFormularioAgregar(Model model, HttpSession session) {
+//        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+//
+//        if (usuario == null) {
+//            return "redirect:/login"; // Si no está logueado
+//        }
+//
+//        return "domiciliario/13_pagina_agregar_vehiculo";
+//    }
 
     @PostMapping("/agregar_vehiculo")
     public String agregarVehiculo(@ModelAttribute VehiculoDTO vehiculoDTO, RedirectAttributes redirectAttributes) {

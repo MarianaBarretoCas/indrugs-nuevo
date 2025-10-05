@@ -11,7 +11,7 @@
           rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/1.estilos_pagina_inicio.css}">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/4.estilos_pagina_domicilio.css}">
+    <link rel="stylesheet" th:href="@{/css/estilos-form.css}">
 </head>
 
 <body>
@@ -21,101 +21,148 @@
     <div th:insert="Layouts/header_footerPaciente :: error"></div>
 
     <div class="contenido">
-        <h1 id="titulo_domicilio">Registrar Orden</h1>
 
-        <form th:action="@{/guardar}" method="post" enctype="multipart/form-data"
-             id="formuno" class="row mt-3 g-3 needs-validation" novalidate th:object="${orden}" >
+        <div class="contenedor-form">
+            <h1 id="titulo_domicilio" class="text-center">Registrar Orden</h1>
+            <form th:action="@{/guardar}" method="post" enctype="multipart/form-data"
+                  id="formuno" class="custom-form row mt-3 g-3 needs-validation" novalidate th:object="${orden}" >
 
-            <input type="hidden" th:field="*{paciente}" th:value="${usuarioLogueado.idUsuario}" />
-            <input type="hidden" name="idMedicamento" th:value="${medicamento.idMedicamento}"/>
-<!--        <input type="hidden" th:field="*{idMedicamento}" th:value="${medicamento.idMedicamento}" />-->
-            <input type="hidden" th:field="*{pacienteNombre}" />
-            <input type="hidden" th:field="*{nombreMedicamento}" />
-            <input type="hidden" th:field="*{cantidad}" />
-            <input type="hidden" th:field="*{estadoOrden}" />
+                <input type="hidden" th:value="${usuarioLogueado.idUsuario}" />
+                <div class="InputsHidden" id="inputsHidden">
 
-            <div class="col-12">
-                <label for="eps">EPS:</label>
-                <input type="text" id="eps" th:field="*{epsOrden}" class="form-control" required />
-            </div>
 
-            <div class="col-12">
-                <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" th:field="*{direccionOrden}" class="form-control" required />
-            </div>
+                </div>
 
-            <div class="col-12">
-                <label for="telefono">Teléfono:</label>
-                <input type="tel" id="telefono" th:field="*{telefonoOrden}" class="form-control" required />
-            </div>
+                <div class="col-12">
+                    <label for="eps">EPS:</label>
+                    <input type="text" id="eps" th:field="*{epsOrden}" class="form-control" required />
+                    <div class="valid-feedback">Correcto.</div>
+                    <div class="invalid-feedback">Por favor escriba una eps.</div>
+                    <div th:if="${#fields.hasErrors('epsOrden')}" class="text-danger">
+                        <small th:errors="*{epsOrden}"></small>
+                    </div>
+                </div>
 
-<!--            <div class="col-12">-->
-<!--                <label for="cantidad">Cantidad:</label>-->
-<!--                <input type="number" id="cantidad" th:field="*{cantidad}" class="form-control" required />-->
-<!--            </div>-->
+                <div class="col-12">
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" id="direccion" th:field="*{direccionOrden}" class="form-control" required />
+                    <div class="valid-feedback">Correcto.</div>
+                    <div class="invalid-feedback">Por favor escriba su dirección.</div>
+                    <div th:if="${#fields.hasErrors('direccionOrden')}" class="text-danger">
+                        <small th:errors="*{direccionOrden}"></small>
+                    </div>
+                </div>
 
-            <div class="col-12">
-                <label for="fecha">Fecha Entrega:</label>
-                <input type="datetime-local" id="fecha" th:field="*{fechaEntrega}" class="form-control" required />
-            </div>
+                <div class="col-12">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" th:field="*{telefonoOrden}" class="form-control" required />
+                    <div class="valid-feedback">Correcto.</div>
+                    <div class="invalid-feedback">Por favor escriba un teléfono.</div>
+                    <div th:if="${#fields.hasErrors('telefonoOrden')}" class="text-danger">
+                        <small th:errors="*{telefonoOrden}"></small>
+                    </div>
+                </div>
 
-<!--            <div class="col-12">-->
-<!--                <label for="formulaMedica">Fórmula Médica:</label>-->
-<!--                <input type="file" id="formulaMedica" name="formulaFile" accept=".pdf,.jpg,.jpeg,.png" required/>-->
+                <div class="col-12">
+                    <label for="fecha">Fecha Entrega:</label>
+                    <input type="datetime-local" id="fecha" th:field="*{fechaEntrega}" class="form-control" required />
+                    <div class="valid-feedback">Correcto.</div>
+                    <div class="invalid-feedback">Por favor seleccione una fecha.</div>
+                    <div th:if="${#fields.hasErrors('fechaEntrega')}" class="text-danger">
+                        <small th:errors="*{fechaEntrega}"></small>
+                    </div>
+                </div>
 
-<!--&lt;!&ndash;                <input type="file" id="formulaMedica" th:field="*{formulaMedica}" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required />&ndash;&gt;-->
-<!--            </div>-->
+                <!--            <div class="col-12">-->
+                <!--                <label for="formulaMedica">Fórmula Médica:</label>-->
+                <!--                <input type="file" id="formulaMedica" name="formulaFile" accept=".pdf,.jpg,.jpeg,.png" required/>-->
 
-            <div class="col-12">
-                <button type="submit" id="enviar_solicitud" class="btn btn-primary">Enviar Solicitud</button>
-            </div>
-        </form>
+                <!--&lt;!&ndash;                <input type="file" id="formulaMedica" th:field="*{formulaMedica}" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required />&ndash;&gt;-->
+                <!--            </div>-->
+
+                <div class="text-center col-12">
+                    <button type="submit" id="enviar_solicitud" class="btn btn-primary">Enviar Solicitud</button>
+                </div>
+            </form>
+        </div>
+
+
+
+
     </div>
 </main>
 
 <footer th:insert="Layouts/header_footerPaciente :: footer"></footer>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('formuno');
+  if (!form) return;
 
-    document.getElementById("formuno").addEventListener("submit", function(event) {
-        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-        let form = this;
 
-        // eliminar inputs previos si los hay
-        let oldInputs = document.querySelectorAll(".carrito-hidden");
-        oldInputs.forEach(e => e.remove());
+  let carritoError = document.getElementById('carrito-error');
+  if (!carritoError) {
+    carritoError = document.createElement('div');
+    carritoError.id = 'carrito-error';
+    carritoError.className = 'invalid-feedback d-block';
+    const submitBtn = form.querySelector('[type="submit"]');
+    if (submitBtn) submitBtn.parentNode.insertBefore(carritoError, submitBtn);
+    else form.appendChild(carritoError);
+  }
 
-        carrito.forEach((item, index) => {
-            let inputId = document.createElement("input");
-            inputId.type = "hidden";
-            inputId.name = `medicamentos[${index}].idMedicamento`;
-            inputId.value = item.idMedicamento;
-            inputId.classList.add("carrito-hidden");
-            form.appendChild(inputId);
+  form.addEventListener('submit', function (event) {
 
-            let inputCantidad = document.createElement("input");
-            inputCantidad.type = "hidden";
-            inputCantidad.name = `medicamentos[${index}].cantidad`;
-            inputCantidad.value = item.cantidad;
-            inputCantidad.classList.add("carrito-hidden");
-            form.appendChild(inputCantidad);
-        });
+    form.querySelectorAll('.carrito-hidden').forEach(e => e.remove());
+    carritoError.textContent = '';
+    form.classList.remove('was-validated'); // reset visual
 
-      (() => {
-          'use strict';
-          const forms = document.querySelectorAll('.needs-validation');
-          Array.from(forms).forEach(form => {
-              form.addEventListener('submit', event => {
-                  if (!form.checkValidity()) {
-                      event.preventDefault();
-                      event.stopPropagation();
-                  }
-                  form.classList.add('was-validated');
-              }, false);
-          });
-      })();
+
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    carrito.forEach((item, index) => {
+      const inputId = document.createElement('input');
+      inputId.type = 'hidden';
+      inputId.name = `medicamentos[${index}].idMedicamento`; // coincide con tu DTO
+      inputId.value = item.idMedicamento;
+      inputId.classList.add('carrito-hidden');
+      form.appendChild(inputId);
+
+      const inputCantidad = document.createElement('input');
+      inputCantidad.type = 'hidden';
+      inputCantidad.name = `medicamentos[${index}].cantidad`;
+      inputCantidad.value = item.cantidad;
+      inputCantidad.classList.add('carrito-hidden');
+      form.appendChild(inputCantidad);
+    });
+
+
+    if (carrito.length === 0) {
+      event.preventDefault();
+      event.stopPropagation();
+      carritoError.textContent = 'El carrito está vacío. Agrega al menos un medicamento.';
+      form.classList.add('was-validated');
+      // opcional: desplazar a la alerta
+      carritoError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+      form.classList.add('was-validated');
+      const firstInvalid = form.querySelector(':invalid');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
+
+
+    const btn = form.querySelector('[type="submit"]');
+    if (btn) btn.disabled = true;
+  }, false);
+});
 
 </script>
+
 <script th:src="@{/JAVA_SCRIPT/carrito.js}"></script>
 </body>
 </html>

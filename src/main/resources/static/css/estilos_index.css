@@ -1,0 +1,214 @@
+:root {
+    --primary-color: #022c5c;
+    --secondary-color: #104585;
+    --accent-color: #adc8fa;
+    --background-color: linear-gradient(90deg, #022c5c, #104585);
+    --text-color: #012349;
+    --iconos: #063163;
+    --lineas: #adc8fa;
+    --texto_footer: #d8daff;
+    --cta-color: #2cb4c9;
+    --cta-hover: #2ec6da;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.hero {
+    background-color: #eef7ff;
+    padding: 3rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    gap: 1rem;
+}
+
+.hero_texto {
+    max-width: 50%;
+}
+
+.hero_texto .encabezado {
+    font-size: 2.3rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.hero_texto .parrafo {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 2rem;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+}
+
+.btn {
+    width: 50%;
+    background: #2cb4c9;
+    color: white;
+    padding: 12px 18px;
+    margin: 8px auto;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #2ec6da;
+    transform: translateY(-2px);
+}
+
+
+.hero_img {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+    border-radius: 7px;
+    margin: 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero_texto {
+        max-width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+.seccion {
+    padding: 4rem 1.5rem;
+    text-align: center;
+}
+
+.seccion-beneficios {
+    background: white;
+    padding: 4rem 1.5rem;
+    text-align: center;
+}
+
+.titulo {
+    color: var(--text-color);
+    margin-bottom: 3rem;
+    font-weight: 550;
+}
+
+
+.beneficios .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    color: var(--text-color);
+}
+
+.beneficios .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.icon-custom1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.seccion-nosotros {
+    background: #f9f9f9;
+    padding: 4rem 1.5rem;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.nosotros {
+    max-width: 650px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.seccion-nosotros h2 {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.nosotros h3 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.nosotros p {
+    line-height: 1.6;
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+.como-funciona {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #f9fbff;
+}
+
+.como-funciona h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+}
+
+.pasos {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.paso {
+    flex: 1;
+    min-width: 200px;
+    max-width: 250px;
+}
+
+.paso .icono {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    background: var(--secondary-color);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.paso p {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+.contenido{
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+}

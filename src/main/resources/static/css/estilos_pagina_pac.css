@@ -159,18 +159,21 @@ body {
     text-align: center;
 }
 
-.btn-primary {
-    display: inline-block;
-    padding: 1rem 2rem;
-    background: var(--primary-color);
-    color: var(--white);
-    text-decoration: none;
-    border-radius: 50px;
+.btn {
+    width: 50%;
+    background: #2cb4c9;
+    color: white;
+    padding: 12px 18px;
+    margin: 8px auto;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
-.btn-primary:hover {
-    background: var(--secondary-color);
+.btn:hover {
+    background-color: #2ec6da;
     transform: translateY(-2px);
 }
 
@@ -235,8 +238,9 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .btn-primary {
+    .btn {
         width: 100%;
         text-align: center;
     }
+
 }
