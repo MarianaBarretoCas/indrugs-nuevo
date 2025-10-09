@@ -6,50 +6,89 @@
     <title>Indrugs</title>
     <script src="https://kit.fontawesome.com/14122cd484.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/1.estilos_pagina_inicio.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/estilos_pagina_pac.css}">
 </head>
 
 <body>
 <header th:insert="Layouts/header_footerPaciente :: header"></header>
-<main class="cuerpo_indrugs">
-    <div class="contenido">
-        <div class="carrusel">
-            <div class="atras">
-                <img id="atras" th:src="@{/Iconos/icons8-back-90.png}" loading="lazy">
+<main class="main-content">
+    <section class="hero-section">
+        <div class="carousel-container">
+            <div class="carousel-nav prev">
+                <i class="fas fa-chevron-left" id="atras"></i>
             </div>
-            <div class="imagenes_carrusel">
-                <div id="imag">
-                    <img id="imagen1" class="img-fluid" th:src="@{/imagenes/Carrusel/señoras.jpg}" alt="" loading="lazy">
+            <div class="carousel-wrapper">
+                <div id="imag" class="carousel-slide">
+                    <img id="imagen1" class="carousel-image" th:src="@{imagenes/Carrusel/señoras.jpg}" alt="Slider Image">
                 </div>
             </div>
-            <div class="adelante">
-                <img id="adelante" th:src="@{/Iconos/icons8-adelante-90.png}" alt="" loading="lazy">
+            <div class="carousel-nav next">
+                <i class="fas fa-chevron-right" id="adelante"></i>
             </div>
         </div>
-        <div class="puntos" id="puntos"></div>
-
-        <h2 class="titulo1">Medicamentos</h2>
-        <div class="imagenes">
-            <a th:href="@{/8.pagina_med}">
-                <img class="imagen" th:src="@{/imagenes/MEDICAMENTOS/TABLA/Aspirina.jpeg}" alt="Aspirina">
-            </a>
-            <a th:href="@{/8.pagina_med}">
-                <img class="imagen" th:src="@{/imagenes/MEDICAMENTOS/TABLA/Ibuprofeno.png}" alt="Ibuprofeno">
-            </a>
-            <a th:href="@{/8.pagina_med}">
-                <img class="imagen" th:src="@{/imagenes/MEDICAMENTOS/TABLA/Ibuprofeno%20(2).jpeg}" alt="Paracetamol">
-            </a>
-            <a th:href="@{/8.pagina_med}"><input class="boton" type="button" value="VER TODO"></a>
+        <div class="carousel-indicators" id="puntos"></div>
+    </section>
+    <section class="products-section">
+        <div class="section-container">
+            <h2 class="section-title">Medicamentos Destacados</h2>
+            <div class="products-grid">
+                <a th:href="@{/8.pagina_med}" class="product-card">
+                    <div class="product-image">
+                        <img th:src="@{/imagenes/MEDICAMENTOS/TABLA/Aspirina.jpeg}" alt="Aspirina">
+                    </div>
+                    <div class="product-info">
+                        <h3>Aspirina</h3>
+                        <p>Analgésico y antiinflamatorio</p>
+                    </div>
+                </a>
+                <a th:href="@{/8.pagina_med}" class="product-card">
+                    <div class="product-image">
+                        <img th:src="@{/imagenes/MEDICAMENTOS/TABLA/img.png}" alt="Ibuprofeno">
+                    </div>
+                    <div class="product-info">
+                        <h3>Ibuprofeno</h3>
+                        <p>Antiinflamatorio no esteroideo</p>
+                    </div>
+                </a>
+                <a th:href="@{/8.pagina_med}" class="product-card">
+                    <div class="product-image">
+                        <img th:src="@{/imagenes/MEDICAMENTOS/TABLA/paracetamol.jpg}" alt="Paracetamol">
+                    </div>
+                    <div class="product-info">
+                        <h3>Paracetamol</h3>
+                        <p>Analgésico y antipirético</p>
+                    </div>
+                </a>
+            </div>
+            <div class="section-action">
+                <a th:href="@{/8.pagina_med}" class="btn">Ver Todos los Medicamentos</a>
+            </div>
         </div>
+    </section>
 
-        <h2 class="titulo1">EPS</h2>
-        <div class="imagenes_eps">
-            <img class="eps" th:src="@{/imagenes/EPS/Sanitas.png}" alt="Sanitas">
-            <img class="eps_compensar" th:src="@{/imagenes/EPS/compensar.png}" alt="Compensar">
-            <img class="eps_sura" th:src="@{/imagenes/EPS/sura.png}" alt="Sura">
-            <img class="eps_saludtotal" th:src="@{/imagenes/EPS/saludtotal.png}" alt="Salud Total">
+    <section class="partners-section">
+        <div class="section-container">
+            <h2 class="section-title">Nuestras EPS Aliadas</h2>
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <img th:src="@{/imagenes/EPS/Sanitas.png}" alt="Sanitas">
+                </div>
+                <div class="partner-card">
+                    <img th:src="@{/imagenes/EPS/compensar.png}" alt="Compensar">
+                </div>
+                <div class="partner-card">
+                    <img th:src="@{/imagenes/EPS/sura.png}" alt="Sura">
+                </div>
+                <div class="partner-card">
+                    <img th:src="@{/imagenes/EPS/saludtotal.png}" alt="Salud Total">
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 </main>
 <footer th:insert="Layouts/header_footerPaciente :: footer"></footer>
 <script th:src="@{/JAVA_SCRIPT/carrusel.js}"></script>

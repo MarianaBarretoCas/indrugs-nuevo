@@ -1,7 +1,6 @@
 package com.example.Indrugs.controllers;
 
-import com.example.Indrugs.DTO.MedicamentoDTO;
-import com.example.Indrugs.DTO.OrdenDTO;
+import com.example.Indrugs.DTO.*;
 import com.example.Indrugs.entities.Medicamentos;
 import com.example.Indrugs.entities.Orden;
 import com.example.Indrugs.entities.Usuario;
@@ -17,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class OrdenController {
@@ -38,8 +39,28 @@ public class OrdenController {
         model.addAttribute("ordenes", ordenService.listarOrdenes());
         return "domiciliario/14.pagina_ordenes";
     }
+    @GetMapping("/VerDetalle")
+    public String verDetalle(@RequestParam Long idOrden, Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login"; // Si no está logueado
+        }
+        OrdenDTO orden = ordenService.listarDetalle(idOrden);
+        model.addAttribute("orden", orden);
+        return "administrador/VerDetalle";
+    }
+    @GetMapping("/VerDetalleD")
+    public String verDetalleD(@RequestParam Long idOrden, Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login"; // Si no está logueado
+        }
+        OrdenDTO orden = ordenService.listarDetalle(idOrden);
+        model.addAttribute("orden", orden);
+        return "domiciliario/VerDetalleD";
+    }
     @GetMapping("/16.pagina_carrito_med")
-    public String verOrdenesPaciente(Model model, HttpSession session) {
+    public String mostrarCarrito(Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login"; // Si no está logueado
@@ -51,85 +72,76 @@ public class OrdenController {
 
     // Vista del administrador
     @GetMapping("/18.pagina_orden_admin")
-    public String verOrdenesAdmin(Model model, HttpSession session) {
+    public String verOrdenesAdmin(@RequestParam(required = false) String estadoOrden,Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login"; // Si no está logueado
         }
 
-        model.addAttribute("ordenes", ordenService.listarOrdenes());
+        //filtro
+        List<OrdenDTO> ordenes;
+
+        //filtros
+        if (estadoOrden != null && !estadoOrden.isEmpty()){
+            ordenes = ordenService.findByEstadoOrden(estadoOrden);
+        }else {
+            ordenes = ordenService.listarOrdenes();
+        }
+
+        model.addAttribute("ordenes", ordenes);
+        model.addAttribute("estadoSeleccionado", estadoOrden);
+
         return "administrador/18.pagina_orden_admin";
     }
 
-    @GetMapping("/nuevo")
-    public String mostrarformulario(@RequestParam("idMedicamento") Long idMedicamento,
-                                    @RequestParam("cantidad") Integer cantidad,
-                                    HttpSession session, Model model)
-    {try {
-        // Obtener usuario logueado usando tu método
+    @GetMapping("/4.pagina_domicilio")
+    public String mostrarformulario(HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-        if (usuario == null) {
-            return "redirect:/login"; // Si no está logueado
-        }
+        if (usuario == null) return "redirect:/login";
 
-
-        // Obtener medicamento
-        MedicamentoDTO medicamento = medicamentosService.buscarPorIdMedicamento(idMedicamento);
-
-        if (medicamento == null) {
-            model.addAttribute("error", "Medicamento no encontrado");
-            return "error";
-        }
-
-        // Crear nueva orden DTO
-        OrdenDTO ordenDTO = new OrdenDTO();
-        ordenDTO.setPacienteNombre(usuario.getNombre());
-        ordenDTO.setCantidad(cantidad);
-        ordenDTO.setNombreMedicamento(medicamento.getNombreMedicamento());
-        ordenDTO.setEstadoOrden("ACTIVO");
-
-        // Agregar al modelo
-        model.addAttribute("orden", ordenDTO);
         model.addAttribute("usuarioLogueado", usuario);
-        model.addAttribute("medicamento", medicamento);
-        model.addAttribute("idMedicamento", idMedicamento);
-        model.addAttribute("cantidad", cantidad);
-
+        model.addAttribute("orden", new OrdenDTO());
         return "pacientes/4.pagina_domicilio";
+    }
 
-    } catch (Exception e) {
-        model.addAttribute("error", "Error al cargar el formulario: " + e.getMessage());
-        return "error";
-    }
-    }
 
     @PostMapping("/guardar")
     public String guardarOrden(@ModelAttribute OrdenDTO ordenDTO,
 //                               @RequestParam("formulaFile") MultipartFile formulaFile,
-                               @RequestParam("idMedicamento") Long idMedicamento,
+                  //             @RequestParam("idMedicamento") Long idMedicamento,
                                HttpSession session, Model model,
                                RedirectAttributes redirectAttributes) {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-            if (usuario == null) {
-                return "redirect:/login";
+                if (usuario == null) {
+                    return "redirect:/login";
+                }
+            if (ordenDTO.getMedicamentos() == null || ordenDTO.getMedicamentos().isEmpty()) {
+                model.addAttribute("error", "No hay medicamentos en la orden");
+                model.addAttribute("orden", new OrdenDTO()); // para que Thymeleaf no falle
+                model.addAttribute("usuarioLogueado", usuario);
+                return "pacientes/4.pagina_domicilio";
             }
-
-            MedicamentoDTO medicamento = medicamentosService.buscarPorIdMedicamento(idMedicamento);
-
-            if (medicamento == null) {
-                model.addAttribute("error", "Medicamento no encontrado");
-                return "error";
-            }
-
+            ordenDTO.setPaciente(usuario.getIdUsuario());
             ordenDTO.setPacienteNombre(usuario.getNombre());
-            ordenDTO.setNombreMedicamento(medicamento.getNombreMedicamento());
             ordenDTO.setEstadoOrden("ACTIVO");
+                if (ordenDTO.getFechaEntrega() == null) {
+                    ordenDTO.setFechaEntrega(LocalDateTime.now().plusDays(1));
+                }
 
-            if (ordenDTO.getFechaEntrega() == null) {
-                ordenDTO.setFechaEntrega(LocalDateTime.now().plusDays(1));
+            List<OrdenMedicamentoDTO> meds = new ArrayList<>();
+            for (OrdenMedicamentoDTO item : ordenDTO.getMedicamentos()) {
+                MedicamentoDTO medicamento = medicamentosService.buscarPorIdMedicamento(item.getIdMedicamento());
+                if (medicamento != null) {
+                    OrdenMedicamentoDTO dtoMed = new OrdenMedicamentoDTO();
+                    dtoMed.setIdMedicamento(item.getIdMedicamento());
+                    dtoMed.setCantidad(item.getCantidad());
+                    dtoMed.setNombreMedicamento(medicamento.getNombreMedicamento());
+                    meds.add(dtoMed);
+                }
             }
-            ordenService.crear(ordenDTO,usuario.getIdUsuario(),idMedicamento);
+            ordenDTO.setMedicamentos(meds);
+            ordenService.crear(ordenDTO, usuario.getIdUsuario());
             redirectAttributes.addFlashAttribute("mensaje", "Orden creada exitosamente");
             return "redirect:/16.pagina_carrito_med";
 

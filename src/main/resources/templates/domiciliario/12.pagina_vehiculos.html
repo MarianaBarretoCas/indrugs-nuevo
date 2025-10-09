@@ -9,6 +9,9 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link th:href="@{/css/1.estilos_pagina_inicio.css}" rel="stylesheet" />
     <link th:href="@{/css/12.estilos_pagina_vehiculos.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/3.estilos_página_control.css}">
+    <link rel="stylesheet" th:href="@{/css/estilos-form.css}">
 </head>
 <body>
 <header th:insert="Layouts/header_footerDomi :: header"></header>
@@ -17,40 +20,51 @@
     <div th:insert="Layouts/header_footerDomi :: error"></div>
 
     <div class="contenido">
-        <h1>Vehículos</h1>
 
         <div th:if="${vehiculos != null and !vehiculos.isEmpty()}">
-            <table id="tabla1" class="table">
-                <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Propietario</th>
-                    <th>Tipo</th>
-                    <th>Placa</th>
-                    <th>Color</th>
-                    <th>Marca</th>
-                    <th>Estados</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="vehiculo : ${vehiculos}">
-                    <td th:text="${vehiculo.idVehiculo}"></td>
-                    <td th:text="${vehiculo.nombreUsuario}"></td>
-                    <td th:text="${vehiculo.tipoVehiculo}"></td>
-                    <td th:text="${vehiculo.placaVehiculo}"></td>
-                    <td th:text="${vehiculo.colorVehiculo}"></td>
-                    <td th:text="${vehiculo.marcaVehiculo}"></td>
-                    <td th:text="${vehiculo.estadoVehiculo}"></td>
+            <div class="table-container">
+                <div class="table-header">
+                    <h2 class="section-title">Vehículos</h2>
+                </div>
 
-                </tr>
-                </tbody>
-            </table>
+                <div class="table-responsive">
+                    <table id="tabla1" class="table custom-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Propietario</th>
+                            <th>Tipo</th>
+                            <th>Placa</th>
+                            <th>Color</th>
+                            <th>Marca</th>
+                            <th>Estados</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="vehiculo : ${vehiculos}">
+                            <td th:text="${vehiculo.idVehiculo}"></td>
+                            <td th:text="${vehiculo.nombreUsuario}"></td>
+                            <td th:text="${vehiculo.tipoVehiculo}"></td>
+                            <td th:text="${vehiculo.placaVehiculo}"></td>
+                            <td th:text="${vehiculo.colorVehiculo}"></td>
+                            <td th:text="${vehiculo.marcaVehiculo}"></td>
+                            <td th:text="${vehiculo.estadoVehiculo}"></td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div th:if="${vehiculos == null or #lists.isEmpty(vehiculos)}">
             <p>No hay datos.</p>
         </div>
-
-        <a th:href="@{/13_pagina_agregar_vehiculo}"><button class="btn btn-primary">Agregar vehículo</button></a>
+        <div class="text-center me-3">
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#formModal">
+                Agregar vehículo
+            </button>
+        </div>
+        <div th:insert="Layouts/form_pacientes :: form_vehiculo"></div>
     </div>
 </main>
 

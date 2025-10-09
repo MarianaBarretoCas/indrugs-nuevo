@@ -2,6 +2,7 @@ package com.example.Indrugs.controllers;
 
 
 import com.example.Indrugs.DTO.Usuario.UsuarioCreateDTO;
+import com.example.Indrugs.services.EmailService;
 import com.example.Indrugs.services.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class CrearUserController {
 
     private UsuarioService userService;
+    private EmailService emailService;
 
-    public CrearUserController(UsuarioService userService){
+    public CrearUserController(UsuarioService userService, EmailService emailService){
+
+        this.emailService = emailService;
         this.userService = userService;
     }
 
@@ -48,6 +52,7 @@ public class CrearUserController {
             }
 
             userService.crear(userCreate);
+            emailService.enviarCorreoRegistro(userCreate.getCorreo(), userCreate.getNombre());
             redirectAttributes.addFlashAttribute("mensaje", "Usuario registrado exitosamente");
             return "redirect:/login";
 

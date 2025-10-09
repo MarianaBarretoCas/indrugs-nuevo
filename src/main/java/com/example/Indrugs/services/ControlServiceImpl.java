@@ -26,7 +26,6 @@ public class ControlServiceImpl implements ControlService {
         this.controlRepository = controlRepository;
         this.medicamentoRepository = medicamentoRepository;
         this.usuarioRepository = usuarioRepository;
-
     }
 
     @Override

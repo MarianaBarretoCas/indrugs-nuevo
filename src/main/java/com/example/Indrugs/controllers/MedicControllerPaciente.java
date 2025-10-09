@@ -81,4 +81,16 @@ public class MedicControllerPaciente {
         }
     }
 
+    @GetMapping("/medicamentos/{idMedicamento}/json")
+    @ResponseBody
+    public ResponseEntity<MedicamentoDTO> obtenerMedicamentoJson(@PathVariable Long idMedicamento) {
+        try {
+            MedicamentoDTO medicamento = medicService.buscarPorIdMedicamento(idMedicamento);
+            return ResponseEntity.ok(medicamento);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }

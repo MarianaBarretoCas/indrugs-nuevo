@@ -23,7 +23,7 @@
     transition: 0.4s;
 }
 .cards .card:hover{
-    background: #6bd10c;
+    background: #2ec6da;
 }
 .cards .card .card_numeros{
     position: relative;
@@ -86,7 +86,7 @@
 }
 .botonD:hover{
     cursor: pointer;
-    background-color: rgb(107, 209, 12); /* El color de fondo*/
+    background-color: #2ec6da; /* El color de fondo*/
 }
 .cabeza1{
     display: flex;

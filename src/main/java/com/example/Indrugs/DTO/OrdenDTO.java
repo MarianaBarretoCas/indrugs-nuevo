@@ -16,12 +16,9 @@ public class OrdenDTO {
     private LocalDateTime fechaEntrega;
     private String direccionOrden;
     private String telefonoOrden;
-    private Integer cantidad;
-    private Long idMedicamento;
-//    private String formulaMedica;
-    private String nombreMedicamento;
-    private List<String> medicamentos;
     private String estadoOrden;
 
+    private List<OrdenMedicamentoDTO> medicamentos;
+//    private String formulaMedica;
 
 }

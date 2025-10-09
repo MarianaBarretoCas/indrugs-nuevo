@@ -9,6 +9,9 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link th:href="@{/css/1.estilos_pagina_inicio.css}" rel="stylesheet" />
     <link th:href="@{/css/14.estilos_pagina_órdenes.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/3.estilos_página_control.css}">
+    <link rel="stylesheet" th:href="@{/css/estilos-form.css}">
 </head>
 <body>
 <header th:insert="Layouts/header_footerDomi :: header"></header>
@@ -17,47 +20,47 @@
     <div th:insert="Layouts/header_footerDomi :: error"></div>
 
     <div class="contenido">
-        <h1>Órdenes</h1>
-
         <div th:if="${ordenes != null and !ordenes.isEmpty()}">
-            <table id="tabla1" class="table">
-                <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Paciente</th>
-                    <th>EPS</th>
-                    <th>Fecha de entrega</th>
-                    <th>Dirección</th>
-                    <th>Teléfono</th>
-                    <th>Cantidad</th>
-                    <th>Medicamentos</th>
-                    <th>Estado</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="orden : ${ordenes}">
-                    <td th:text="${orden.idOrden}"></td>
-                    <td th:text="${orden.pacienteNombre}"></td>
-                    <td th:text="${orden.epsOrden}"></td>
-                    <td th:text="${#temporals.format(orden.fechaEntrega, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td th:text="${orden.direccionOrden}"></td>
-                    <td th:text="${orden.telefonoOrden}"></td>
-                    <td th:text="${orden.cantidad}"></td>
-                    <td>
-                        <ul class="list-unstyled">
-                            <li th:each="medicamento : ${orden.medicamentos}" th:text="${medicamento}"></li>
-                        </ul>
-                    </td>
-                    <td th:text="${orden.estadoOrden}"></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <div class="table-header">
+                    <h1 class="section-title">Gestión de Órdenes</h1>
+                </div>
+                <div class="table-responsive">
+                    <table id="tabla1" class="table custom-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Paciente</th>
+                            <th>EPS</th>
+                            <th>Fecha de entrega</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
+                            <th>Detalle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="orden : ${ordenes}">
+                            <td th:text="${orden.idOrden}"></td>
+                            <td th:text="${orden.pacienteNombre}"></td>
+                            <td th:text="${orden.epsOrden}"></td>
+                            <td th:text="${#temporals.format(orden.fechaEntrega, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${orden.direccionOrden}"></td>
+                            <td th:text="${orden.telefonoOrden}"></td>
+                            <td th:text="${orden.estadoOrden}"></td>
+                            <td>
+                                <a th:href="@{'/VerDetalleD?idOrden=' + ${orden.idOrden}}" class="btn btnform">Detalle</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <div th:if="${ordenes == null or ordenes.isEmpty()}">
-            <p>No hay órdenes registradas.</p>
+        <div th:if="${ordenes == null or #lists.isEmpty(ordenes)}" class="alert alert-info text-center">
+            <i class="fas fa-info-circle"></i> No hay órdenes registradas en el sistema.
         </div>
-
     </div>
 </main>
 

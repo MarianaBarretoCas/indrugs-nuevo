@@ -22,9 +22,6 @@ public class Orden {
     @JoinColumn(name = "USUARIOS_PACIENTE")
     private Usuario paciente;
 
-    @Column(name = "CANTIDADMED_ORDEN")
-    private Integer cantidad;
-
     @Column(name = "DIRECCION_ORDEN")
     private String direccionOrden;
 
@@ -46,11 +43,6 @@ public class Orden {
     @OneToOne(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true)
     private Domicilio domicilio;
 
-    @ManyToMany
-    @JoinTable(
-            name = "ordenes_has_medicamentos",
-            joinColumns = @JoinColumn(name = "ID_ORDENES"),
-            inverseJoinColumns = @JoinColumn(name = "ID_MEDICAMENTOS")
-    )
-    private List<Medicamentos> medicamentos;
+    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrdenMedicamento> ordenMedicamentos;
 }

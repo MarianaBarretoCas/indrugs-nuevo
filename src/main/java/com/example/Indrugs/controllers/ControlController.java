@@ -3,6 +3,7 @@ package com.example.Indrugs.controllers;
 import com.example.Indrugs.DTO.ControlDTO;
 import com.example.Indrugs.entities.Usuario;
 import com.example.Indrugs.services.ControlService;
+import com.example.Indrugs.services.EmailService;
 import com.example.Indrugs.services.MedicamentosService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -18,11 +19,13 @@ public class ControlController {
 
     private final ControlService controlService;
     private final MedicamentosService medicamentosService;
+    private final EmailService emailService;
 
 
-    public ControlController(ControlService controlService, MedicamentosService medicamentosService) {
+    public ControlController(ControlService controlService, MedicamentosService medicamentosService, EmailService emailService) {
         this.controlService = controlService;
         this.medicamentosService=medicamentosService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/24.pagina_control")
@@ -33,30 +36,22 @@ public class ControlController {
         if (usuario == null) {
             return "redirect:/login"; // Si no está logueado
         }
-
+        //Controles tabla
         List<ControlDTO> controles = controlService.obtenerTodosLosControlesporUsuario(usuario.getIdUsuario());
         model.addAttribute("controles", controles);
 
-        return "pacientes/24.pagina_control";
-    }
-
-    @GetMapping("/3.pagina_de_control")
-    public String mostrarFormularioAgregar(Model model, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-
-        if (usuario == null) {
-            return "redirect:/login"; // Si no está logueado
-        }
+        //formulario nuevo control
         model.addAttribute("usuarioLogueado",  usuario);
         model.addAttribute("medicamentos", medicamentosService.readAdmin());
         model.addAttribute("control", new ControlDTO());
-        return "pacientes/3.pagina_de_control";
+        return "pacientes/24.pagina_control";
     }
 
     @PostMapping("/agregar_control")
     public String agregarControl(@ModelAttribute ControlDTO controlDTO, RedirectAttributes redirectAttributes) {
         try {
             controlService.guardarControl(controlDTO);
+            emailService.enviarCorreoControl( controlDTO.getCorreoUsuario(), controlDTO.getNombreUsuario());
             redirectAttributes.addFlashAttribute("mensaje", "Control agregado correctamente");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());

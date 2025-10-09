@@ -89,25 +89,7 @@
         outline: none;
         box-shadow: 0 0 5px #abebab
     }
-    
-.btn{
-    width: 100%;
-    height: 50px;
-    border-radius: 7px;
-    font-size: small;
-    padding: 14px 20px;
-    background-color: #23c72b;
-    border:none;
-    color:#f5eded;
-    margin-top: 40px;
-    cursor: pointer;
-}
 
-.btn:hover{
-    background-color: #25b62c;
-    border: 2px seagreen;
-    color: #f5eded;
-}
 .contenido{
     align-items: center;
 }

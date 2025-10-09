@@ -37,8 +37,7 @@ public class ActualizarperfilController {
         }
 
         try {
-            // Obtener el usuario por ID
-
+            // Obtener el usuario por id
             UsuarioDTO usuariodto = usuarioService.findById(usuario.getIdUsuario());
 
             // Convertir a UsuarioUpdateDTO para el formulario
@@ -51,7 +50,7 @@ public class ActualizarperfilController {
             String rol = usuario.getRol().getNombreRol();
             return switch (rol) {
                 case "Administrador" -> "administrador/actualizar_perfil";
-                case "Pacientes" -> "paciente/actualizar_perfil";
+                case "Paciente" -> "pacientes/actualizar_perfil";
                 case "Domiciliario" -> "domiciliario/actualizar_perfil";
                 default -> "redirect:/login";
             };

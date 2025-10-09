@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface DomicilioService {
-    List<DomicilioDTO> read();
+    List<DomicilioDTO> read(Long idUsuario);
     void crear(DomicilioDTO domicilioDTO);
     void actualizar(Long idDomicilio);
     List<DomicilioDTO> findByEstadoDomicilio(String estadoDomicilio);

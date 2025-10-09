@@ -11,4 +11,5 @@ public interface InventarioRepository extends JpaRepository<Inventario, Long> {
     @Query("SELECT SUM(i.stock) FROM Inventario i")
     Long contarUnidadesEnStock();
     boolean existsByIdMedicamento_IdMedicamento(Long idMedicamento);
+
 }

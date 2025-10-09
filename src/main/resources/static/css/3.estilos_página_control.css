@@ -1,171 +1,237 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
-
-
-#titulo_control{
-    text-align: center;
+:root {
+    --background-color: linear-gradient(90deg, #022c5c, #104585);
+    --text-color: #022c5c;
+    --iconos: #063163;
+    --lineas: #adc8fa;
+    --table-header: #f8f9fa;
+    --table-hover: #f1f4f9;
+    --border-color: #e9ecef;
 }
-.row{
-    border:1px solid black;
-    width: 60%;
-    display: flexbox;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 2px 9px 2px rgba(139, 137, 137, 0.5);
-}  
-h2{
-    display: flex;
-    justify-content: center;
-} 
-    input[type=text]:focus {
-        border-color: #cfeecf;
-        outline: none;
-        box-shadow: 0 0 5px #9ff39f
-    }
-    .form-check{
-        margin-right: 20px;
-        margin-left: 10px;
-    }
-    input[type="datetime-local"] {
-        width: 100%;
-        padding: 4px 7px;
-        font-size: 15px;
-        color: #000000;
-        border-radius: 4px;
-        box-sizing: border-box;
-        transition: border-color 0.3s ease, background-color 0.3s ease;
-    }
-        input[type="datetime-local"]:focus {
-            border-color: #cfeecf;
-            outline: none;
-            box-shadow: 0 0 5px #abebab
-        }
 
-#problema {
-    width: 100%;
-    height: 40px;
-    padding: 10px 18px;
-    box-sizing: border-box;
-    border-radius: 4px;
-    background-color: #ffffff;
-  }
-    #problema:focus{
-        border-color: #cfeecf;
-        outline: none;
-        box-shadow: 0 0 5px #abebab
-    }
-
-            #cod_med{
-                width: 100%;
-                padding: 3px 6px;
-                font-size: 15px;
-                color: #000000;
-                border-radius: 4px;
-                box-sizing: border-box;
-                transition: border-color 0.3s ease, background-color 0.3s ease;
-            }
-            #cod_med:focus{
-                border-color: #cfeecf;
-                outline: none;
-                box-shadow: 0 0 5px #abebab
-            }
-
-            #nombre_med{
-                width: 100%;
-                padding: 3px 6px;
-                font-size: 15px;
-                color: #000000;
-                background-color: #ffffff;;
-                border-radius: 4px;
-                box-sizing: border-box;
-                transition: border-color 0.3s ease, background-color 0.3s ease;
-            }
-            #nombre_med:focus{
-                border-color: #cfeecf;
-                outline: none;
-                box-shadow: 0 0 5px #abebab
-            }
-
-
-    #numero_cantidad{
-        width: 100%;
-        padding: 3px 6px;
-        font-size: 15px;
-        color: #000000;
-        border-radius: 4px;
-        box-sizing: border-box;
-        transition: border-color 0.3s ease, background-color 0.3s ease;
-    }
-        
-        #numero_cantidad:focus{
-            border-color: #cfeecf;
-            outline: none;
-            box-shadow: 0 0 5px #abebab
-        }
-
-    #descripcion{
-        width: 100%;
-        height: 20px;
-        padding: 10px 18px;
-        box-sizing: border-box;
-        border-radius: 4px;
-      }
-        #descripcion:focus{
-            border-color: #cfeecf;
-            outline: none;
-            box-shadow: 0 0 5px #abebab
-        }
-    
-    #cantidad_frecuencia{
-        width: 100%;
-        padding: 3px 6px;
-        font-size: 15px;
-        color: #000000;
-        background-color: #ffffff;;
-        border-radius: 4px;
-        box-sizing: border-box;
-        transition: border-color 0.3s ease, background-color 0.3s ease;
-        }
-            #cantidad_frecuencia:hover {
-                border-color: #888;
-                background-color: #f1f1f1;
-            }
-            #cantidad_frecuencia:focus{
-                border-color: #cfeecf;
-                outline: none;
-                box-shadow: 0 0 5px #abebab
-            }
-    
-    #alarma{
-        width: 100%;
-        height: 27px;
-        padding: 3px 6px;
-        font-size: 15px;
-        color: #000000;
-        background-color: #ffffff;;
-        border-radius: 4px;
-        box-sizing: border-box;
-        transition: border-color 0.3s ease, background-color 0.3s ease;
-        }
-            #alarma:hover {
-                border-color: #888;
-                background-color: #f1f1f1;
-            }
-            #alarma:focus{
-                border-color: #b9e7b9;
-                outline: none;
-                box-shadow: 0 0 5px #abebab
-            }
-            
 .btn {
-    width: 100%;
-    background-color: #23c72b;
+    width: 50%;
+    background: #2cb4c9;
     color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
+    padding: 12px 18px;
+    margin: 8px auto;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
-  }
-  .btn:hover {
-    background-color: #25b62c;
-  }
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #2ec6da;
+    transform: translateY(-2px);
+}
+
+.btnform{
+    width: 100%;
+}
+
+.table-container {
+    max-width: 1600px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.table-header {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    color: var(--text-color);
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+
+.table-responsive {
+    background: rgb(255, 255, 255);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow-y:hidden;
+    overflow-x:auto;
+}
+
+.custom-table {
+    width: 100%;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.custom-table thead th {
+    background: var(--table-header);
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    text-transform: uppercase;
+    font-size: 0.80rem;
+    letter-spacing: 0.5px;
+}
+
+.custom-table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.custom-table tbody tr:hover {
+    background-color: var(--table-hover);
+}
+
+.custom-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+
+/* Responsive */
+@media (max-width: 992px) {
+    .table-container {
+        margin: 1rem;
+        padding: 0;
+    }
+
+    .custom-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .custom-table thead th,
+    .custom-table td {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+    }
+}
+.tab1{
+       table-layout: fixed;
+       width: 100%;
+     }
+
+     .tab1 th:nth-child(1),
+     .tab1 td:nth-child(1) {
+       width: 10%;  /* ID */
+     }
+
+     .tab1 th:nth-child(2),
+     .tab1 td:nth-child(2) {
+       width: 45%; /* Medicamento */
+     }
+
+     .tab1 th:nth-child(3),
+     .tab1 td:nth-child(3) {
+       width: 45%; /* Descripción */
+     }
+
+.formularios{
+display:flex;
+gap:2rem;
+flex-wrap:wrap;
+justify-content:center;
+align-items:center;
+}
+
+.carrito {
+    background: #f9f9f9;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(2,44,92,0.08);
+    padding: 2rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.medicamento-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(2,44,92,0.06);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.medicamento-item img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(2,44,92,0.08);
+    background: var(--accent-color);
+}
+
+.medicamento-item strong {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    display: block;
+    font-weight: 600;
+}
+
+.medicamento-item p {
+    margin: 0.2rem 0;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.medicamento-item input[type="number"] {
+    width: 60px;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--lineas);
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    background: #f4f8ff;
+    color: var(--text-color);
+}
+
+.medicamento-item .btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+.btn_carro{
+    display:flex;
+    gap:1rem;
+}
+
+@media (max-width: 600px) {
+    .carrito {
+        padding: 1rem;
+        max-width: 100%;
+    }
+    .medicamento-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1rem;
+    }
+    .medicamento-item img {
+        margin-bottom: 0.5rem;
+    }
+}

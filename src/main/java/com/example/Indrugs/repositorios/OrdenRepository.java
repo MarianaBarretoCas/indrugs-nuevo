@@ -5,6 +5,7 @@ import com.example.Indrugs.entities.Vehiculo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OrdenRepository extends JpaRepository<Orden, Long> {
 
@@ -12,4 +13,5 @@ public interface OrdenRepository extends JpaRepository<Orden, Long> {
         List<Orden> findTop4ByOrderByIdOrdenDesc();
         long countByEstadoOrden(String estadoOrden);
         List<Orden> findByPaciente_IdUsuario(Long idUsuario);
+        Optional<Orden> findByIdOrden(Long idOrden);
 }

@@ -37,6 +37,9 @@ public class MedicControllerAdmin {
 
         List<MedicamentoDTO> medicamentos = medicService.readAdmin();
         model.addAttribute("medicamentos", medicamentos);
+
+        //form
+        model.addAttribute("medicamentoDTO", new MedicamentoDTO());
         return "administrador/22.pagina_medicamento";
     }
 
@@ -65,13 +68,13 @@ public class MedicControllerAdmin {
         }
 
         if (result.hasErrors()) {
-            return "administrador/23.agregar_medicamentos";
+            return "administrador/22.pagina_medicamento";
         }
 
         try {
             if (imagenFile.isEmpty()) {
                 redirectAttributes.addFlashAttribute("error", "Debes subir una imagen");
-                return "redirect:/23.agregar_medicamentos";
+                return "redirect:/22.pagina_medicamento";
             }
 
             String urlImagen = archivosService.guardarImagenMedicamento(imagenFile);

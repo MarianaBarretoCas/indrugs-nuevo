@@ -1,15 +1,15 @@
 let imagenes_carrusel = [
     {
-        "url": "/imagenes/Carrusel/señoras.jpg"
+        "url": "imagenes/Carrusel/señoras.jpg"
     },
     {
-        "url": "/imagenes/Carrusel/meds.jpg"
+        "url": "imagenes/Carrusel/meds.jpg"
     },
     {
-        "url": "/imagenes/Carrusel/discapacidad.jpg"
+        "url": "imagenes/Carrusel/discapacidad.jpg"
     },
     {
-        "url": "/imagenes/Carrusel/domipa.jpg"
+        "url": "imagenes/Carrusel/domipa.jpg"
     },
 ]
 

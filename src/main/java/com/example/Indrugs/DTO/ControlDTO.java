@@ -15,6 +15,7 @@ public class ControlDTO {
     private String nombreMedicamento;
     private Long idUsuario;
     private String nombreUsuario;
+    private String correoUsuario;
     private String cantidadMedic;
     private String problemaSalud;
     private String frecuenciaMedic;

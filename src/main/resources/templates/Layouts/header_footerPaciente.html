@@ -1,47 +1,87 @@
 <div th:fragment="header">
-    <header class="cabeza_indrugs">
-        <div class="contenedeor_cabeza logo_nav_items">
-            <a th:href="@{/index}" class="logo">
-                <img class="img_indrugs_logo" th:src="@{/imagenes/logo.png}" alt="Logo">Indrugs
+    <div class="container-fluid topbar bg-light px-5 d-none d-lg-block">
+        <div class="row gx-0 align-items-center">
+            <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
+                <div class="d-flex flex-wrap">
+                    <a href="#" class="small me-4"><i class="fas fa-map-marker-alt icon-custom me-2"></i>Bogotá</a>
+                    <a href="mailto:example@gmail.com" class="small me-0"><i
+                            class="fas fa-envelope icon-custom me-2"></i>indrugs@gmail.com</a>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center" style="height: 35px;">
+                    <!-- <a href="#"><small class="me-3 text-dark"><i
+                                class="fa fa-user icon-custom me-2"></i>PQRS</small></a> -->
+                    <a th:href="@{/16.pagina_carrito_med}"><small class="me-3 text-dark"><i
+                            class="fa fa-shopping-cart icon-custom me-2"></i>Carrito</small></a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle text-dark" data-bs-toggle="dropdown"><small><i
+                                class="fa fa-user-alt icon-custom me-2"></i> Perfil</small></a>
+                        <div class="dropdown-menu rounded">
+                            <a th:href="@{/actualizar_perfil}" class="dropdown-item"><i
+                                    class="fas fa-user-alt me-2"></i> Editar perfil</a>
+                            <a th:href="@{/cerrarSesion}" class="dropdown-item"><i class="fas fa-power-off me-2"></i>
+                                Cerrar sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+    <header class="header  ">
+
+        <div class="header-container">
+            <!-- Logo section -->
+            <a href="#" class="logo-link">
+                <img class="logo-img" th:src="@{/imagenes/logo.png}" alt="Indrugs Logo">
+                <span class="logo-text">Indrugs</span>
             </a>
-            <nav class="navegacion_1">
-                <ul class="barra_1">
-                    <li id="items_barra1">
-                        <a th:href="@{/7.pagina_sobre_nosotros}" id="enlaces_barra1">
-                            <img id="iconos" th:src="@{/Iconos/ubicacion.png}" alt="Ubicación">
-                        </a>
-                    </li>
-                    <li id="items_barra1">
-                        <a th:href="@{/16.pagina_carrito_med}" id="enlaces_barra1">
-                            <img id="iconos" th:src="@{/Iconos/compras.png}" alt="Compras">
-                        </a>
-                    </li>
-                    <li id="items_barra1">
-                        <a th:href="@{/cerrarSesion}" id="enlaces_barra1">
-                            <img id="iconos" th:src="@{/Iconos/icons8-cerrar-sesión-96.png}" alt="Cerrar sesión">
-                        </a>
-                    </li>
-                    <li id="items_barra1">
-                        <a th:href="@{/5.pagina_pqrs}" id="enlaces_barra1">
-                            <img id="iconos" th:src="@{/Iconos/alerta.png}" alt="Alerta">
-                        </a>
-                    </li>
-                </ul>
+
+            <!-- Mobile menu button -->
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Main navigation -->
+            <nav class="main-nav">
+                <div class="bottom-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a th:href="@{/1.pagina_principal_paciente}" class="nav-link">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/24.pagina_control}" class="nav-link">Control</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/8.pagina_med}" class="nav-link">Medicamentos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/5.pagina_pqrs}" class="nav-link">PQRS</a>
+                        </li>
+                        <li class="nav-item mobile-only-profile">
+                            <a th:href="@{/16.pagina_carrito_med}" class="nav-link me-3">Carrito</a>
+                        </li>
+                        <li class="nav-item mobile-only-profile">
+                            <div class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Perfil</a>
+                                <div class="dropdown-menu rounded">
+                                    <a th:href="@{/actualizar_perfil}" class="dropdown-item"><i
+                                            class="fas fa-user-alt me-2"></i> Editar
+                                        /a>
+                                        <a th:href="@{/cerrarSesion}" class="dropdown-item"><i
+                                                class="fas fa-power-off me-2"></i> Cerrar
+                                            sesión</a>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
             </nav>
         </div>
-        <hr class="linea_separación">
-        <div class="contenedeor_cabeza logo_nav_items">
-            <nav class="menu">
-                <ul class="barra_2">
-                    <li id="items_barra"><a id="enlaces_barra" th:href="@{/1.pagina_principal_paciente}">Inicio</a></li>
-                    <li id="items_barra"><a id="enlaces_barra" th:href="@{/24.pagina_control}">Control</a></li>
-                    <li id="items_barra"><a id="enlaces_barra" th:href="@{/8.pagina_med}">Medicamentos</a></li>
-                    <li id="items_barra"><a id="enlaces_barra" th:href="@{/5.pagina_pqrs}">PQRS</a></li>
-                    <li id="items_barra"><a id="enlaces_barra" th:href="@{/cerrarSesion}">Cerrar sesión</a></li>
-                </ul>
-            </nav>
-        </div>
-        <hr class="linea_separación">
     </header>
 </div>
 <div th:fragment="error">
@@ -55,49 +95,50 @@
 </div>>
 
 <div th:fragment="footer">
-    <footer class="pie-pagina">
-        <hr class="linea_separación">
-        <div class="grupo-1">
-
-            <div class="box">
-                <h2>Contáctanos</h2>
-                <hr class="linea_separación">
-                <p><i class="fa-solid fa-phone" style="color: #6bd10c;"></i> 601 6783 546 / 601 6789 564</p>
-                <p><i class="fa-brands fa-whatsapp" style="color: #6bd10c;"></i> Línea WhatsApp 327 678 5679</p>
-                <p><i class="fa-brands fa-facebook" style="color: #6bd10c;"></i> Facebook Indrugs</p>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="titulos-foot">Sobre Nosotros</h3>
+                <p>Indrugs dispensadora de medicamentos, comprometida con tu salud y bienestar las 24 horas del día.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
             </div>
 
-            <div class="box">
-                <h2>Nuestras tiendas</h2>
-                <hr class="linea_separación">
-                <p>Ubicar tienda</p>
-            </div>
-
-            <div class="box">
-                <h2>Categorías</h2>
-                <hr class="linea_separación">
-                <ul class="lista_mapa_nav">
-                    <li><a class="mapa_nav" th:href="@{/10.pagina_mapa_nav}">Mapa de navegación</a></li>
-                    <li><a class="mapa_nav" th:href="@{/404}">Error 404</a></li>
-                    <li><a class="mapa_nav" th:href="@{/500}">Error 500</a></li>
+            <div class="footer-section">
+                <h3 class="titulos-foot">Enlaces Rápidos</h3>
+                <ul>
+                    <li><a class="foot-links" th:href="@{/1.pagina_principal_paciente}">Inicio</a></li>
+                    <li><a class="foot-links" th:href="@{/8.pagina_med}">Medicamentos</a></li>
+                    <li><a class="foot-links" th:href="@{/24.pagina_control}">Control</a></li>
+                    <li><a class="foot-links" th:href="@{/5.pagina_pqrs}">PQRS</a></li>
+                    <li><a class="foot-links" th:href="@{/actualizar_perfil}">Perfil</a></li>
                 </ul>
             </div>
 
-            <div class="box">
-                <h2>Nosotros</h2>
-                <hr class="linea_separación">
-                <ul class="lista_mapa_nav">
-                    <li><a class="mapa_nav" th:href="@{/7.pagina_sobre_nosotros}">Quiénes somos</a></li>
-                    <li><a class="mapa_nav" th:href="@{/7.pagina_sobre_nosotros}">Acerca del proyecto</a></li>
+            <div class="footer-section">
+                <h3 class="titulos-foot">Contacto</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> Bogotá, Colombia</li>
+                    <li><i class="fas fa-phone"></i> +57 601 234 5678</li>
+                    <li><i class="fas fa-envelope"></i> indrugs@gmail.com</li>
+                    <li><i class="fas fa-clock"></i> Lun - Dom: 24 horas</li>
                 </ul>
             </div>
-
         </div>
 
-        <div class="grupo-2">
-            <hr class="linea_separación">
-            <small>DISPENSADORA DE MEDICAMENTOS InDrugs - La salud llega a tu puerta</small>
-            <hr class="linea_separación">
+        <div class="footer-bottom">
+            <p>&copy; 2025 Indrugs. Todos los derechos reservados.</p>
         </div>
     </footer>
+        <script>
+            document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+                document.querySelector('.main-nav').classList.toggle('active');
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+                crossorigin="anonymous"></script>
 </div>
