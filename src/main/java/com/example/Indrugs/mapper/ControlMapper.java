@@ -19,6 +19,7 @@ public class ControlMapper {
         if (control.getUsuario() != null) {
             dto.setIdUsuario(control.getUsuario().getIdUsuario());
             dto.setNombreUsuario(control.getUsuario().getNombre());
+            dto.setCorreoUsuario(control.getUsuario().getCorreo());
         }
 
         if (control.getIdMedicamento() != null) {

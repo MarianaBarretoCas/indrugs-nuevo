@@ -19,6 +19,14 @@ public class EmailService {
         mensaje.setText("Hola " + nombre + ",\n\nTu registro fue exitoso.\n\n¡Gracias por unirte!");
         mailSender.send(mensaje);
     }
+    public void enviarCorreoControl(String destinatario, String nombre) {
+        SimpleMailMessage mensaje = new SimpleMailMessage();
+        mensaje.setFrom("indrugs3@gmail.com");
+        mensaje.setTo(destinatario);
+        mensaje.setSubject("¡Registro de control completo!");
+        mensaje.setText("Hola " + nombre + ",\n\nTu control se registró exitosamente.\n\n");
+        mailSender.send(mensaje);
+    }
 
 
 }

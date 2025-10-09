@@ -12,6 +12,9 @@
                         <h3>Información personal</h3>
 
                         <input type="hidden" name="idUsuario" th:value="${usuarioLogueado.idUsuario}" />
+                        <input type="hidden" name="correoUsuario" th:value="${usuarioLogueado.correo}" />
+                        <input type="hidden" name="nombreUsuario" th:value="${usuarioLogueado.nombre}" />
+
 
                         <div class="col-12">
                             <label for="iniciot">Fecha inicio tratamiento:</label>

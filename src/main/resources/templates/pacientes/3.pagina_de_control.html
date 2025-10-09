@@ -25,7 +25,7 @@
                 <h2>Información personal</h2>
 
                 <input type="hidden" name="idUsuario" th:value="${usuarioLogueado.idUsuario}" />
-
+                <input type="hidden" name="corrreoUsuario" th:value="${usuarioLogueado.correo}" />
                 <div class="col-12">
                     <label for="iniciot">Fecha inicio tratamiento:</label>
                     <input type="datetime-local" id="iniciot" name="fechaInicioTratamiento" class="form-control" required>
