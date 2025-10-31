@@ -16,4 +16,6 @@ public interface DomicilioRepository extends JpaRepository<Domicilio, Long> {
     long countByEstadoDomicilio(String estadoDomicilio);
     Optional<Domicilio> findByIdDomicilio(Long idDomicilio);
     List<Domicilio> findByVehiculo_IdPropietario_IdUsuario(Long idUsuario);
+    @Query("SELECT d.estadoDomicilio, COUNT(d) FROM Domicilio d GROUP BY d.estadoDomicilio")
+    List<Object[]> countDomiciliosByEstadoDomicilio();
 }

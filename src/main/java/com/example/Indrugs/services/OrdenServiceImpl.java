@@ -21,19 +21,22 @@ public class OrdenServiceImpl implements OrdenService {
     private final DomicilioRepository domicilioRepository;
     private final OrdenMedicamentoRepository ordenMedRepository;
     private final VehiculoRepository vehiculoRepository;
+    private final InventarioRepository inventarioRepository;
 
     public OrdenServiceImpl(OrdenRepository ordenRepository,
                             MedicamentoRepository medicamentoRepository,
                             UsuarioRepository usuarioRepository,
                             DomicilioRepository domicilioRepository,
                             OrdenMedicamentoRepository ordenMedRepository,
-                            VehiculoRepository vehiculoRepository) {
+                            VehiculoRepository vehiculoRepository,
+                            InventarioRepository inventarioRepository) {
         this.ordenRepository = ordenRepository;
         this.medicamentoRepository = medicamentoRepository;
         this.usuarioRepository = usuarioRepository;
         this.domicilioRepository = domicilioRepository;
         this.ordenMedRepository = ordenMedRepository;
         this.vehiculoRepository = vehiculoRepository;
+        this.inventarioRepository = inventarioRepository;
     }
 
     @Override
@@ -86,6 +89,16 @@ public class OrdenServiceImpl implements OrdenService {
             Medicamentos medicamento = medicamentoRepository.findById(medDTO.getIdMedicamento())
                     .orElseThrow(() -> new RuntimeException("Medicamento no encontrado"));
 
+            Inventario inventario = inventarioRepository.findByidMedicamento_IdMedicamento(medicamento.getIdMedicamento())
+                    .orElseThrow(() -> new RuntimeException(
+                            "No se encontró inventario para el medicamento: " + medicamento.getNombreMedicamento()
+                    ));
+            if (inventario.getStock() < medDTO.getCantidad()) {
+                throw new RuntimeException("Stock insuficiente para el medicamento: " + medicamento.getNombreMedicamento());
+            }
+            inventario.setStock(inventario.getStock() - medDTO.getCantidad());
+            inventarioRepository.save(inventario);
+
             OrdenMedicamento ordenMedicamento = new OrdenMedicamento();
             ordenMedicamento.setOrden(orden);
             ordenMedicamento.setMedicamento(medicamento);
@@ -106,7 +119,6 @@ public class OrdenServiceImpl implements OrdenService {
         domicilio.setFechaEntregaDomicilio(orden.getFechaEntrega());
         List<Vehiculo> vehiculosDisponibles = vehiculoRepository.findVehiculosDisponibles();
         if (!vehiculosDisponibles.isEmpty()) {
-            // seleccionar uno random
             Random random = new Random();
             Vehiculo vehiculoAsignado = vehiculosDisponibles.get(random.nextInt(vehiculosDisponibles.size()));
 
@@ -122,37 +134,6 @@ public class OrdenServiceImpl implements OrdenService {
     public void eliminar(Long idOrden) {
         ordenRepository.deleteById(idOrden);
     }
-
-    @Override
-    public long countOrdenActivo() {
-        return ordenRepository.countByEstadoOrden("ACTIVO");
-    }
-
-    @Override
-    public List<OrdenDTO> ObtenerOrdenesRecientes() {
-        List<Orden> domicilio = ordenRepository.findTop4ByOrderByIdOrdenDesc();
-        return domicilio.stream()
-                .map(OrdenMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public Map<String, Object> ObtenerResumenOrden() {
-
-        Map<String, Object> dashboard = new HashMap<>();
-
-
-        long ordenesActivos = ordenRepository.countByEstadoOrden("ACTIVO");
-        dashboard.put("totalOrdenesActivos", ordenesActivos);
-
-
-        List<Orden> top4Orden = ordenRepository.findTop4ByOrderByIdOrdenDesc();
-        dashboard.put("ordenesRecientes", top4Orden);
-
-        return dashboard;
-    }
-
-
 
     public OrdenDTO obtenerOrdenPorId(Long id) {
         Orden orden = ordenRepository.findById(id)

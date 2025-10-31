@@ -53,12 +53,6 @@ public class InventarioServiceImpl implements InventarioService{
     }
 
     @Override
-    public Long totalUnidadesEnStock() {
-        Long total = inventarioRepository.contarUnidadesEnStock();
-        return total != null ? total : 0L;
-    }
-
-    @Override
     public InventarioDTO buscarPorId(Long idInventario) {
         Inventario inventario = inventarioRepository.findById(idInventario)
                 .orElseThrow(() -> new RuntimeException("Inventario no encontrado con ID: " + idInventario));

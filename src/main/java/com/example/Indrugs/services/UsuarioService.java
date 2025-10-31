@@ -20,10 +20,6 @@ public interface UsuarioService  {
     Usuario autenticar(String correo, String password);
     boolean existsByCorreo(String correo);
     boolean existsByNumDoc(String numDoc);
-    long contarUsuariosPorRol(String nombreRol);
-    long contarUsuariosActivos();
-    Map<String, Long> obtenerResumenUsuarios();
-    List<UsuarioDTO> obtenerUsuariosRecientes();
     List<UsuarioDTO> findByRolNombreAndEstado(String nombreRol, String estado);
     List<UsuarioDTO> findByRolNombre(String nombreRol);
     UsuarioDTO findById(Long idUsuario);

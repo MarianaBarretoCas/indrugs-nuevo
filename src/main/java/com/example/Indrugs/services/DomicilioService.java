@@ -11,6 +11,7 @@ public interface DomicilioService {
     long countDomicilioActivo();
     List<DomicilioDTO> ObtenerDomiciliosRecientes();
     Map<String,Object> ObtenerResumen();
+    List<Object[]> countDomiciliosByEstadoDomicilio();
 }
 
 

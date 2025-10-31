@@ -5,8 +5,7 @@ import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
 import com.example.Indrugs.entities.Usuario;
 import com.example.Indrugs.mapper.UsuarioMapper;
-import com.example.Indrugs.services.InventarioService;
-import com.example.Indrugs.services.OrdenService;
+import com.example.Indrugs.services.DashboardService;
 import com.example.Indrugs.services.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -31,13 +30,11 @@ import java.util.Map;
 public class AdminisradorController {
 
     private final UsuarioService usuarioService;
-    private final InventarioService inventarioService;
-    private final OrdenService ordenService;
+    private final DashboardService dashboardService;
 
-    public AdminisradorController(UsuarioService usuarioService, InventarioService inventarioService,OrdenService ordenService){
+    public AdminisradorController(UsuarioService usuarioService, DashboardService dashboardService) {
         this.usuarioService = usuarioService;
-        this.inventarioService = inventarioService;
-        this.ordenService = ordenService;
+        this.dashboardService = dashboardService;
     }
 
     @GetMapping("/export/usuarios_registrados")
@@ -128,18 +125,18 @@ public class AdminisradorController {
         }
 
         //estadistica
-        Map<String, Long> estadisticasUsuarios = usuarioService.obtenerResumenUsuarios();
+        Map<String, Long> estadisticasUsuarios = dashboardService.obtenerResumenUsuarios();
         model.addAttribute("estadisticas", estadisticasUsuarios);
         // resumen
-        List<UsuarioDTO> usuariosRecientes = usuarioService.obtenerUsuariosRecientes();
+        List<UsuarioDTO> usuariosRecientes = dashboardService.obtenerUsuariosRecientes();
         model.addAttribute("usuariosRecientes", usuariosRecientes);
 
-        model.addAttribute("cantidadInventario", inventarioService.totalUnidadesEnStock());
+        model.addAttribute("cantidadInventario", dashboardService.totalUnidadesEnStock());
         
-        List<OrdenDTO> ordenesRecientes = ordenService.ObtenerOrdenesRecientes();
+        List<OrdenDTO> ordenesRecientes = dashboardService.ObtenerOrdenesRecientes();
         model.addAttribute("ordenesRecientes", ordenesRecientes);
 
-        Map<String,Object> dashboard=ordenService.ObtenerResumenOrden();
+        Map<String,Object> dashboard = dashboardService.ObtenerResumenOrden();
 //        model.addAttribute("ordenesRecientes",dashboard.get("ordenesRecientes"));
         model.addAttribute("cantidadOrdenes",dashboard.get("totalOrdenesActivos"));
 

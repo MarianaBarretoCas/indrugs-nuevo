@@ -24,11 +24,14 @@ public class DomiciliarioController {
     private final DomicilioService domicilioService;
     private final VehiculoService vehiculoService;
     private final OrdenService ordenService;
-    public DomiciliarioController(UsuarioService usuarioService, DomicilioService domicilioService,VehiculoService vehiculoService, OrdenService ordenService) {
+    private final DashboardService dashboardService;
+
+    public DomiciliarioController(UsuarioService usuarioService, DomicilioService domicilioService,VehiculoService vehiculoService, OrdenService ordenService, DashboardService dashboardService) {
         this.usuarioService = usuarioService;
         this.domicilioService = domicilioService;
         this.vehiculoService = vehiculoService;
         this.ordenService = ordenService;
+        this.dashboardService = dashboardService;
     }
 
     @GetMapping("/11.pagina_principal_domiciliario")
@@ -44,10 +47,10 @@ public class DomiciliarioController {
         model.addAttribute("totalDomiciliosActivos", dashboard.get("totalDomiciliosActivos"));
         model.addAttribute("domiciliosRecientes", dashboard.get("domiciliosRecientes"));
 
-        List<OrdenDTO> ordenesRecientes = ordenService.ObtenerOrdenesRecientes();
+        List<OrdenDTO> ordenesRecientes = dashboardService.ObtenerOrdenesRecientes();
         model.addAttribute("ordenesRecientes", ordenesRecientes);
 
-        Map<String,Object> dashboardO = ordenService.ObtenerResumenOrden();
+        Map<String,Object> dashboardO = dashboardService.ObtenerResumenOrden();
 //        model.addAttribute("ordenesRecientes",dashboard.get("ordenesRecientes"));
         model.addAttribute("cantidadOrdenes",dashboardO.get("totalOrdenesActivos"));
 

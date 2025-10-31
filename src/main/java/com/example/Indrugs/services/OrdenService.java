@@ -13,10 +13,6 @@ public interface OrdenService {
     void marcarComoEntregada(Long idOrden);
     void crear (OrdenDTO ordenDTO,Long idUsuario);
     void eliminar (Long idOrden);
-    long countOrdenActivo();
-    List<OrdenDTO> ObtenerOrdenesRecientes();
-    Map<String,Object> ObtenerResumenOrden();
     void crearDomicilioConOrden(Orden orden);
     List<OrdenDTO> findByEstadoOrden(String estadoOrden);
-
 }

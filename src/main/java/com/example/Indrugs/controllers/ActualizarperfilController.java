@@ -71,12 +71,6 @@ public class ActualizarperfilController {
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        String rol = usuario.getRol().getNombreRol();
-        return switch (rol) {
-            case "Administrador" -> "administrador/actualizar_perfil";
-            case "Paciente" -> "pacientes/actualizar_perfil";
-            case "Domiciliario" -> "domiciliario/actualizar_perfil";
-            default -> "redirect:/login";
-        };
+        return "redirect:/actualizar_perfil";
     }
 }

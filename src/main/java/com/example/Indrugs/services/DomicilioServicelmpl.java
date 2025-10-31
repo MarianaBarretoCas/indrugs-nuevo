@@ -80,4 +80,10 @@ public class DomicilioServicelmpl implements DomicilioService{
 
         return dashboard;
     }
-}
+
+        @Override
+        public List<Object[]> countDomiciliosByEstadoDomicilio() {
+            List<Object[]> resultados = domicilioRepository.countDomiciliosByEstadoDomicilio();
+            return resultados.stream().toList();
+        }
+    }

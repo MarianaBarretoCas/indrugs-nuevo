@@ -8,7 +8,6 @@ public interface InventarioService {
     List<InventarioDTO> read();
     void crear(InventarioDTO inventarioDTO);
     void actualizar(Long idInventario, InventarioDTO inventarioDTO);
-    Long totalUnidadesEnStock();
     InventarioDTO buscarPorId(Long idInventario);
     List<InventarioDTO> findByEstado(String estadoMed);
 }

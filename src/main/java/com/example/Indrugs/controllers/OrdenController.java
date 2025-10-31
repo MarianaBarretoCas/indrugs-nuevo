@@ -118,7 +118,7 @@ public class OrdenController {
                 }
             if (ordenDTO.getMedicamentos() == null || ordenDTO.getMedicamentos().isEmpty()) {
                 model.addAttribute("error", "No hay medicamentos en la orden");
-                model.addAttribute("orden", new OrdenDTO()); // para que Thymeleaf no falle
+                model.addAttribute("orden", new OrdenDTO());
                 model.addAttribute("usuarioLogueado", usuario);
                 return "pacientes/4.pagina_domicilio";
             }
