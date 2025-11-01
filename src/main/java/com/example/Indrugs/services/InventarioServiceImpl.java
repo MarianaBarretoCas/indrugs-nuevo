@@ -54,7 +54,7 @@ public class InventarioServiceImpl implements InventarioService{
 
     @Override
     public InventarioDTO buscarPorId(Long idInventario) {
-        Inventario inventario = inventarioRepository.findById(idInventario)
+        Inventario inventario = inventarioRepository.findById(idInventario)//buscar por id medicamento y no por id Inventario
                 .orElseThrow(() -> new RuntimeException("Inventario no encontrado con ID: " + idInventario));
         return InventarioMapper.entiteToDto(inventario);
     }
