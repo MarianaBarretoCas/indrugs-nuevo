@@ -15,8 +15,10 @@ public interface DashboardService {
     //ordenes
     long countOrdenActivo();
     List<OrdenDTO> ObtenerOrdenesRecientes();
+    Long countOrdenByUsuario(Long idUsuario);
     Map<String,Object> ObtenerResumenOrden();
     List<Object[]> top3MedicamentosMasEnviados();
     //inventario
     Long totalUnidadesEnStock();
+
 }

@@ -1,10 +1,8 @@
 package com.example.Indrugs.services;
 
-import com.example.Indrugs.DTO.InventarioDTO;
 import com.example.Indrugs.DTO.OrdenDTO;
 import com.example.Indrugs.DTO.OrdenMedicamentoDTO;
 import com.example.Indrugs.entities.*;
-import com.example.Indrugs.mapper.InventarioMapper;
 import com.example.Indrugs.mapper.OrdenMapper;
 import com.example.Indrugs.repositorios.*;
 import org.springframework.stereotype.Service;
@@ -60,7 +58,7 @@ public class OrdenServiceImpl implements OrdenService {
 
     @Override
     public List<OrdenDTO> listarOrdenesP(Long idUsuario) {
-        List<Orden> ordenes = ordenRepository.findByPaciente_IdUsuario(idUsuario);
+        List<Orden> ordenes = ordenRepository.findByOrdenByIdOrden(idUsuario, "ACTIVO");
         return ordenes.stream()
                 .map(OrdenMapper::toDTO)
                 .collect(Collectors.toList());
@@ -70,8 +68,7 @@ public class OrdenServiceImpl implements OrdenService {
     public void marcarComoEntregada(Long idOrden) {
         Orden orden = ordenRepository.findById(idOrden)
                 .orElseThrow(() -> new RuntimeException("Orden no encontrada con ID: " + idOrden));
-
-        orden.setEstadoOrden("Entregada");
+        orden.setEstadoOrden("INACTIVA");
         ordenRepository.save(orden);
     }
 

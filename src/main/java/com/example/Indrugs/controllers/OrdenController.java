@@ -36,7 +36,7 @@ public class OrdenController {
             return "redirect:/login"; // Si no está logueado
         }
 
-        model.addAttribute("ordenes", ordenService.listarOrdenes());
+        model.addAttribute("ordenes", ordenService.listarOrdenesP(usuario.getIdUsuario()));
         return "domiciliario/14.pagina_ordenes";
     }
     @GetMapping("/VerDetalle")
@@ -65,8 +65,6 @@ public class OrdenController {
         if (usuario == null) {
             return "redirect:/login"; // Si no está logueado
         }
-
-        model.addAttribute("ordenes", ordenService.listarOrdenesP(usuario.getIdUsuario()));
         return "pacientes/16.pagina_carrito_med";
     }
 

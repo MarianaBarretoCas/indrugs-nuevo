@@ -11,6 +11,7 @@
     <link th:href="@{/css/1.estilos_pagina_inicio.css}" rel="stylesheet">
     <link th:href="@{/css/20.pagina_principal_admin.css}" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/3.estilos_página_control.css}">
 </head>
 
 <body>
@@ -34,7 +35,7 @@
                 <div class="card">
                     <a th:href="@{/12.pagina_vehiculos}">
                         <div>
-                            <span class="card_numeros">3</span><br>
+                            <span class="card_numeros" th:text="${totalVehiculos}" >0</span><br>
                             <span class="card_nombre">Vehículos</span>
                         </div>
                         <div class="card_icono">
@@ -93,6 +94,9 @@
                         <a th:href="@{/15.pagina_domicilio_domi}">
                             <input class="botonD" type="button" value="VER TODO">
                         </a>
+                    </div>
+                    <div th:if="${domiciliosRecientes.isEmpty()}">
+                        <p>No tienes domicilios recientes.</p>
                     </div>
                     <div class="table-responsive" style="margin-top: auto;">
                         <table id="tabla1" class="table custom-table">

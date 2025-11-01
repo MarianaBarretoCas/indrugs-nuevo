@@ -75,6 +75,11 @@ public class DashboardServiceImpl implements DashboardService {
     }
 
     @Override
+    public Long countOrdenByUsuario(Long idUsuario) {
+        return ordenRepository.countOrdenesByUsuarioAndEstado(idUsuario, "ACTIVO");
+    }
+
+    @Override
     public Map<String, Object> ObtenerResumenOrden() {
 
         Map<String, Object> dashboard = new HashMap<>();
