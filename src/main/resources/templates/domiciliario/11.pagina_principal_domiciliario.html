@@ -11,6 +11,7 @@
     <link th:href="@{/css/1.estilos_pagina_inicio.css}" rel="stylesheet">
     <link th:href="@{/css/20.pagina_principal_admin.css}" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/3.estilos_página_control.css}">
 </head>
 
 <body>
@@ -34,7 +35,7 @@
                 <div class="card">
                     <a th:href="@{/12.pagina_vehiculos}">
                         <div>
-                            <span class="card_numeros">3</span><br>
+                            <span class="card_numeros" th:text="${totalVehiculos}" >0</span><br>
                             <span class="card_nombre">Vehículos</span>
                         </div>
                         <div class="card_icono">
@@ -64,25 +65,27 @@
                             <input class="botonD" type="button" value="VER TODO">
                         </a>
                     </div>
-                    <table id="tabla1" class="table">
-                        <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Usurios</th>
-                            <th>Fecha de orden</th>
-                            <th>Estado de orden</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="table" id="cuerpo_tabla" th:each="orden : ${ordenesRecientes}">
-                            <td th:text="${orden.idOrden}">ID</td>
-                            <td th:text="${orden.pacienteNombre}">Usuario</td>
-                            <td th:text="${orden.fechaEntrega}">FechaEntregaOrden</td>
-                            <td th:text="${orden.estadoOrden}">Estado</td>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive" style="margin-top: auto;">
+                        <table id="tabla1" class="table custom-table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usurios</th>
+                                <th>Fecha de orden</th>
+                                <th>Estado de orden</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="table" id="cuerpo_tabla2" th:each="orden : ${ordenesRecientes}">
+                                <td th:text="${orden.idOrden}">ID</td>
+                                <td th:text="${orden.pacienteNombre}">Usuario</td>
+                                <td th:text="${orden.fechaEntrega}">FechaEntregaOrden</td>
+                                <td th:text="${orden.estadoOrden}">Estado</td>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="domicilio">
@@ -92,24 +95,29 @@
                             <input class="botonD" type="button" value="VER TODO">
                         </a>
                     </div>
-                    <table id="tabla2" class="table">
-                        <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Ubicación</th>
-                            <th>Fecha de Entrega</th>
-                            <th>Estado de Domicilio</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="table" id="cuerpo_tabla2" th:each="domicilio : ${domiciliosRecientes}">
-                            <td th:text="${domicilio.idDomicilio}">ID</td>
-                            <td th:text="${domicilio.ubicacionDomicilio}">Ubicación</td>
-                            <td th:text="${domicilio.fechaEntregaDomicilio}">FechaEntregaDomicilio</td>
-                            <td th:text="${domicilio.estadoDomicilio}">Estado</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div th:if="${domiciliosRecientes.isEmpty()}">
+                        <p>No tienes domicilios recientes.</p>
+                    </div>
+                    <div class="table-responsive" style="margin-top: auto;">
+                        <table id="tabla1" class="table custom-table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Ubicación</th>
+                                <th>Fecha de Entrega</th>
+                                <th>Estado de Domicilio</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table" id="cuerpo_tabla2" th:each="domicilio : ${domiciliosRecientes}">
+                                    <td th:text="${domicilio.idDomicilio}">ID</td>
+                                    <td th:text="${domicilio.ubicacionDomicilio}">Ubicación</td>
+                                    <td th:text="${domicilio.fechaEntregaDomicilio}">FechaEntregaDomicilio</td>
+                                    <td th:text="${domicilio.estadoDomicilio}">Estado</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>

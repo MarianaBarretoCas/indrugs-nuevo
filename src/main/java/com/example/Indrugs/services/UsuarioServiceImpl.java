@@ -116,34 +116,6 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public long contarUsuariosPorRol(String nombreRol) {
-        return usuarioRepository.countByRol_nombreRol(nombreRol);
-    }
-
-    @Override
-    public long contarUsuariosActivos() {
-        return usuarioRepository.countByEstado("ACTIVO");
-    }
-
-    @Override
-    public Map<String, Long> obtenerResumenUsuarios() {
-        Map<String, Long> resumen = new HashMap<>();
-        resumen.put("pacientes", contarUsuariosPorRol("Paciente"));
-        resumen.put("domiciliarios", contarUsuariosPorRol("Domiciliario"));
-        resumen.put("administradores", contarUsuariosPorRol("Administrador"));
-        resumen.put("ACTIVOS", contarUsuariosActivos());
-        return resumen;
-    }
-//
-    @Override
-    public List<UsuarioDTO> obtenerUsuariosRecientes() {
-        List<Usuario> usuarios = usuarioRepository.findTop5ByOrderByIdUsuarioDesc();
-        return usuarios.stream()
-                .map(UsuarioMapper::mapToDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<UsuarioDTO> findByRolNombre(String nombreRol) {
         List<Usuario> usuarios = usuarioRepository.findByRol_nombreRol(nombreRol);
         return usuarios.stream()

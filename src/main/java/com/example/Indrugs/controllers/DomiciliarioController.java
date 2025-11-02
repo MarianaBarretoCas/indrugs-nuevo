@@ -24,11 +24,14 @@ public class DomiciliarioController {
     private final DomicilioService domicilioService;
     private final VehiculoService vehiculoService;
     private final OrdenService ordenService;
-    public DomiciliarioController(UsuarioService usuarioService, DomicilioService domicilioService,VehiculoService vehiculoService, OrdenService ordenService) {
+    private final DashboardService dashboardService;
+
+    public DomiciliarioController(UsuarioService usuarioService, DomicilioService domicilioService,VehiculoService vehiculoService, OrdenService ordenService, DashboardService dashboardService) {
         this.usuarioService = usuarioService;
         this.domicilioService = domicilioService;
         this.vehiculoService = vehiculoService;
         this.ordenService = ordenService;
+        this.dashboardService = dashboardService;
     }
 
     @GetMapping("/11.pagina_principal_domiciliario")
@@ -38,18 +41,22 @@ public class DomiciliarioController {
         if (usuario == null) {
             return "redirect:/login"; // si no está logueado
         }
+        long cantidadVehiculos = domicilioService.countVehiculosByUsuario(usuario.getIdUsuario());
+        model.addAttribute("totalVehiculos", cantidadVehiculos);
 
-        Map<String, Object> dashboard = domicilioService.ObtenerResumen();
+//        Map<String, Object> dashboard = domicilioService.ObtenerResumen();
+        long totalDomicilios = domicilioService.countByEstadoDomicilio("EN ESPERA", usuario.getIdUsuario());
 
-        model.addAttribute("totalDomiciliosActivos", dashboard.get("totalDomiciliosActivos"));
-        model.addAttribute("domiciliosRecientes", dashboard.get("domiciliosRecientes"));
+        List<DomicilioDTO> domiciliosRecientes = domicilioService.findTop3ByUsuario(usuario.getIdUsuario());
 
-        List<OrdenDTO> ordenesRecientes = ordenService.ObtenerOrdenesRecientes();
+        model.addAttribute("totalDomiciliosActivos", totalDomicilios);
+        model.addAttribute("domiciliosRecientes", domiciliosRecientes);
+
+        List<OrdenDTO> ordenesRecientes = domicilioService.findTop3OrdenesByUsuarioId(usuario.getIdUsuario());
         model.addAttribute("ordenesRecientes", ordenesRecientes);
-
-        Map<String,Object> dashboardO = ordenService.ObtenerResumenOrden();
+        Long cantidadOrdenes = dashboardService.countOrdenByUsuario(usuario.getIdUsuario());
 //        model.addAttribute("ordenesRecientes",dashboard.get("ordenesRecientes"));
-        model.addAttribute("cantidadOrdenes",dashboardO.get("totalOrdenesActivos"));
+        model.addAttribute("cantidadOrdenes",cantidadOrdenes);
 
 
         return "domiciliario/11.pagina_principal_domiciliario";

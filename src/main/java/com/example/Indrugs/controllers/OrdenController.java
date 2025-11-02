@@ -36,7 +36,7 @@ public class OrdenController {
             return "redirect:/login"; // Si no está logueado
         }
 
-        model.addAttribute("ordenes", ordenService.listarOrdenes());
+        model.addAttribute("ordenes", ordenService.listarOrdenesP(usuario.getIdUsuario()));
         return "domiciliario/14.pagina_ordenes";
     }
     @GetMapping("/VerDetalle")
@@ -65,8 +65,6 @@ public class OrdenController {
         if (usuario == null) {
             return "redirect:/login"; // Si no está logueado
         }
-
-        model.addAttribute("ordenes", ordenService.listarOrdenesP(usuario.getIdUsuario()));
         return "pacientes/16.pagina_carrito_med";
     }
 
@@ -118,7 +116,7 @@ public class OrdenController {
                 }
             if (ordenDTO.getMedicamentos() == null || ordenDTO.getMedicamentos().isEmpty()) {
                 model.addAttribute("error", "No hay medicamentos en la orden");
-                model.addAttribute("orden", new OrdenDTO()); // para que Thymeleaf no falle
+                model.addAttribute("orden", new OrdenDTO());
                 model.addAttribute("usuarioLogueado", usuario);
                 return "pacientes/4.pagina_domicilio";
             }

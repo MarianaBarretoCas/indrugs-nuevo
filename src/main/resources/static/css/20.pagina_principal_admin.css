@@ -12,6 +12,7 @@
     text-decoration: none;
 }
 .cards .card{
+    border-color: #ffff;
     position: relative;
     background: #ffff;
     padding: 30px;
@@ -22,6 +23,26 @@
     cursor: pointer;
     transition: 0.4s;
 }
+
+#topMedicamentos {
+    width: 100% !important;
+    height: 295px !important;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+  }
+  #estadoEnvios {
+      width: 100% !important;
+      height: 280px !important;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 2.5rem;
+      padding: 10px;
+    }
+
 .cards .card:hover{
     background: #2ec6da;
 }
@@ -58,7 +79,7 @@
     width: 100%;
     padding: 20px;
     display: grid;
-    grid-template-columns: 4fr 3fr;
+    grid-template-columns: 4fr 4fr;
     grid-gap: 80px;
     margin-top: 5px;
     z-index: 1;
@@ -68,12 +89,22 @@
 {
     position: relative;
     display: grid;
-    min-height: 500px;
+    min-height: 300px;
     background: white;
     padding: 20px;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
     border-radius: 20px;
 }
+
+.contenido_dash .graficas {
+    position: relative;
+    display: grid;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+}
+
 /*BUTTON*/
 .botonD{
     font-family:Quicksand;
@@ -92,8 +123,8 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-top:20px;
-    margin-bottom: -10%;
+    margin-top:10px;
+    margin-bottom: 10px;
 }
 .cabeza1 h2{
     font-weight: 700;

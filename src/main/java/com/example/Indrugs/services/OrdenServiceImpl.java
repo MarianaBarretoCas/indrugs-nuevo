@@ -1,10 +1,8 @@
 package com.example.Indrugs.services;
 
-import com.example.Indrugs.DTO.InventarioDTO;
 import com.example.Indrugs.DTO.OrdenDTO;
 import com.example.Indrugs.DTO.OrdenMedicamentoDTO;
 import com.example.Indrugs.entities.*;
-import com.example.Indrugs.mapper.InventarioMapper;
 import com.example.Indrugs.mapper.OrdenMapper;
 import com.example.Indrugs.repositorios.*;
 import org.springframework.stereotype.Service;
@@ -21,19 +19,22 @@ public class OrdenServiceImpl implements OrdenService {
     private final DomicilioRepository domicilioRepository;
     private final OrdenMedicamentoRepository ordenMedRepository;
     private final VehiculoRepository vehiculoRepository;
+    private final InventarioRepository inventarioRepository;
 
     public OrdenServiceImpl(OrdenRepository ordenRepository,
                             MedicamentoRepository medicamentoRepository,
                             UsuarioRepository usuarioRepository,
                             DomicilioRepository domicilioRepository,
                             OrdenMedicamentoRepository ordenMedRepository,
-                            VehiculoRepository vehiculoRepository) {
+                            VehiculoRepository vehiculoRepository,
+                            InventarioRepository inventarioRepository) {
         this.ordenRepository = ordenRepository;
         this.medicamentoRepository = medicamentoRepository;
         this.usuarioRepository = usuarioRepository;
         this.domicilioRepository = domicilioRepository;
         this.ordenMedRepository = ordenMedRepository;
         this.vehiculoRepository = vehiculoRepository;
+        this.inventarioRepository = inventarioRepository;
     }
 
     @Override
@@ -57,7 +58,7 @@ public class OrdenServiceImpl implements OrdenService {
 
     @Override
     public List<OrdenDTO> listarOrdenesP(Long idUsuario) {
-        List<Orden> ordenes = ordenRepository.findByPaciente_IdUsuario(idUsuario);
+        List<Orden> ordenes = ordenRepository.findByOrdenByIdOrden(idUsuario, "ACTIVO");
         return ordenes.stream()
                 .map(OrdenMapper::toDTO)
                 .collect(Collectors.toList());
@@ -67,8 +68,7 @@ public class OrdenServiceImpl implements OrdenService {
     public void marcarComoEntregada(Long idOrden) {
         Orden orden = ordenRepository.findById(idOrden)
                 .orElseThrow(() -> new RuntimeException("Orden no encontrada con ID: " + idOrden));
-
-        orden.setEstadoOrden("Entregada");
+        orden.setEstadoOrden("INACTIVA");
         ordenRepository.save(orden);
     }
 
@@ -85,6 +85,16 @@ public class OrdenServiceImpl implements OrdenService {
         for (OrdenMedicamentoDTO medDTO : ordenDTO.getMedicamentos()) {
             Medicamentos medicamento = medicamentoRepository.findById(medDTO.getIdMedicamento())
                     .orElseThrow(() -> new RuntimeException("Medicamento no encontrado"));
+
+            Inventario inventario = inventarioRepository.findByidMedicamento_IdMedicamento(medicamento.getIdMedicamento())
+                    .orElseThrow(() -> new RuntimeException(
+                            "No se encontró inventario para el medicamento: " + medicamento.getNombreMedicamento()
+                    ));
+            if (inventario.getStock() < medDTO.getCantidad()) {
+                throw new RuntimeException("Stock insuficiente para el medicamento: " + medicamento.getNombreMedicamento());
+            }
+            inventario.setStock(inventario.getStock() - medDTO.getCantidad());
+            inventarioRepository.save(inventario);
 
             OrdenMedicamento ordenMedicamento = new OrdenMedicamento();
             ordenMedicamento.setOrden(orden);
@@ -106,7 +116,6 @@ public class OrdenServiceImpl implements OrdenService {
         domicilio.setFechaEntregaDomicilio(orden.getFechaEntrega());
         List<Vehiculo> vehiculosDisponibles = vehiculoRepository.findVehiculosDisponibles();
         if (!vehiculosDisponibles.isEmpty()) {
-            // seleccionar uno random
             Random random = new Random();
             Vehiculo vehiculoAsignado = vehiculosDisponibles.get(random.nextInt(vehiculosDisponibles.size()));
 
@@ -122,37 +131,6 @@ public class OrdenServiceImpl implements OrdenService {
     public void eliminar(Long idOrden) {
         ordenRepository.deleteById(idOrden);
     }
-
-    @Override
-    public long countOrdenActivo() {
-        return ordenRepository.countByEstadoOrden("ACTIVO");
-    }
-
-    @Override
-    public List<OrdenDTO> ObtenerOrdenesRecientes() {
-        List<Orden> domicilio = ordenRepository.findTop4ByOrderByIdOrdenDesc();
-        return domicilio.stream()
-                .map(OrdenMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public Map<String, Object> ObtenerResumenOrden() {
-
-        Map<String, Object> dashboard = new HashMap<>();
-
-
-        long ordenesActivos = ordenRepository.countByEstadoOrden("ACTIVO");
-        dashboard.put("totalOrdenesActivos", ordenesActivos);
-
-
-        List<Orden> top4Orden = ordenRepository.findTop4ByOrderByIdOrdenDesc();
-        dashboard.put("ordenesRecientes", top4Orden);
-
-        return dashboard;
-    }
-
-
 
     public OrdenDTO obtenerOrdenPorId(Long id) {
         Orden orden = ordenRepository.findById(id)
