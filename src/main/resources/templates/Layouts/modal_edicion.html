@@ -1,0 +1,98 @@
+<div th:fragment="modalEditarUsuario">
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="formModalLabel">Editar usuario</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/actualizar}" method="post" class="custom-form row mt-3 col-12 g-3 needs-validation" novalidate th:object="${usuario}">
+
+                        <input type="hidden" th:field="*{idUsuario}" />
+
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" class="form-control" th:field="*{nombre}" required />
+                        <div class="valid-feedback">BIEN.</div>
+                        <div class="invalid-feedback">Por favor ingrese su nombre/s.</div>
+
+                        <label for="direccion">Dirección:</label>
+                        <input type="text" id="direccion" class="form-control" th:field="*{direccion}" required />
+                        <div class="valid-feedback">BIEN.</div>
+                        <div class="invalid-feedback">Por favor ingrese la dirección.</div>
+
+                        <label for="telefono">Teléfono:</label>
+                        <input type="text" id="telefono" class="form-control" th:field="*{telefono}" required />
+                        <div class="valid-feedback">BIEN.</div>
+                        <div class="invalid-feedback">Por favor ingrese el teléfono.</div>
+
+                        <label for="correo">Correo:</label>
+                        <input type="email" id="correo" class="form-control" th:field="*{correo}" required />
+                        <div class="valid-feedback">BIEN.</div>
+                        <div class="invalid-feedback">Por favor ingrese un correo válido.</div>
+
+                        <label for="estado">Estado:</label>
+                        <select id="estado" class="form-control" th:field="*{estado}">
+                            <option th:each="estadoItem : ${estados}"
+                                    th:value="${estadoItem}"
+                                    th:text="${estadoItem}">
+                            </option>
+                        </select>
+                        <div class="valid-feedback">BIEN.</div>
+                        <div class="invalid-feedback">Por favor seleccione un estado.</div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button class="btn btnform" type="submit">Guardar</button>
+                            <button type="button" class="btn btnform" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:fragment="modalEditarInventario">
+    <div class="modal fade" id="formModalInv" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="formModalLabel">Editar inventario</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/actualizarInventario}" method="post" class="custom-form row mt-3 col-12 g-3 needs-validation" novalidate th:object="${inventario}">
+
+                        <input type="hidden" th:field="*{idInventario}" />
+                        <div class="col-12">
+                            <label>Fecha salida:</label>
+                            <input type="datetime-local" th:field="*{fechaSalida}" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label>Stock:</label>
+                            <input type="number" th:field="*{stock}" min="1" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label>Vencimiento:</label>
+                            <input type="date" th:field="*{vencimiento}" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label>Estado:</label>
+                            <select th:field="*{estadoMed}" class="form-select" required>
+                                <option value="ACTIVO">Activo</option>
+                                <option value="INACTIVO">Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button class="btn btnform" type="submit">Guardar</button>
+                            <button type="button" class="btn btnform" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

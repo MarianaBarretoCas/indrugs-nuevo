@@ -1,8 +1,12 @@
 package com.example.Indrugs.mapper;
 
 import com.example.Indrugs.DTO.InventarioDTO;
+import com.example.Indrugs.DTO.InventarioUpdateDTO;
+import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
+import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
 import com.example.Indrugs.entities.Inventario;
 import com.example.Indrugs.entities.Medicamentos;
+import com.example.Indrugs.entities.Usuario;
 
 public class InventarioMapper {
 
@@ -34,11 +38,23 @@ public class InventarioMapper {
         return inv;
     }
 
-    public static void ToUpdate(InventarioDTO dto, Inventario inv){
+    public static void ToUpdate(InventarioUpdateDTO dto, Inventario inv){
 
         inv.setFechaSalida(dto.getFechaSalida());
         inv.setStock(dto.getStock());
         inv.setVencimiento(dto.getVencimiento());
         inv.setEstadoMed(dto.getEstadoMed());
+    }
+
+    public static InventarioUpdateDTO toUpdateDTO(InventarioDTO dto) {
+        if (dto == null) return null;
+
+        InventarioUpdateDTO DTO = new InventarioUpdateDTO();
+        DTO.setIdInventario(dto.getIdInventario());
+        DTO.setFechaSalida(dto.getFechaSalida());
+        DTO.setStock(dto.getStock());
+        DTO.setVencimiento(dto.getVencimiento());
+        DTO.setEstadoMed(dto.getEstadoMed());
+        return DTO;
     }
 }

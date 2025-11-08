@@ -177,7 +177,7 @@ public class AdminisradorController {
     }
 
     @GetMapping("/actualizar")
-    public String mostrarFormularioEdicion(@RequestParam Long idUsuario, HttpSession session, Model model) {
+    public String mostrarFormularioEdicion(@RequestParam("idUsuario") Long idUsuario, HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
         if (usuario == null) {
@@ -195,7 +195,7 @@ public class AdminisradorController {
 
             model.addAttribute("estados", List.of("ACTIVO", "INACTIVO"));
 
-            return "administrador/actualizar_usuario";
+            return "Layouts/modal_edicion :: modalEditarUsuario";
 
         } catch (Exception e) {
             return "redirect:/21.pagina_usuarios?error=Usuario no encontrado";

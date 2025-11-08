@@ -54,6 +54,7 @@
                             <th>Fecha Salida</th>
                             <th>Vencimiento</th>
                             <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -65,9 +66,16 @@
                             <td th:text="${inventario.fechaSalida}"></td>
                             <td th:text="${inventario.vencimiento}"></td>
                             <td th:text="${inventario.estadoMed}"></td>
+                            <td>
+                                <button class="btn btnform"
+                                        th:onclick="'abrirModalEdicionInventario(' + ${inventario.idInventario} + ')'">
+                                    Editar
+                                </button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
+                    <div id="contenedorModalInv"></div>
                 </div>
             </div>
         </div>
@@ -100,6 +108,7 @@
 </main>
 
 <footer th:insert="Layouts/header_footerAdmin :: footer"></footer>
+<script th:src="@{/JAVA_SCRIPT/modalesEdicion.js}"></script>
 </body>
 </html>
 

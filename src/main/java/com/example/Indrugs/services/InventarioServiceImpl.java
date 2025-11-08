@@ -1,6 +1,7 @@
 package com.example.Indrugs.services;
 
 import com.example.Indrugs.DTO.InventarioDTO;
+import com.example.Indrugs.DTO.InventarioUpdateDTO;
 import com.example.Indrugs.entities.Inventario;
 import com.example.Indrugs.entities.Medicamentos;
 import com.example.Indrugs.mapper.InventarioMapper;
@@ -45,10 +46,10 @@ public class InventarioServiceImpl implements InventarioService{
     }
 
     @Override
-    public void actualizar(Long idInventario, InventarioDTO inventarioDTO) {
+    public void actualizar(Long idInventario, InventarioUpdateDTO updateDTO) {
         Inventario inventario = inventarioRepository.findById(idInventario)
                 .orElseThrow(()-> new RuntimeException("Inventario no encontrado"));
-        InventarioMapper.ToUpdate(inventarioDTO, inventario);
+        InventarioMapper.ToUpdate(updateDTO, inventario);
         inventarioRepository.save(inventario);
     }
 
@@ -56,6 +57,13 @@ public class InventarioServiceImpl implements InventarioService{
     public InventarioDTO buscarPorId(Long idMedicamento) {
         Inventario inventario = inventarioRepository.findByidMedicamento_IdMedicamento(idMedicamento)
                 .orElseThrow(() -> new RuntimeException("Inventario no encontrado con ID: " + idMedicamento));
+        return InventarioMapper.entiteToDto(inventario);
+    }
+
+    @Override
+    public InventarioDTO buscarPorIdInventario(Long idInventario) {
+        Inventario inventario = inventarioRepository.findById(idInventario)
+                .orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
         return InventarioMapper.entiteToDto(inventario);
     }
 

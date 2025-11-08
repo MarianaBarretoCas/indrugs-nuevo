@@ -1,9 +1,13 @@
 package com.example.Indrugs.controllers;
 
 import com.example.Indrugs.DTO.InventarioDTO;
+import com.example.Indrugs.DTO.InventarioUpdateDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
+import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
 import com.example.Indrugs.entities.Inventario;
 import com.example.Indrugs.entities.Usuario;
+import com.example.Indrugs.mapper.InventarioMapper;
+import com.example.Indrugs.mapper.UsuarioMapper;
 import com.example.Indrugs.services.InventarioService;
 import com.example.Indrugs.services.MedicamentosService;
 import com.itextpdf.text.*;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -166,10 +171,48 @@ public class InventarioController {
     public String agregarInventario(@ModelAttribute InventarioDTO inventarioDTO,
                                     RedirectAttributes redirectAttribute){
         try{
+            inventarioDTO.setFechaEntrada(LocalDateTime.now());
             inventarioService.crear(inventarioDTO);
             redirectAttribute.addFlashAttribute("mensaje", "Medicamento agregado exitosamente");
         } catch (Exception e) {
             redirectAttribute.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/17.pagina_inventario";
+    }
+
+    @GetMapping("/actualizarInventario")
+    public String mostrarFormularioEditar(@RequestParam("idInventario") Long idInventario, HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+
+        if (usuario == null) {
+            return "redirect:/login"; // si no está logueado
+        }
+
+        try {
+            InventarioDTO inventarioDTO = inventarioService.buscarPorIdInventario(idInventario);
+
+            InventarioUpdateDTO inventarioUpDto = InventarioMapper.toUpdateDTO(inventarioDTO);
+
+            model.addAttribute("inventario", inventarioUpDto);
+
+            model.addAttribute("estados", List.of("ACTIVO", "INACTIVO"));
+
+            return "Layouts/modal_edicion :: modalEditarInventario";
+
+        } catch (Exception e) {
+            return "redirect:/17.pagina_inventario?error=Inventario no encontrado";
+        }
+    }
+
+    @PostMapping("/actualizarInventario")
+    public String actualizarInventario(@RequestParam Long idInventario,
+                                       InventarioUpdateDTO inventarioUpDto,
+                                       RedirectAttributes redirectAttributes) {
+        try{
+            inventarioService.actualizar(idInventario, inventarioUpDto);
+            redirectAttributes.addFlashAttribute("mensaje", "Inventario actualizado correctamente");
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/17.pagina_inventario";
     }

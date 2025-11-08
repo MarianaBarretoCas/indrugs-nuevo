@@ -81,13 +81,15 @@
 								<td th:text="${usuario.correo}"></td>
 								<td th:text="${usuario.estado}"></td>
 								<td>
-									<a th:href="@{'/actualizar?idUsuario=' + ${usuario.idUsuario}}">
-										<button class="btn btnform">Editar</button>
-									</a>
+                                    <button class="btn btnform"
+                                            th:onclick="'abrirModalEdicion(' + ${usuario.idUsuario} + ')'">
+                                        Editar
+                                    </button>
 								</td>
 							</tr>
 						</tbody>
 					</table>
+                    <div id="contenedorModal"></div>
 				</div>
 			</div>
 		</div>
@@ -99,5 +101,6 @@
 </main>
 
 <footer th:insert="Layouts/header_footerAdmin :: footer"></footer>
+<script th:src="@{/JAVA_SCRIPT/modalesEdicion.js}"></script>
 </body>
 </html>
