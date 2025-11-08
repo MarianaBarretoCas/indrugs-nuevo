@@ -39,6 +39,18 @@ public class OrdenController {
         model.addAttribute("ordenes", ordenService.listarOrdenesP(usuario.getIdUsuario()));
         return "domiciliario/14.pagina_ordenes";
     }
+
+    @GetMapping("/3.pagina_de_ordenes")
+    public String verOrdenesPaciente(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login"; // Si no está logueado
+        }
+
+        model.addAttribute("ordenes", ordenService.listarOrdenesPa(usuario.getIdUsuario()));
+        return "pacientes/3.pagina_de_ordenes";
+    }
+
     @GetMapping("/VerDetalle")
     public String verDetalle(@RequestParam Long idOrden, Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
@@ -47,18 +59,15 @@ public class OrdenController {
         }
         OrdenDTO orden = ordenService.listarDetalle(idOrden);
         model.addAttribute("orden", orden);
-        return "administrador/VerDetalle";
+        String rol = usuario.getRol().getNombreRol();
+        return switch (rol) {
+            case "Administrador" -> "administrador/VerDetalle";
+            case "Paciente" -> "pacientes/VerDetalleP";
+            case "Domiciliario" -> "domiciliario/VerDetalleD";
+            default -> "redirect:/login";
+        };
     }
-    @GetMapping("/VerDetalleD")
-    public String verDetalleD(@RequestParam Long idOrden, Model model, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-        if (usuario == null) {
-            return "redirect:/login"; // Si no está logueado
-        }
-        OrdenDTO orden = ordenService.listarDetalle(idOrden);
-        model.addAttribute("orden", orden);
-        return "domiciliario/VerDetalleD";
-    }
+
     @GetMapping("/16.pagina_carrito_med")
     public String mostrarCarrito(Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");

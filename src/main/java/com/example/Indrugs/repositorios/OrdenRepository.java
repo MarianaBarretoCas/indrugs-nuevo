@@ -16,6 +16,8 @@ public interface OrdenRepository extends JpaRepository<Orden, Long> {
         long countByEstadoOrden(String estadoOrden);
         @Query("SELECT o FROM Orden o WHERE o.domicilio.vehiculo.idPropietario.idUsuario = :idUsuario AND o.estadoOrden = :estadoOrden")
         List<Orden> findByOrdenByIdOrden(Long idUsuario, String estadoOrden);
+        @Query("SELECT o FROM Orden o WHERE o.paciente.idUsuario = :idUsuario AND o.estadoOrden = :estadoOrden")
+        List<Orden> findByOrdenByPaciente(Long idUsuario, String estadoOrden);
         Optional<Orden> findByIdOrden(Long idOrden);
         @Query("SELECT COUNT(o) FROM Orden o WHERE o.domicilio.vehiculo.idPropietario.idUsuario = :idUsuario AND o.estadoOrden = :estadoOrden")
         long countOrdenesByUsuarioAndEstado(Long idUsuario, String estadoOrden);

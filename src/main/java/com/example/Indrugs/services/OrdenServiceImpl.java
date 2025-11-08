@@ -44,6 +44,9 @@ public class OrdenServiceImpl implements OrdenService {
     }
     @Override
     public OrdenDTO listarDetalle(Long idOrden) {
+        if (idOrden == null || idOrden <= 0) {
+            throw new IllegalArgumentException("El ID de la orden no puede ser nulo o menor o igual a 0");
+        }
          Orden orden = ordenRepository.findByIdOrden(idOrden)
                   .orElseThrow(() -> new RuntimeException("Orden no encontrada"));
          return OrdenMapper.toDTO(orden);
@@ -59,6 +62,13 @@ public class OrdenServiceImpl implements OrdenService {
     @Override
     public List<OrdenDTO> listarOrdenesP(Long idUsuario) {
         List<Orden> ordenes = ordenRepository.findByOrdenByIdOrden(idUsuario, "ACTIVO");
+        return ordenes.stream()
+                .map(OrdenMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<OrdenDTO> listarOrdenesPa(Long idUsuario) {
+        List<Orden> ordenes = ordenRepository.findByOrdenByPaciente(idUsuario, "ACTIVO");
         return ordenes.stream()
                 .map(OrdenMapper::toDTO)
                 .collect(Collectors.toList());
