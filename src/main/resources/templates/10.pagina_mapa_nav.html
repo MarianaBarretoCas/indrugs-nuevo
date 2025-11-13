@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footer :: header"></header>
+<header th:insert="~{Layouts/header_footer :: header}"></header>
 <main class="cuerpo_indrugs">
     <div class="contenido">
         <h1>Mapa de navegación</h1>
@@ -86,6 +86,6 @@
         </div>
     </div>
 </main>
-<footer th:insert="Layouts/header_footer :: footer"></footer>
+<footer th:insert="~{Layouts/header_footer :: footer}"></footer>
 </body>
 </html>

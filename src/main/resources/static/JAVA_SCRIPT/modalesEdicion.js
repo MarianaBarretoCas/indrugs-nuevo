@@ -1,6 +1,6 @@
 
 function abrirModalEdicion(idUsuario) {
-    fetch(`/actualizar?idUsuario=${idUsuario}`)
+    fetch(`/admin/actualizar?idUsuario=${idUsuario}`)
         .then(response => response.text())
         .then(html => {
             document.getElementById("contenedorModal").innerHTML = html;
@@ -10,7 +10,7 @@ function abrirModalEdicion(idUsuario) {
 }
 
 function abrirModalEdicionInventario(idInventario) {
-    fetch(`/actualizarInventario?idInventario=${idInventario}`)
+    fetch(`/admin/actualizarInventario?idInventario=${idInventario}`)
         .then(response => response.text())
         .then(html => {
             document.getElementById("contenedorModalInv").innerHTML = html;

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping
+@RequestMapping("/paciente")
 public class ControlController {
 
     private final ControlService controlService;
@@ -56,7 +56,7 @@ public class ControlController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        return "redirect:/24.pagina_control";
+        return "redirect:/paciente/24.pagina_control";
     }
 
     @GetMapping("/actualizar_control")

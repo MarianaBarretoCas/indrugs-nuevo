@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footer :: header"></header>
+<header th:insert="~{Layouts/header_footer :: header}"></header>
 <main class="cuerpo_indrugs">
     <div class="contenido">
         <h1>¿Quiénes somos?</h1>
@@ -38,7 +38,7 @@
         <div id="map"></div>
     </div>
 </main>
-<footer th:insert="Layouts/header_footer :: footer"></footer>
+<footer th:insert="~{Layouts/header_footer :: footer}"></footer>
 <script>
 
     var map = L.map('map').setView([4.6097, -74.0817], 12);

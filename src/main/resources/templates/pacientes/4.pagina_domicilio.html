@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footerPaciente :: header"></header>
+<header th:insert="~{Layouts/header_footerPaciente :: header}"></header>
 
 <main class="cuerpo_indrugs">
     <div th:insert="Layouts/header_footerPaciente :: error"></div>
@@ -24,7 +24,7 @@
 
         <div class="contenedor-form">
             <h1 id="titulo_domicilio" class="text-center">Registrar Orden</h1>
-            <form th:action="@{/guardar}" method="post" enctype="multipart/form-data"
+            <form th:action="@{/paciente/guardar}" method="post" enctype="multipart/form-data"
                   id="formuno" class="custom-form row mt-3 g-3 needs-validation" novalidate th:object="${orden}" >
 
                 <input type="hidden" th:value="${usuarioLogueado.idUsuario}" />
@@ -92,7 +92,7 @@
     </div>
 </main>
 
-<footer th:insert="Layouts/header_footerPaciente :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerPaciente :: footer}"></footer>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

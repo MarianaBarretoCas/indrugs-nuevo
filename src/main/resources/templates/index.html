@@ -14,7 +14,7 @@
 
 <body>
 
-<header th:insert="Layouts/header_footer :: header"></header>
+<header th:insert="~{Layouts/header_footer :: header}"></header>
 
 <main class="cuerpo_indrugs">
   <div class="contenido">
@@ -79,7 +79,7 @@
             <p>Brindar un servicio a domicilio de calidad y ofrecer herramientas para hacer seguimiento del
               consumo de medicamentos para las personas discapacitadas o adultos mayores.</p>
           </div>
-          <a th:href="@{/7.pagina_sobre_nosotros}" style="text-decoration: none;">
+          <a th:href="@{/publicas/7.pagina_sobre_nosotros}" style="text-decoration: none;">
             <button class="btn">Ver más</button>
           </a>
         </div>
@@ -114,7 +114,7 @@
   </div>
 </main>
 
-<footer th:insert="Layouts/header_footer :: footer"></footer>
+<footer th:insert="~{Layouts/header_footer :: footer}"></footer>
 <script th:src="@{/JAVA_SCRIPT/carrusel.js}"></script>
 </body>
 </html>

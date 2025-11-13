@@ -12,7 +12,7 @@
     <link rel="stylesheet" th:href="@{/css/3.estilos_página_control.css}">
 </head>
 <body>
-<header th:insert="Layouts/header_footerAdmin :: header"></header>
+<header th:insert="~{Layouts/header_footerAdmin :: header}"></header>
 
 <main class="cuerpo_indrugs">
     <div th:insert="Layouts/header_footerAdmin :: error"></div>
@@ -22,7 +22,7 @@
                 <div class="table-header">
                     <h1 class="section-title">INVENTARIO</h1>
                     <div class="formularios">
-                        <form method="get" th:action="@{/17.pagina_inventario}" id="filtros" class="row mt-0 g-3 needs-validation">
+                        <form method="get" th:action="@{/admin/17.pagina_inventario}" id="filtros" class="row mt-0 g-3 needs-validation">
                             <section class="filtrar-usuarios" >
                                 <label for="estado">Estado:</label>
                                 <select name="estadoMed" id="estado" class="form-select">
@@ -35,7 +35,7 @@
                             </section>
                         </form>
 
-                        <form th:action="@{/export/inventario}" method="get" style="margin: 1rem 1rem 1rem;">
+                        <form th:action="@{/admin/export/inventario}" method="get" style="margin: 1rem 1rem 1rem;">
                             <button type="submit" class="btn btnform">
                                 <i class="fas fa-file-pdf"></i> Exportar PDF
                             </button>
@@ -84,7 +84,7 @@
             <div class="table-header">
                 <h1 class="section-title">INVENTARIO</h1>
                 <div class="formularios">
-                    <form method="get" th:action="@{/17.pagina_inventario}" id="filtros" class="row mt-0 g-3 needs-validation">
+                    <form method="get" th:action="@{/admin/17.pagina_inventario}" id="filtros" class="row mt-0 g-3 needs-validation">
                         <section class="filtrar-usuarios" >
                             <label for="estado">Estado:</label>
                             <select name="estadoMed" id="estado" class="form-select">
@@ -103,11 +103,11 @@
         <div class="text-center me-3">
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#formModal">Agregar medicamento</button>
         </div>
-        <div th:insert="Layouts/form_pacientes :: form_inventario"></div>
+        <div th:insert="~{Layouts/form_pacientes :: form_inventario}"></div>
     </div>
 </main>
 
-<footer th:insert="Layouts/header_footerAdmin :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerAdmin :: footer}"></footer>
 <script th:src="@{/JAVA_SCRIPT/modalesEdicion.js}"></script>
 </body>
 </html>

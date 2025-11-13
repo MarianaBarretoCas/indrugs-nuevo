@@ -25,7 +25,7 @@
        let cantidadDeseada = parseInt(cantidadInput.value, 10)|| 1;
 
          // Consultar stock en backend
-         let response = await fetch(`/api/inventario/stock/${idMedicamento}`);
+         let response = await fetch(`/paciente/api/inventario/stock/${idMedicamento}`);
          if (!response.ok) {
              alert("Error al consultar stock");
              return;
@@ -87,7 +87,7 @@
           }
 
           // Consultar stock
-          let response = await fetch(`/api/inventario/stock/${idMedicamento}`);
+          let response = await fetch(`/paciente/api/inventario/stock/${idMedicamento}`);
           if (!response.ok) {
               alert("Error al consultar stock");
               return;
@@ -134,7 +134,7 @@
       for (let item of carrito) {
           try {
               // Obtener detalle del medicamento
-              let response = await fetch(`/medicamentos/${item.idMedicamento}/json`);
+              let response = await fetch(`/paciente/medicamentos/${item.idMedicamento}/json`);
               let medicamento = await response.json();
 
               html += `
@@ -157,8 +157,8 @@
 
       html += `
             <div class="btn_carro">
-            <button class="btn" onclick="limpiarCarrito()">Vaciar carrito</button>
-            <button class="btn"  onclick="window.location.href='/4.pagina_domicilio'">Solicitar</button>
+            <button class="btn"  onclick="window.location.href='/paciente  /4.pagina_domicilio'">Solicitar</button>
+            <button class="btn btncarro" onclick="limpiarCarrito()">Vaciar carrito</button>
             </div>
 
       `;

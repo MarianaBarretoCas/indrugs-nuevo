@@ -15,14 +15,14 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footerDomi :: header"></header>
+<header th:insert="~{Layouts/header_footerDomi :: header}"></header>
 
 <main class="cuerpo_indrugs">
     <div class="contenido">
         <section class="dashboard">
             <div class="cards">
                 <div class="card">
-                    <a th:href="@{/15.pagina_domicilio_domi}">
+                    <a th:href="@{/domi/15.pagina_domicilio_domi}">
                         <div>
                             <span class="card_numeros" th:text="${totalDomiciliosActivos}">0</span>
                             <span class="card_nombre">Domicilios</span>
@@ -33,7 +33,7 @@
                     </a>
                 </div>
                 <div class="card">
-                    <a th:href="@{/12.pagina_vehiculos}">
+                    <a th:href="@{/domi/12.pagina_vehiculos}">
                         <div>
                             <span class="card_numeros" th:text="${totalVehiculos}" >0</span><br>
                             <span class="card_nombre">Vehículos</span>
@@ -44,7 +44,7 @@
                     </a>
                 </div>
                 <div class="card">
-                    <a th:href="@{/14.pagina_ordenes}">
+                    <a th:href="@{/domi/14.pagina_ordenes}">
                         <div>
                             <span class="card_numeros" th:text="${cantidadOrdenes}">0</span><br>
                             <span class="card_nombre">Órdenes</span>
@@ -61,7 +61,7 @@
                 <div class="ordenes_recientes">
                     <div class="cabeza1">
                         <h2>Órdenes recientes</h2>
-                        <a th:href="@{/14.pagina_ordenes}">
+                        <a th:href="@{/domi/14.pagina_ordenes}">
                             <input class="botonD" type="button" value="VER TODO">
                         </a>
                     </div>
@@ -91,7 +91,7 @@
                 <div class="domicilio">
                     <div class="cabeza1">
                         <h2>Domicilios recientes</h2>
-                        <a th:href="@{/15.pagina_domicilio_domi}">
+                        <a th:href="@{/domi/15.pagina_domicilio_domi}">
                             <input class="botonD" type="button" value="VER TODO">
                         </a>
                     </div>
@@ -124,7 +124,7 @@
     </div>
 </main>
 
-<footer th:insert="Layouts/header_footerDomi :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerDomi :: footer}"></footer>
 
 <script th:src="@{/JAVA_SCRIPT/carrusel_domi.js}"></script>
 </body>

@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footerAdmin :: header"></header>
+<header th:insert="~{Layouts/header_footerAdmin :: header}"></header>
 
 <main class="cuerpo_indrugs">
     <div th:insert="Layouts/header_footerAdmin :: error"></div>
@@ -24,7 +24,7 @@
             <div class="cards">
 
                 <div class="card">
-                    <a th:href="@{/17.pagina_inventario}">
+                    <a th:href="@{/admin/17.pagina_inventario}">
                         <div>
                             <span class="card_numeros" th:text="${cantidadInventario}">0</span><br>
                             <span class="card_nombre">Inventario</span>
@@ -35,7 +35,7 @@
                     </a>
                 </div>
                 <div class="card">
-                    <a th:href="@{/21.pagina_usuarios}">
+                    <a th:href="@{/admin/21.pagina_usuarios}">
                         <div>
                             <span class="card_numeros" th:text="${estadisticas.ACTIVOS}">0</span><br>
                             <span class="card_nombre">Usuarios</span>
@@ -46,7 +46,7 @@
                     </a>
                 </div>
                 <div class="card">
-                    <a th:href="@{/18.pagina}">
+                    <a th:href="@{/admin/18.pagina_orden_admin}">
                         <div>
                             <span class="card_numeros" th:text="${cantidadOrdenes}">0</span><br>
                             <span class="card_nombre">Órdenes</span>
@@ -81,7 +81,7 @@
                 <div class="ordenes_recientes">
                     <div class="cabeza1">
                         <h2>Órdenes recientes</h2>
-                        <a th:href="@{/18.pagina_orden_admin}">
+                        <a th:href="@{/admin/18.pagina_orden_admin}">
                             <input class="botonD" type="button" value="VER TODO">
                         </a>
                     </div>
@@ -111,7 +111,7 @@
                 <div class="domicilio">
                     <div class="cabeza1">
                         <h2>Resumen de usuarios</h2>
-                        <a th:href="@{/21.pagina_usuarios}">
+                        <a th:href="@{/admin/21.pagina_usuarios}">
                             <input class="botonD" type="button" value="VER TODO">
                         </a>
                     </div>
@@ -162,7 +162,7 @@
     </div>
 </main>
 
-<footer th:insert="Layouts/header_footerAdmin :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerAdmin :: footer}"></footer>
 <script th:src="@{/JAVA_SCRIPT/graficasApp.js}"></script>
 </body>
 </html>

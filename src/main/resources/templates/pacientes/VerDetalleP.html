@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footerPaciente :: header"></header>
+<header th:insert="~{Layouts/header_footerPaciente :: header}"></header>
 
 <main class="cuerpo_indrugs">
     <div th:insert="Layouts/header_footerPaciente :: error"></div>
@@ -43,14 +43,14 @@
                 </div>
             </div>
         <div class="text-center me-3">
-            <a th:href="@{/3.pagina_de_ordenes}" style="text-decoration: none;">
+            <a th:href="@{/paciente/3.pagina_de_ordenes}" style="text-decoration: none;">
                 <button type="button" class="btn btnform">Volver</button>
             </a>
         </div>
     </div>
 </main>
 
-<footer th:insert="Layouts/header_footerPaciente :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerPaciente :: footer}"></footer>
 
 <script>
     (() => {

@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<header th:insert="Layouts/header_footerAdmin :: header"></header>
+<header th:insert="~{Layouts/header_footerAdmin :: header}"></header>
 
 <main class="cuerpo_indrugs">
     <div th:insert="Layouts/header_footerAdmin :: error"></div>
@@ -64,7 +64,7 @@
     </div>
 </main>
 
-<footer th:insert="Layouts/header_footerAdmin :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerAdmin :: footer}"></footer>
 
 <script>
     (() => {

@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footerPaciente :: header"></header>
+<header th:insert="~{Layouts/header_footerPaciente :: header}"></header>
 
 <main class="cuerpo_indrugs">
     <div th:insert="Layouts/header_footerPaciente :: error"></div>
@@ -34,7 +34,7 @@
 
         <div class="medicamentos-grid" id="medicamentos-container">
             <div th:each="medicamento : ${medicamentos}" class="medicamento-item">
-                <a th:href="@{/medicamentos/{idMedicamento}(idMedicamento=${medicamento.idMedicamento})}">
+                <a th:href="@{/paciente/medicamentos/{idMedicamento}(idMedicamento=${medicamento.idMedicamento})}">
                     <img class="img_tabla"
                          th:src="@{${medicamento.imagenMedicamento}}"
                          th:alt="${medicamento.nombreMedicamento}">
@@ -50,7 +50,7 @@
     </div>
 </main>
 
-<footer th:insert="Layouts/header_footerPaciente :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerPaciente :: footer}"></footer>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const buscador = document.getElementById('buscador');
@@ -79,7 +79,7 @@
             mensajeBusqueda.style.display = 'block';
             mensajeBusqueda.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Buscando...';
 
-            fetch(`/api/medicamentos/buscar?nombre=${encodeURIComponent(termino)}`)
+            fetch(`/paciente/api/medicamentos/buscar?nombre=${encodeURIComponent(termino)}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error en la respuesta del servidor');
@@ -109,7 +109,7 @@
                 const medicamentoDiv = document.createElement('div');
                 medicamentoDiv.className = 'medicamento-item';
                 medicamentoDiv.innerHTML = `
-                    <a href="/medicamentos/${medicamento.idMedicamento}">
+                    <a href="/paciente/medicamentos/${medicamento.idMedicamento}">
                         <img class="img_tabla"
                              src="${medicamento.imagenMedicamento}"
                              alt="${medicamento.nombreMedicamento}">

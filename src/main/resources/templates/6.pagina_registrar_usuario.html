@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footer :: header"></header>
+<header th:insert="~{Layouts/header_footer :: header}"></header>
 <main class="cuerpo_indrugs">
     <div class="contenido">
         <div class="contenedor-form">
@@ -154,7 +154,7 @@
         </div>
     </div>
 </main>
-<footer th:insert="Layouts/header_footer :: footer">
+<footer th:insert="~{Layouts/header_footer :: footer}">
     <script>
         (() => {
             'use strict';

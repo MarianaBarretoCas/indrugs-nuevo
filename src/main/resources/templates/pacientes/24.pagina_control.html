@@ -16,7 +16,7 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footerPaciente :: header"></header>
+<header th:insert="~{Layouts/header_footerPaciente :: header}"></header>
 
 <main class="cuerpo_indrugs">
     <div th:insert="Layouts/header_footerPaciente :: error"></div>
@@ -74,6 +74,6 @@
     </div>
 </main>
 
-<footer th:insert="Layouts/header_footerPaciente :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerPaciente :: footer}"></footer>
 </body>
 </html>

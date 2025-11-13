@@ -11,9 +11,9 @@
     <link rel="stylesheet" th:href="@{/css/estilos-form.css}">
 </head>
 <body>
-<header th:insert="Layouts/header_footer :: header"></header>
+<header th:insert="~{Layouts/header_footer :: header}"></header>
 <main class="cuerpo_indrugs">
-    <div th:insert="Layouts/header_footerPaciente :: error"></div>
+    <div th:insert="~{Layouts/header_footerPaciente :: error}"></div>
     <div id="alert-container"></div>
 
     <div class="contenido">
@@ -45,14 +45,14 @@
                 </div>
                     <button class="btn btnform" type="submit">Iniciar sesión</button>
 
-                <a th:href="@{/registrarse}" class="btn btnform">Crear cuenta</a>
+                <a th:href="@{/registrarse}" class="btn btnregistro">Crear cuenta</a>
             </form>
 
         </div>
 
     </div>
 </main>
-<footer th:insert="Layouts/header_footer :: footer">
+<footer th:insert="~{Layouts/header_footer :: footer}">
 </footer>
     <script>
         // Validación Bootstrap

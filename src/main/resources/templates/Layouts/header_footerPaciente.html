@@ -5,14 +5,14 @@
                 <div class="d-flex flex-wrap">
                     <a href="#" class="small me-4"><i class="fas fa-map-marker-alt icon-custom me-2"></i>Bogotá</a>
                     <a href="mailto:example@gmail.com" class="small me-0"><i
-                            class="fas fa-envelope icon-custom me-2"></i>indrugs@gmail.com</a>
+                            class="fas fa-envelope icon-custom me-2"></i>indrugs3@gmail.com</a>
                 </div>
             </div>
             <div class="col-lg-4 text-center text-lg-end">
                 <div class="d-inline-flex align-items-center" style="height: 35px;">
                     <!-- <a href="#"><small class="me-3 text-dark"><i
                                 class="fa fa-user icon-custom me-2"></i>PQRS</small></a> -->
-                    <a th:href="@{/16.pagina_carrito_med}"><small class="me-3 text-dark"><i
+                    <a th:href="@{/paciente/16.pagina_carrito_med}"><small class="me-3 text-dark"><i
                             class="fa fa-shopping-cart icon-custom me-2"></i>Carrito</small></a>
                     <div class="dropdown">
                         <a href="#" class="dropdown-toggle text-dark" data-bs-toggle="dropdown"><small><i
@@ -20,7 +20,7 @@
                         <div class="dropdown-menu rounded">
                             <a th:href="@{/actualizar_perfil}" class="dropdown-item"><i
                                     class="fas fa-user-alt me-2"></i> Editar perfil</a>
-                            <a th:href="@{/3.pagina_de_ordenes}" class="dropdown-item"><i
+                            <a th:href="@{/paciente/3.pagina_de_ordenes}" class="dropdown-item"><i
                                     class="fas fa fa-bag-shopping me-2"></i> Órdenes activas</a>
                             <a th:href="@{/cerrarSesion}" class="dropdown-item"><i class="fas fa-power-off me-2"></i>
                                 Cerrar sesión</a>
@@ -52,19 +52,19 @@
                 <div class="bottom-nav">
                     <ul class="nav-list">
                         <li class="nav-item">
-                            <a th:href="@{/1.pagina_principal_paciente}" class="nav-link">Inicio</a>
+                            <a th:href="@{/paciente/1.pagina_principal_paciente}" class="nav-link">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/24.pagina_control}" class="nav-link">Control</a>
+                            <a th:href="@{/paciente/24.pagina_control}" class="nav-link">Control</a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/8.pagina_med}" class="nav-link">Medicamentos</a>
+                            <a th:href="@{/paciente/8.pagina_med}" class="nav-link">Medicamentos</a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/5.pagina_pqrs}" class="nav-link">PQRS</a>
+                            <a th:href="@{/paciente/5.pagina_pqrs}" class="nav-link">PQRS</a>
                         </li>
                         <li class="nav-item mobile-only-profile">
-                            <a th:href="@{/16.pagina_carrito_med}" class="nav-link me-3">Carrito</a>
+                            <a th:href="@{/paciente/16.pagina_carrito_med}" class="nav-link me-3">Carrito</a>
                         </li>
                         <li class="nav-item mobile-only-profile">
                             <div class="dropdown">
@@ -112,10 +112,10 @@
             <div class="footer-section">
                 <h3 class="titulos-foot">Enlaces Rápidos</h3>
                 <ul>
-                    <li><a class="foot-links" th:href="@{/1.pagina_principal_paciente}">Inicio</a></li>
-                    <li><a class="foot-links" th:href="@{/8.pagina_med}">Medicamentos</a></li>
-                    <li><a class="foot-links" th:href="@{/24.pagina_control}">Control</a></li>
-                    <li><a class="foot-links" th:href="@{/5.pagina_pqrs}">PQRS</a></li>
+                    <li><a class="foot-links" th:href="@{/paciente/1.pagina_principal_paciente}">Inicio</a></li>
+                    <li><a class="foot-links" th:href="@{/paciente/8.pagina_med}">Medicamentos</a></li>
+                    <li><a class="foot-links" th:href="@{/paciente/24.pagina_control}">Control</a></li>
+                    <li><a class="foot-links" th:href="@{/paciente/5.pagina_pqrs}">PQRS</a></li>
                     <li><a class="foot-links" th:href="@{/actualizar_perfil}">Perfil</a></li>
                 </ul>
             </div>

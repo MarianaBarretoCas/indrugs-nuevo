@@ -60,6 +60,23 @@ h2 {
 .btnform{
     width: 90%;
 }
+.btnregistro {
+    width: 90%;
+    background: ghostwhite;
+    color: #2cb4c9;
+    border: 2px solid #2cb4c9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+.btncarro {
+    background: ghostwhite;
+    color: #2cb4c9;
+    border: 2px solid #2cb4c9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
 
 .titulo{
 text-align: center;}

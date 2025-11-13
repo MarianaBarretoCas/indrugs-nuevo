@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping
+@RequestMapping("/admin")
 public class MedicControllerAdmin {
 
     private final MedicamentosService medicService;
@@ -74,7 +74,7 @@ public class MedicControllerAdmin {
         try {
             if (imagenFile.isEmpty()) {
                 redirectAttributes.addFlashAttribute("error", "Debes subir una imagen");
-                return "redirect:/22.pagina_medicamento";
+                return "redirect:/admin/22.pagina_medicamento";
             }
 
             String urlImagen = archivosService.guardarImagenMedicamento(imagenFile);
@@ -89,6 +89,6 @@ public class MedicControllerAdmin {
         System.out.println("Medicamento guardado: " + medicamentoDTO.getNombreMedicamento());
 
 
-        return "redirect:/22.pagina_medicamento";
+        return "redirect:/admin/22.pagina_medicamento";
     }
 }

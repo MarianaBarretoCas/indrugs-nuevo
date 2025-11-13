@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping
+@RequestMapping("/paciente")
 public class PQRScontroller {
 
     @Autowired
@@ -42,6 +42,6 @@ public class PQRScontroller {
         }
         pqrsService.crear(dto, usuario.getIdUsuario());
         redirectAttributes.addFlashAttribute("mensaje", "¡PQRS enviada correctamente!");
-        return "redirect:/5.pagina_pqrs";
+        return "redirect:/paciente/5.pagina_pqrs";
     }
 }

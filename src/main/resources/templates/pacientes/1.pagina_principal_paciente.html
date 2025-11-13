@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footerPaciente :: header"></header>
+<header th:insert="~{Layouts/header_footerPaciente :: header}"></header>
 <main class="main-content">
     <section class="hero-section">
         <div class="carousel-container">
@@ -23,7 +23,7 @@
             </div>
             <div class="carousel-wrapper">
                 <div id="imag" class="carousel-slide">
-                    <img id="imagen1" class="carousel-image" th:src="@{imagenes/Carrusel/señoras.jpg}" alt="Slider Image">
+                    <img id="imagen1" class="carousel-image" th:src="@{/imagenes/Carrusel/señoras.jpg}" loading="eager" alt="Image uno">
                 </div>
             </div>
             <div class="carousel-nav next">
@@ -36,7 +36,7 @@
         <div class="section-container">
             <h2 class="section-title">Medicamentos Destacados</h2>
             <div class="products-grid">
-                <a th:href="@{/8.pagina_med}" class="product-card">
+                <a th:href="@{/paciente/8.pagina_med}" class="product-card">
                     <div class="product-image">
                         <img th:src="@{/imagenes/MEDICAMENTOS/TABLA/Aspirina.jpeg}" alt="Aspirina">
                     </div>
@@ -45,7 +45,7 @@
                         <p>Analgésico y antiinflamatorio</p>
                     </div>
                 </a>
-                <a th:href="@{/8.pagina_med}" class="product-card">
+                <a th:href="@{/paciente/8.pagina_med}" class="product-card">
                     <div class="product-image">
                         <img th:src="@{/imagenes/MEDICAMENTOS/TABLA/img.png}" alt="Ibuprofeno">
                     </div>
@@ -54,7 +54,7 @@
                         <p>Antiinflamatorio no esteroideo</p>
                     </div>
                 </a>
-                <a th:href="@{/8.pagina_med}" class="product-card">
+                <a th:href="@{/paciente/8.pagina_med}" class="product-card">
                     <div class="product-image">
                         <img th:src="@{/imagenes/MEDICAMENTOS/TABLA/paracetamol.jpg}" alt="Paracetamol">
                     </div>
@@ -65,7 +65,7 @@
                 </a>
             </div>
             <div class="section-action">
-                <a th:href="@{/8.pagina_med}" class="btn">Ver Todos los Medicamentos</a>
+                <a th:href="@{/paciente/8.pagina_med}" class="btn">Ver Todos los Medicamentos</a>
             </div>
         </div>
     </section>
@@ -90,7 +90,7 @@
         </div>
     </section>
 </main>
-<footer th:insert="Layouts/header_footerPaciente :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerPaciente :: footer}"></footer>
 <script th:src="@{/JAVA_SCRIPT/carrusel.js}"></script>
 </body>
 </html>

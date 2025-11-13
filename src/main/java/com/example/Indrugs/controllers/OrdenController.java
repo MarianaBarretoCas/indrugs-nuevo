@@ -29,7 +29,7 @@ public class OrdenController {
     @Autowired
     private ArchivosService archivosService;
 
-    @GetMapping("/14.pagina_ordenes")
+    @GetMapping("/domi/14.pagina_ordenes")
     public String verOrdenesDirecto(Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
@@ -40,13 +40,12 @@ public class OrdenController {
         return "domiciliario/14.pagina_ordenes";
     }
 
-    @GetMapping("/3.pagina_de_ordenes")
+    @GetMapping("/paciente/3.pagina_de_ordenes")
     public String verOrdenesPaciente(Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login"; // Si no está logueado
         }
-
         model.addAttribute("ordenes", ordenService.listarOrdenesPa(usuario.getIdUsuario()));
         return "pacientes/3.pagina_de_ordenes";
     }
@@ -68,7 +67,7 @@ public class OrdenController {
         };
     }
 
-    @GetMapping("/16.pagina_carrito_med")
+    @GetMapping("/paciente/16.pagina_carrito_med")
     public String mostrarCarrito(Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
@@ -78,7 +77,7 @@ public class OrdenController {
     }
 
     // Vista del administrador
-    @GetMapping("/18.pagina_orden_admin")
+    @GetMapping("/admin/18.pagina_orden_admin")
     public String verOrdenesAdmin(@RequestParam(required = false) String estadoOrden,Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
@@ -101,7 +100,7 @@ public class OrdenController {
         return "administrador/18.pagina_orden_admin";
     }
 
-    @GetMapping("/4.pagina_domicilio")
+    @GetMapping("/paciente/4.pagina_domicilio")
     public String mostrarformulario(HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) return "redirect:/login";
@@ -112,7 +111,7 @@ public class OrdenController {
     }
 
 
-    @PostMapping("/guardar")
+    @PostMapping("/paciente/guardar")
     public String guardarOrden(@ModelAttribute OrdenDTO ordenDTO,
 //                               @RequestParam("formulaFile") MultipartFile formulaFile,
                   //             @RequestParam("idMedicamento") Long idMedicamento,
@@ -150,7 +149,7 @@ public class OrdenController {
             ordenDTO.setMedicamentos(meds);
             ordenService.crear(ordenDTO, usuario.getIdUsuario());
             redirectAttributes.addFlashAttribute("mensaje", "Orden creada exitosamente");
-            return "redirect:/16.pagina_carrito_med";
+            return "redirect:/paciente/16.pagina_carrito_med";
 
         } catch (Exception e) {
             model.addAttribute("error", "Error al guardar la orden: " + e.getMessage());
@@ -168,9 +167,9 @@ public class OrdenController {
 //    }
 
     // Marcar orden como entregada desde administrador
-    @GetMapping("/ordenes/eliminar/{idOrden}")
+    @GetMapping("/admin/ordenes/eliminar/{idOrden}")
     public String entregarOrdenDesdeAdmin(@PathVariable Long idOrden) {
         ordenService.eliminar(idOrden);
-        return "redirect:/18.pagina_orden_admin";
+        return "redirect:/admin/18.pagina_orden_admin";
     }
 }

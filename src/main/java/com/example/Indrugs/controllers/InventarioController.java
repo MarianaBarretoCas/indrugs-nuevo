@@ -39,7 +39,7 @@ public class InventarioController {
         this.medicamentosService = medicamentosService;
     }
 
-    @GetMapping("/export/inventario")
+    @GetMapping("/admin/export/inventario")
     public void exportUsersToPdf(HttpServletResponse response) throws IOException, DocumentException {
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=inventario.pdf");
@@ -116,7 +116,7 @@ public class InventarioController {
         table.addCell(cell);
     }
 
-    @GetMapping("/17.pagina_inventario")
+    @GetMapping("/admin/17.pagina_inventario")
     public String mostrarInventario(@RequestParam(required = false) String estadoMed,
                                     HttpSession session,
                                     Model model){
@@ -142,7 +142,7 @@ public class InventarioController {
         return "administrador/17.pagina_inventario";
     }
 
-    @GetMapping("/api/inventario/stock/{idMedicamento}")
+    @GetMapping("/paciente/api/inventario/stock/{idMedicamento}")
     @ResponseBody
     public ResponseEntity<Integer> obtenerStock(@PathVariable Long idMedicamento) {
         try {
@@ -154,7 +154,7 @@ public class InventarioController {
     }
 
 
-    @GetMapping("/19.pagina_agregar_med")
+    @GetMapping("/admin/19.pagina_agregar_med")
     public String mostrarFormulario(HttpSession session, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
@@ -167,7 +167,7 @@ public class InventarioController {
         return "administrador/19.pagina_agregar_med";
     }
 
-    @PostMapping("/procesar_inventario")
+    @PostMapping("/admin/procesar_inventario")
     public String agregarInventario(@ModelAttribute InventarioDTO inventarioDTO,
                                     RedirectAttributes redirectAttribute){
         try{
@@ -177,10 +177,10 @@ public class InventarioController {
         } catch (Exception e) {
             redirectAttribute.addFlashAttribute("error", e.getMessage());
         }
-        return "redirect:/17.pagina_inventario";
+        return "redirect:/admin/17.pagina_inventario";
     }
 
-    @GetMapping("/actualizarInventario")
+    @GetMapping("/admin/actualizarInventario")
     public String mostrarFormularioEditar(@RequestParam("idInventario") Long idInventario, HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
@@ -200,11 +200,11 @@ public class InventarioController {
             return "Layouts/modal_edicion :: modalEditarInventario";
 
         } catch (Exception e) {
-            return "redirect:/17.pagina_inventario?error=Inventario no encontrado";
+            return "redirect:/admin/17.pagina_inventario?error=Inventario no encontrado";
         }
     }
 
-    @PostMapping("/actualizarInventario")
+    @PostMapping("/admin/actualizarInventario")
     public String actualizarInventario(@RequestParam Long idInventario,
                                        InventarioUpdateDTO inventarioUpDto,
                                        RedirectAttributes redirectAttributes) {
@@ -214,6 +214,6 @@ public class InventarioController {
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        return "redirect:/17.pagina_inventario";
+        return "redirect:/admin/17.pagina_inventario";
     }
 }

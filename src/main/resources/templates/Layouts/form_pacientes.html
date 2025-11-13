@@ -7,7 +7,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" th:action="@{/agregar_control}" th:object="${control}"
+                    <form method="post" th:action="@{/paciente/agregar_control}" th:object="${control}"
                           class="custom-form row mx-auto mt-3 g-3 needs-validation" novalidate>
                         <h3>Información personal</h3>
 
@@ -92,7 +92,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" th:action="@{/procesar_inventario}" th:object="${invetarioDTO}"
+                    <form method="post" th:action="@{/admin/procesar_inventario}" th:object="${invetarioDTO}"
                           class="custom-form row mx-auto mt-3 g-3 needs-validation" novalidate>
                         <div class="col-12">
                             <label>Medicamento:</label>
@@ -146,7 +146,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/guardar-medicamento}" method="post" enctype="multipart/form-data"
+                    <form th:action="@{/admin/guardar-medicamento}" method="post" enctype="multipart/form-data"
                           th:object="${medicamentoDTO}"
                           id="formuno" class="custom-form row mt-3 g-3 needs-validation" novalidate>
 
@@ -191,7 +191,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/agregar_vehiculo}"
+                    <form th:action="@{/domi/agregar_vehiculo}"
                           method="post"
                           th:object="${vehiculo}"
                           class="custom-form row mt-3 g-3 needs-validation" novalidate>

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping
+@RequestMapping("/domi")
 public class VehiculoController {
 
     private final VehiculoService vehiculoService;
@@ -55,7 +55,7 @@ public class VehiculoController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        return "redirect:/12.pagina_vehiculos";
+        return "redirect:/domi/12.pagina_vehiculos";
     }
 
     @GetMapping("/actualizar_vehiculo")
@@ -65,7 +65,7 @@ public class VehiculoController {
             model.addAttribute("vehiculo", vehiculo);
             return "administrador/actualizar_vehiculo";
         } catch (Exception e) {
-            return "redirect:/12.pagina_vehiculos?error=Vehículo no encontrado";
+            return "redirect:/domi/12.pagina_vehiculos?error=Vehículo no encontrado";
         }
     }
 
@@ -79,7 +79,7 @@ public class VehiculoController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        return "redirect:/12.pagina_vehiculos";
+        return "redirect:/domi/12.pagina_vehiculos";
     }
 
     @PostMapping("/eliminar_vehiculo")
@@ -90,6 +90,6 @@ public class VehiculoController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        return "redirect:/12.pagina_vehiculos";
+        return "redirect:/domi/12.pagina_vehiculos";
     }
 }

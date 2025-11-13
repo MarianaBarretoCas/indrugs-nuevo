@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping
+@RequestMapping("/admin")
 public class AdminisradorController {
 
     private final UsuarioService usuarioService;
@@ -198,7 +198,7 @@ public class AdminisradorController {
             return "Layouts/modal_edicion :: modalEditarUsuario";
 
         } catch (Exception e) {
-            return "redirect:/21.pagina_usuarios?error=Usuario no encontrado";
+            return "redirect:/admin/21.pagina_usuarios?error=Usuario no encontrado";
         }
     }
 
@@ -212,6 +212,6 @@ public class AdminisradorController {
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        return "redirect:/21.pagina_usuarios";
+        return "redirect:/admin/21.pagina_usuarios";
     }
 }

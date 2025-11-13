@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footerAdmin :: header"></header>
+<header th:insert="~{Layouts/header_footerAdmin :: header}"></header>
 
 <main class="cuerpo_indrugs">
     <div th:insert="Layouts/header_footerAdmin :: error"></div>
@@ -24,7 +24,7 @@
                 <div class="table-header">
                     <h1 class="section-title">Gestión de Órdenes</h1>
                     <div class="formularios">
-                        <form method="get" th:action="@{/18.pagina_orden_admin}" id="filtros" class="row mt-0 g-3 needs-validation">
+                        <form method="get" th:action="@{/admin/18.pagina_orden_admin}" id="filtros" class="row mt-0 g-3 needs-validation">
                             <section class="filtrar-usuarios" >
                                 <label for="estado">Estado:</label>
                                 <select name="estadoOrden" id="estado" class="form-select">
@@ -66,7 +66,7 @@
                                   <a th:href="@{'/VerDetalle?idOrden=' + ${orden.idOrden}}" class="btn btnform">Detalle</a>
                             </td>
                             <td>
-                               <a th:href="@{/ordenes/eliminar/{idOrden}(idOrden=${orden.idOrden})}" class="btn btnform">Eliminar</a>
+                               <a th:href="@{/admin/ordenes/eliminar/{idOrden}(idOrden=${orden.idOrden})}" class="btn btnform">Eliminar</a>
                             </td>
 
         <!--                    <td> -->
@@ -97,7 +97,7 @@
             <div class="table-header">
                 <h1 class="section-title">Gestión de Órdenes</h1>
                 <div class="formularios">
-                    <form method="get" th:action="@{/18.pagina_orden_admin}" id="filtros" class="row mt-0 g-3 needs-validation">
+                    <form method="get" th:action="@{/admin/18.pagina_orden_admin}" id="filtros" class="row mt-0 g-3 needs-validation">
                         <section class="filtrar-usuarios" >
                             <label for="estado">Estado:</label>
                             <select name="estadoOrden" id="estado" class="form-select">
@@ -152,7 +152,7 @@
     </div>
 </main>
 
-<footer th:insert="Layouts/header_footerAdmin :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerAdmin :: footer}"></footer>
 
 </body>
 </html>

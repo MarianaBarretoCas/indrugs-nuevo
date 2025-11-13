@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<header th:insert="Layouts/header_footerAdmin :: header"></header>
+<header th:insert="~{Layouts/header_footerAdmin :: header}"></header>
 
 <main class="cuerpo_indrugs">
     <div th:insert="Layouts/header_footerAdmin :: error"></div>
@@ -43,14 +43,14 @@
                 </div>
             </div>
         <div class="text-center me-3">
-            <a th:href="@{/18.pagina_orden_admin}" style="text-decoration: none;">
+            <a th:href="@{/admin/18.pagina_orden_admin}" style="text-decoration: none;">
                 <button type="button" class="btn btnform">Volver</button>
             </a>
         </div>
     </div>
 </main>
 
-<footer th:insert="Layouts/header_footerAdmin :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerAdmin :: footer}"></footer>
 
 <script>
     (() => {

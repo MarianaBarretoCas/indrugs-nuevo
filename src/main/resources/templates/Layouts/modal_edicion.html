@@ -7,7 +7,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/actualizar}" method="post" class="custom-form row mt-3 col-12 g-3 needs-validation" novalidate th:object="${usuario}">
+                    <form th:action="@{/admin/actualizar}" method="post" class="custom-form row mt-3 col-12 g-3 needs-validation" novalidate th:object="${usuario}">
 
                         <input type="hidden" th:field="*{idUsuario}" />
 
@@ -61,7 +61,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/actualizarInventario}" method="post" class="custom-form row mt-3 col-12 g-3 needs-validation" novalidate th:object="${inventario}">
+                    <form th:action="@{/admin/actualizarInventario}" method="post" class="custom-form row mt-3 col-12 g-3 needs-validation" novalidate th:object="${inventario}">
 
                         <input type="hidden" th:field="*{idInventario}" />
                         <div class="col-12">

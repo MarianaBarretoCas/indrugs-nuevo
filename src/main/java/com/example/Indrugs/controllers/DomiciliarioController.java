@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping
+@RequestMapping("/domi")
 public class DomiciliarioController {
 
     private final UsuarioService usuarioService;
@@ -66,7 +66,7 @@ public class DomiciliarioController {
     @GetMapping("/actualizar/domicilio/{idDomicilio}")
     public String cambiarEstado(@PathVariable Long idDomicilio) {
             domicilioService.actualizar(idDomicilio);
-            return "redirect:/15.pagina_domicilio_domi";
+            return "redirect:/domi/15.pagina_domicilio_domi";
     }
 
     @GetMapping("/15.pagina_domicilio_domi")

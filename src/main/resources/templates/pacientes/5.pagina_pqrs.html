@@ -14,7 +14,7 @@
     <link rel="stylesheet" th:href="@{/css/estilos-form.css}" />
 </head>
 <body>
-<header th:insert="Layouts/header_footerPaciente :: header"></header>
+<header th:insert="~{Layouts/header_footerPaciente :: header}"></header>
 
 <main class="cuerpo_indrugs">
     <div th:insert="Layouts/header_footerPaciente :: error"></div>
@@ -22,7 +22,7 @@
         <div class="contenedor-form">
             <h1 class="titulo">Formulario de PQRS</h1>
 
-            <form method="post" th:action="@{/guardar-pqrs}"
+            <form method="post" th:action="@{/paciente/guardar-pqrs}"
                   th:object="${pqrs}"
                   class="custom-form row mx-auto mt-3 g-3 needs-validation" novalidate>
 
@@ -58,7 +58,7 @@
     </div>
 </main>
 
-<footer th:insert="Layouts/header_footerPaciente :: footer"></footer>
+<footer th:insert="~{Layouts/header_footerPaciente :: footer}"></footer>
 
 <script>
     (() => {
