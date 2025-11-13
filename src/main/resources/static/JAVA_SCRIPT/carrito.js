@@ -157,7 +157,7 @@
 
       html += `
             <div class="btn_carro">
-            <button class="btn"  onclick="window.location.href='/paciente  /4.pagina_domicilio'">Solicitar</button>
+            <button class="btn"  onclick="window.location.href='/paciente/4.pagina_domicilio'">Solicitar</button>
             <button class="btn btncarro" onclick="limpiarCarrito()">Vaciar carrito</button>
             </div>
 
