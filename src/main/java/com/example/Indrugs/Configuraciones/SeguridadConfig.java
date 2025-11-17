@@ -16,7 +16,6 @@ public class SeguridadConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 🔒 Define quién puede acceder a qué
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasAuthority("Administrador")
                         .requestMatchers("/paciente/**").hasAuthority("Paciente")
