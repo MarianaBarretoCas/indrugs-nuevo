@@ -1,5 +1,6 @@
 package com.example.Indrugs.controllers;
 
+import com.example.Indrugs.DTO.MedicamentoDTO;
 import com.example.Indrugs.DTO.OrdenDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
@@ -8,12 +9,13 @@ import com.example.Indrugs.mapper.UsuarioMapper;
 import com.example.Indrugs.services.DashboardService;
 import com.example.Indrugs.services.UsuarioService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -42,7 +44,7 @@ public class AdminisradorController {
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=usuarios.pdf");
 
-        List<UsuarioDTO> usuarios = usuarioService.read();
+        List<UsuarioDTO> usuarios = usuarioService.readExport();
         Document document = new Document(PageSize.A4.rotate());
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
@@ -149,24 +151,26 @@ public class AdminisradorController {
             @RequestParam(required = false) String rol,
             @RequestParam(required = false) String estado,
             HttpSession session,
-            Model model) {
+            Model model,
+            @RequestParam(defaultValue = "0") int page) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
         if (usuario == null) {
             return "redirect:/login"; // si no está logueado
         }
 
-        List<UsuarioDTO> usuarios;
+        Page<UsuarioDTO> usuarios;
+        Pageable pageable = PageRequest.of(page, 8);
 
         // aplicar filtros
         if (rol != null && !rol.isEmpty() && estado != null && !estado.isEmpty()) {
-            usuarios = usuarioService.findByRolNombreAndEstado(rol, estado);
+            usuarios = usuarioService.findByRolNombreAndEstado(rol, estado, pageable);
         } else if (rol != null && !rol.isEmpty()) {
-            usuarios = usuarioService.findByRolNombre(rol);
+            usuarios = usuarioService.findByRolNombre(rol, pageable);
         } else if (estado != null && !estado.isEmpty()) {
-            usuarios = usuarioService.findByStatus(estado);
+            usuarios = usuarioService.findByStatus(estado, pageable);
         } else {
-            usuarios = usuarioService.read(); // Todos los usuarios
+            usuarios = usuarioService.read(pageable); // Todos los usuarios
         }
 
         model.addAttribute("usuarios", usuarios);
@@ -174,6 +178,24 @@ public class AdminisradorController {
         model.addAttribute("estadoSeleccionado", estado);
 
         return "administrador/21.pagina_usuarios";
+    }
+
+    @GetMapping("/api/usuarios/buscar")
+    @ResponseBody
+    public ResponseEntity<List<UsuarioDTO>> buscarUsuarios(
+            @RequestParam(value = "nombre") String nombre) {
+
+        try {
+            if (nombre == null || nombre.trim().isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            List<UsuarioDTO> usuarios = usuarioService.findByNombre(nombre);
+            return ResponseEntity.ok(usuarios);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 
     @GetMapping("/actualizar")

@@ -1,13 +1,18 @@
 package com.example.Indrugs.services;
 
+import com.example.Indrugs.DTO.MedicamentoDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioCreateDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
+import com.example.Indrugs.entities.Medicamentos;
 import com.example.Indrugs.entities.Rol;
 import com.example.Indrugs.entities.Usuario;
+import com.example.Indrugs.mapper.MedicamentosMap;
 import com.example.Indrugs.mapper.UsuarioMapper;
 import com.example.Indrugs.repositorios.RolRepository;
 import com.example.Indrugs.repositorios.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +35,13 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public List<UsuarioDTO> read() {
+    public Page<UsuarioDTO> read(Pageable pageable) {
+        Page<Usuario> usuarios = usuarioRepository.findAll(pageable);
+        return usuarios.map(UsuarioMapper::mapToDto);
+    }
+
+    @Override
+    public List<UsuarioDTO> readExport() {
         List<Usuario> usuarios = usuarioRepository.findAll();
         return usuarios.stream()
                 .map(UsuarioMapper::mapToDto)
@@ -69,19 +80,18 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public List<UsuarioDTO> findByRol(Long idRol) {
-        List<Usuario> usuarios = usuarioRepository.findByRol_idRol(idRol);
-        return usuarios.stream()
-                .map(UsuarioMapper::mapToDto)
+    public List<UsuarioDTO> findByNombre(String nombre) {
+        List<Usuario> usuario = usuarioRepository.findByNombreContainingIgnoreCase(nombre);
+        return usuario.stream()
+                .map(UsuarioMapper:: mapToDto)
                 .collect(Collectors.toList());
     }
 
+
     @Override
-    public List<UsuarioDTO> findByStatus(String estado) {
-        List<Usuario> usuarios = usuarioRepository.findByEstado(estado);
-        return usuarios.stream()
-                .map(UsuarioMapper::mapToDto)
-                .collect(Collectors.toList());
+    public Page<UsuarioDTO> findByStatus(String estado, Pageable pageable) {
+        Page<Usuario> usuarios = usuarioRepository.findByEstado(estado, pageable);
+        return usuarios.map(UsuarioMapper::mapToDto);
     }
 
     @Override
@@ -116,19 +126,15 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public List<UsuarioDTO> findByRolNombre(String nombreRol) {
-        List<Usuario> usuarios = usuarioRepository.findByRol_nombreRol(nombreRol);
-        return usuarios.stream()
-                .map(UsuarioMapper::mapToDto)
-                .collect(Collectors.toList());
+    public Page<UsuarioDTO> findByRolNombre(String nombreRol, Pageable pageable) {
+        Page<Usuario> usuarios = usuarioRepository.findByRol_nombreRol(nombreRol, pageable);
+        return usuarios.map(UsuarioMapper::mapToDto);
     }
 
     @Override
-    public List<UsuarioDTO> findByRolNombreAndEstado(String nombreRol, String estado) {
-        List<Usuario> usuarios = usuarioRepository.findByRol_nombreRolAndEstado(nombreRol, estado);
-        return usuarios.stream()
-                .map(UsuarioMapper::mapToDto)
-                .collect(Collectors.toList());
+    public Page<UsuarioDTO> findByRolNombreAndEstado(String nombreRol, String estado,Pageable pageable) {
+        Page<Usuario> usuarios = usuarioRepository.findByRol_nombreRolAndEstado(nombreRol, estado,pageable);
+        return usuarios.map(UsuarioMapper::mapToDto);
     }
 
 

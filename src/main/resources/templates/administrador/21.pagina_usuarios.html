@@ -26,6 +26,15 @@
 				<div class="table-header">
 					<h1 class="section-title">USUARIOS</h1>
 					<div class="formularios">
+                        <div class="search-container mb-0">
+                            <div class="input-group">
+                                <input type="search" placeholder="Buscar usuario..." id="buscador" class="form-control">
+                                <button class="btn-outline-secondary" type="button" id="btnLimpiar">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div id="mensaje-busqueda" class="mt-2" style="display: none;"></div>
+                        </div>
 						<form method="get" th:action="@{/admin/21.pagina_usuarios}" id="filtros" class="row mt-0 g-3 needs-validation">
 							<section class="filtrar-usuarios">
 								<label for="rol">Roles:</label>
@@ -52,17 +61,17 @@
 								<i class="fas fa-file-pdf"></i> Exportar PDF
 							</button>
 						</form>
+
 					</div>
 				</div>
 
 				<div class="table-responsive">
 					<table id="tabla1" class="table custom-table">
 						<thead>
-							<tr>
+							<tr class="text-center">
 								<th>Rol</th>
 								<th>Nombre</th>
-								<th>Tipo de documento</th>
-								<th>Número de documento</th>
+								<th>Documento</th>
 								<th>Dirección</th>
 								<th>Teléfono</th>
 								<th>Correo</th>
@@ -71,10 +80,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="usuario : ${usuarios}">
+							<tr th:each="usuario : ${usuarios.content}" class="usuario-item">
 								<td th:text="${usuario.nombreRol}"></td>
 								<td th:text="${usuario.nombre}"></td>
-								<td th:text="${usuario.tipoDoc}"></td>
 								<td th:text="${usuario.numDoc}"></td>
 								<td th:text="${usuario.direccion}"></td>
 								<td th:text="${usuario.telefono}"></td>
@@ -89,9 +97,38 @@
 							</tr>
 						</tbody>
 					</table>
+                    <div id="no-resultados" style="display: none;" class="text-center mt-4">
+                        <h4>No se encontraron usuarios</h4>
+                        <p>Intenta con otros términos de búsqueda</p>
+                    </div>
                     <div id="contenedorModal"></div>
 				</div>
-			</div>
+                <nav class="mt-4" >
+                    <ul class="pagination justify-content-center">
+
+                        <li class="page-item" th:classappend="${usuarios.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/21.pagina_usuarios(page=${usuarios.number - 1})}">
+                                Anterior
+                            </a>
+                        </li>
+
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0, usuarios.totalPages - 1)}"
+                            th:classappend="${i == usuarios.number} ? 'active'">
+                            <a class="page-link" th:text="${i + 1}"
+                               th:href="@{/admin/21.pagina_usuarios(page=${i})}">
+                            </a>
+                        </li>
+
+                        <li class="page-item" th:classappend="${usuarios.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/21.pagina_usuarios(page=${usuarios.number + 1})}">
+                                Siguiente
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
 		</div>
 
 		<div th:if="${usuarios == null or usuarios.isEmpty()}">
@@ -102,5 +139,110 @@
 
 <footer th:insert="~{Layouts/header_footerAdmin :: footer}"></footer>
 <script th:src="@{/JAVA_SCRIPT/modalesEdicion.js}"></script>
+<script defer>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buscador = document.getElementById('buscador');
+        const btnLimpiar = document.getElementById('btnLimpiar');
+        const container = document.querySelector("#tabla1 tbody");
+        const mensajeBusqueda = document.getElementById('mensaje-busqueda');
+        const noResultados = document.getElementById('no-resultados');
+
+        let searchTimeout;
+        let usuariosOriginales = [];
+
+        function guardarUsuariosOriginales() {
+            usuariosOriginales = Array.from(container.querySelectorAll('tr'))
+                .map(fila => fila.cloneNode(true));
+        }
+
+        function buscarUsuarios() {
+            const termino = buscador.value.trim();
+
+            if (termino.length < 2) {
+                mostrarTodos();
+                return;
+            }
+
+            mensajeBusqueda.style.display = 'block';
+            mensajeBusqueda.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Buscando...';
+
+            fetch(`/admin/api/usuarios/buscar?nombre=${encodeURIComponent(termino)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    mostrarResultados(data);
+                    mensajeBusqueda.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error en la búsqueda:', error);
+                    mensajeBusqueda.innerHTML = '<div class="alert alert-danger">Error al buscar usuario</div>';
+                });
+        }
+
+        function mostrarResultados(usuarios) {
+            container.innerHTML = '';
+            noResultados.style.display = 'none';
+
+            if (usuarios.length === 0) {
+                noResultados.style.display = 'block';
+                return;
+            }
+
+            usuarios.forEach(usuario => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${usuario.nombreRol}</td>
+                    <td>${usuario.nombre}</td>
+                    <td>${usuario.numDoc}</td>
+                    <td>${usuario.direccion}</td>
+                    <td>${usuario.telefono}</td>
+                    <td>${usuario.correo}</td>
+                    <td>${usuario.estado}</td>
+                    <td>
+                        <button class="btn btnform" onclick="abrirModalEdicion(${usuario.idUsuario})">
+                            Editar
+                        </button>
+                    </td>
+                `;
+                container.appendChild(fila);
+            });
+        }
+
+        function mostrarTodos() {
+            container.innerHTML = '';
+            noResultados.style.display = 'none';
+            mensajeBusqueda.style.display = 'none';
+
+           usuariosOriginales.forEach(fila => {
+                container.appendChild(fila.cloneNode(true));
+            });
+        }
+
+        buscador.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(buscarUsuarios, 300);
+        });
+
+        buscador.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                clearTimeout(searchTimeout);
+                buscarUsuarios();
+            }
+        });
+
+        btnLimpiar.addEventListener('click', function() {
+            buscador.value = '';
+            mostrarTodos();
+        });
+        console.log("Ejecutando script, tabla existe:", document.querySelector("#tabla1"));
+
+        guardarUsuariosOriginales();
+    });
+</script>
 </body>
 </html>
