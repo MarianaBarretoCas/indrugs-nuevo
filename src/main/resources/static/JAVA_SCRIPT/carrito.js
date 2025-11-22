@@ -21,7 +21,7 @@
  async function agregarAlCarrito(idMedicamento) {
      try {
          // Obtener cantidad que eligió el usuario
-       const cantidadInput = document.getElementById("cantidad_solicitada");
+       const cantidadInput = document.getElementById("cantidadModal");
        let cantidadDeseada = parseInt(cantidadInput.value, 10)|| 1;
 
          // Consultar stock en backend

@@ -96,3 +96,39 @@
         </div>
     </div>
 </div>
+
+<div th:fragment="formDetalle">
+    <div class="modal fade" id="modalMedicamento" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="tituloMedicamento"></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="d-flex gap-4">
+
+                        <img id="imgMedicamento" class="img-medicamento" style="width: 180px; height: 180px; object-fit: contain;">
+
+                        <div>
+                            <p id="descripcionMedicamento"></p>
+
+                            <label for="cantidadModal">Elija la cantidad</label>
+                            <input id="cantidadModal" type="number" min="1" max="10" class="form-control" required>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer d-flex justify-content-between">
+                    <button class="btn btn-primary" id="btnAgregarCarrito">
+                        Agregar al carrito
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

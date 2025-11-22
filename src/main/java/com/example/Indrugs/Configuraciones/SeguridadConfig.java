@@ -20,7 +20,7 @@ public class SeguridadConfig {
                         .requestMatchers("/admin/**").hasAuthority("Administrador")
                         .requestMatchers("/paciente/**").hasAuthority("Paciente")
                         .requestMatchers("/domi/**").hasAuthority("Domiciliario")
-                        .requestMatchers("/login", "/", "/error/**", "/publicas/**", "/registrarse", "/css/**", "/iconos/**", "/JAVA_SCRIPT/**", "/imagenes/**").permitAll()
+                        .requestMatchers("/login", "/cerrarSesion", "/", "/error/**", "/publicas/**", "/registrarse", "/css/**", "/iconos/**", "/JAVA_SCRIPT/**", "/imagenes/**").permitAll()
                         .anyRequest().authenticated()
                 )
 
