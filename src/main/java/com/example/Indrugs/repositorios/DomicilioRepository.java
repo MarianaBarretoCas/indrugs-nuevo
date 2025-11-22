@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DomicilioRepository extends JpaRepository<Domicilio, Long> {
-    List<Domicilio> findByEstadoDomicilio(String estadoDomicilio);
+
+    @Query("SELECT d FROM Domicilio d WHERE d.vehiculo.idPropietario.idUsuario = :idUsuario AND d.estadoDomicilio = :estadoDomicilio")
+    List<Domicilio> findByEstadoDomicilio(String estadoDomicilio, Long idUsuario);
     List<Domicilio> findTop3ByOrderByIdDomicilioDesc();
     @Query("SELECT COUNT(d) FROM Domicilio d WHERE d.estadoDomicilio = :estado AND d.vehiculo.idPropietario.idUsuario = :idUsuario")
     long countByEstadoDomicilio(String estado, Long idUsuario);

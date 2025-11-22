@@ -9,7 +9,7 @@ public interface DomicilioService {
     List<DomicilioDTO> read(Long idUsuario);
     void crear(DomicilioDTO domicilioDTO);
     void actualizar(Long idDomicilio);
-    List<DomicilioDTO> findByEstadoDomicilio(String estadoDomicilio);
+    List<DomicilioDTO> findByEstadoDomicilio(String estadoDomicilio, long idUsuario);
     List<DomicilioDTO> ObtenerDomiciliosRecientes();
     Map<String,Object> ObtenerResumen();
     List<Object[]> countDomiciliosByEstadoDomicilio();
