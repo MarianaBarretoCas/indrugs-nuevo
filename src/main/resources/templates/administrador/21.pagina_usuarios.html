@@ -29,40 +29,38 @@
                         <div class="search-container mb-0">
                             <div class="input-group">
                                 <input type="search" placeholder="Buscar usuario..." id="buscador" class="form-control">
-                                <button class="btn-outline-secondary" type="button" id="btnLimpiar">
+                                <button class="btnFilter" type="button" id="btnLimpiar">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
                             </div>
                             <div id="mensaje-busqueda" class="mt-2" style="display: none;"></div>
                         </div>
-						<form method="get" th:action="@{/admin/21.pagina_usuarios}" id="filtros" class="row mt-0 g-3 needs-validation">
-							<section class="filtrar-usuarios">
-								<label for="rol">Roles:</label>
-								<select name="rol" id="rol" class="form-select">
-									<option value="">Todos</option>
-									<option value="Administrador" th:selected="${rolSeleccionado == 'Administrador'}">Administrador</option>
-									<option value="Paciente" th:selected="${rolSeleccionado == 'Paciente'}">Paciente</option>
-									<option value="Domiciliario" th:selected="${rolSeleccionado == 'Domiciliario'}">Domiciliario</option>
-								</select>
+                        <div class="dropdown">
+                            <button type="button" class="btn btnform dropdown-toggle" data-bs-toggle="dropdown">
+                                Exportar
+                            </button>
+                            <div class="dropdown-menu rounded">
+                                <a href="#" class="dropdown-item" onclick="document.getElementById('exportPdfForm').submit()"><i
+                                        class="fas fa-file-pdf me-2"></i> Exportar PDF</a>
+                                <a href="#" class="dropdown-item" onclick="document.getElementById('exportExcelForm').submit()"><i
+                                        class="fas fa-file-excel me-2"></i> Exportar Excel</a>
+                            </div>
+                        </div>
+                        <form id="exportPdfForm" th:action="@{/admin/export/usuarios_registrados}" method="get" style="display: none;"></form>
+                        <form id="exportExcelForm" th:action="@{/admin/export/usuarios_registrados}" method="get" style="display: none;"></form>
+                        <form method="post" enctype="multipart/form-data" th:action="@{/admin/api/importar/usuarios}">
+                            <input type="file" id="inputArchivo" name="file" class="d-none">
+                            <button type="button" class="btn btnform" id="btnImportar">
+                                <i class="fa-solid fa-upload"></i> Importar
+                            </button>
+                            <button type="submit" id="btnSubmit" class="d-none"></button>
+                        </form>
+                        <div class="text-center me-3">
+                            <button type="button" class="btn btnform" data-bs-toggle="modal" data-bs-target="#formModal"><i class="fa-solid fa-user-plus"></i></button>
+                        </div>
+                        <div th:insert="~{Layouts/form_pacientes :: contenedorModalAgregarUser}"></div>
 
-								<label for="estado">Estado:</label>
-								<select name="estado" id="estado" class="form-select">
-									<option value="">Todos</option>
-									<option value="ACTIVO" th:selected="${estadoSeleccionado == 'ACTIVO'}">Activo</option>
-									<option value="INACTIVO" th:selected="${estadoSeleccionado == 'INACTIVO'}">Inactivo</option>
-								</select>
-
-								<button type="submit" class="btn btnfiltro">Filtrar</button>
-							</section>
-						</form>
-
-						<form th:action="@{/admin/export/usuarios_registrados}" method="get" style="margin: 1rem 1rem 1rem;">
-							<button type="submit" class="btn btnform">
-								<i class="fas fa-file-pdf"></i> Exportar PDF
-							</button>
-						</form>
-
-					</div>
+                    </div>
 				</div>
 
 				<div class="table-responsive">
@@ -139,6 +137,15 @@
 
 <footer th:insert="~{Layouts/header_footerAdmin :: footer}"></footer>
 <script th:src="@{/JAVA_SCRIPT/modalesEdicion.js}"></script>
+<script>
+    document.getElementById("btnImportar").addEventListener("click", () => {
+        document.getElementById("inputArchivo").click();
+    });
+
+    document.getElementById("inputArchivo").addEventListener("change", () => {
+        document.getElementById("btnSubmit").click();
+    });
+</script>
 <script defer>
     document.addEventListener('DOMContentLoaded', function() {
         const buscador = document.getElementById('buscador');
@@ -166,7 +173,7 @@
             mensajeBusqueda.style.display = 'block';
             mensajeBusqueda.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Buscando...';
 
-            fetch(`/admin/api/usuarios/buscar?nombre=${encodeURIComponent(termino)}`)
+            fetch(`/admin/api/usuarios/buscar?termino=${encodeURIComponent(termino)}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error en la respuesta del servidor');

@@ -10,7 +10,9 @@ import com.example.Indrugs.entities.Usuario;
 import com.example.Indrugs.mapper.MedicamentosMap;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,6 +31,7 @@ public interface UsuarioService  {
     Page<UsuarioDTO> findByRolNombreAndEstado(String nombreRol, String estado, Pageable pageable);
     Page<UsuarioDTO> findByRolNombre(String nombreRol, Pageable pageable);
     UsuarioDTO findById(Long idUsuario);
-    List<UsuarioDTO> findByNombre(String nombre);
+    List<UsuarioDTO> buscarPorNombreRolEstado(String termino);
+    void importarExcel(MultipartFile file) throws IOException;
 
 }

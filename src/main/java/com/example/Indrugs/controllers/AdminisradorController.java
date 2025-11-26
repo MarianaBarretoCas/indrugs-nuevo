@@ -2,19 +2,23 @@ package com.example.Indrugs.controllers;
 
 import com.example.Indrugs.DTO.MedicamentoDTO;
 import com.example.Indrugs.DTO.OrdenDTO;
+import com.example.Indrugs.DTO.Usuario.UsuarioCreateDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
 import com.example.Indrugs.entities.Usuario;
 import com.example.Indrugs.mapper.UsuarioMapper;
 import com.example.Indrugs.services.DashboardService;
+import com.example.Indrugs.services.EmailService;
 import com.example.Indrugs.services.UsuarioService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.itextpdf.text.*;
@@ -33,10 +37,12 @@ public class AdminisradorController {
 
     private final UsuarioService usuarioService;
     private final DashboardService dashboardService;
+    private EmailService emailService;
 
-    public AdminisradorController(UsuarioService usuarioService, DashboardService dashboardService) {
+    public AdminisradorController(UsuarioService usuarioService, DashboardService dashboardService, EmailService emailService){
         this.usuarioService = usuarioService;
         this.dashboardService = dashboardService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/export/usuarios_registrados")
@@ -176,21 +182,57 @@ public class AdminisradorController {
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("rolSeleccionado", rol);
         model.addAttribute("estadoSeleccionado", estado);
+        model.addAttribute("usuarioNuevo", new UsuarioCreateDTO());
+
 
         return "administrador/21.pagina_usuarios";
     }
 
+    @PostMapping({"/registrarAdmin"})
+    public String crearUsuarioAdmin(@Valid @ModelAttribute("usuarioNuevo")
+                                    UsuarioCreateDTO userCreate,
+                                    BindingResult bindingResult,
+                                    RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()){
+            System.out.println("❌ Errores de validación detectados:");
+            bindingResult.getAllErrors().forEach(e -> System.out.println(" - " + e.getDefaultMessage()));
+            return "administrador/21.pagina_usuarios";
+        }
+
+        try {
+            if (usuarioService.existsByCorreo(userCreate.getCorreo())) {
+                redirectAttributes.addFlashAttribute("error", "El correo ya está registrado");
+                return "redirect:/admin/21.pagina_usuarios";
+            }
+            userCreate.setRol(1L);
+            usuarioService.crear(userCreate);
+            System.out.println("📌 Después de crear usuario");
+            emailService.enviarCorreoRegistro(userCreate.getCorreo(), userCreate.getNombre());
+            System.out.println("📌 Después de crear usuario");
+            redirectAttributes.addFlashAttribute("mensaje", "Usuario registrado exitosamente");
+            return "redirect:/admin/21.pagina_usuarios";
+
+        } catch (Exception e) {
+            System.out.println("📌 Error al registrar usuario: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Error al registrar usuario: " + e.getMessage());
+            return "redirect:/admin/21.pagina_usuarios";
+        }
+
+    }
+
+
     @GetMapping("/api/usuarios/buscar")
     @ResponseBody
     public ResponseEntity<List<UsuarioDTO>> buscarUsuarios(
-            @RequestParam(value = "nombre") String nombre) {
+            @RequestParam(value = "termino") String termino) {
 
         try {
-            if (nombre == null || nombre.trim().isEmpty()) {
+            if (termino == null || termino.trim().isEmpty()) {
                 return ResponseEntity.badRequest().build();
             }
 
-            List<UsuarioDTO> usuarios = usuarioService.findByNombre(nombre);
+            List<UsuarioDTO> usuarios = usuarioService.buscarPorNombreRolEstado(termino);
             return ResponseEntity.ok(usuarios);
 
         } catch (Exception e) {
@@ -236,4 +278,5 @@ public class AdminisradorController {
         }
         return "redirect:/admin/21.pagina_usuarios";
     }
+
 }

@@ -251,6 +251,18 @@ small {
     transition: all 0.3s ease;
     text-decoration: none;
 }
+.btnFilter{
+    width: 20%;
+    background: #2cb4c9;
+    color: white;
+    padding: 12px 18px;
+    margin: 0px auto;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
 
 .btn:hover {
     background-color: #2ec6da;
@@ -412,4 +424,30 @@ small {
 }
 
 
+
+.dropdown-toggle::after {
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    vertical-align: middle;
+    color: var(--iconos);
+    z-index: 1000;
+}
+
+.dropdown .dropdown-menu a:hover {
+    background: var(--background-color);
+    color: var(--bs-light);
+}
+
+.dropdown .dropdown-menu {
+    transform: rotateX(0deg);
+    visibility: visible;
+    background: var(--bs-light);
+    padding-top: 11px;
+    border: 0;
+    transition: .5s;
+    opacity: 1;
+
+}
 
