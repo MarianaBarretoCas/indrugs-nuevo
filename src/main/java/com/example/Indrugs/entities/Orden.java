@@ -37,8 +37,6 @@ public class Orden {
     @Column(name = "ESTADO_ORDEN")
     private String estadoOrden;
 
-    @Column(name ="FORMULA_MEDICA")
-    private String formulaMedica;
 
     @OneToOne(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true)
     private Domicilio domicilio;
