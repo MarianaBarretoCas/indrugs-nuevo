@@ -16,7 +16,7 @@ const getDataColors = opacity => {
 };
 
 const renderTopChart = async () => {
-    const response = await fetch("http://localhost:8080/dashboard/medicamentosTop3");
+    const response = await fetch("/dashboard/medicamentosTop3");
     const dataApi = await response.json();
 
     const titles = dataApi.map(item => item.medicamento);
@@ -69,7 +69,7 @@ const renderTopChart = async () => {
 };
 
 const renderEnviosChart = async () => {
-    const response = await fetch("http://localhost:8080/dashboard/enviosDelMes");
+    const response = await fetch("/dashboard/enviosDelMes");
     const dataApi = await response.json();
 
     const titles = dataApi.map(item => item.estado);

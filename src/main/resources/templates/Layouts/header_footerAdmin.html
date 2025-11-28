@@ -10,8 +10,8 @@
       </div>
       <div class="col-lg-4 text-center text-lg-end">
         <div class="d-inline-flex align-items-center" style="height: 35px;">
-          <!-- <a href="#"><small class="me-3 text-dark"><i
-                      class="fa fa-user icon-custom me-2"></i>PQRS</small></a> -->
+          <a th:href="@{/admin/enviar/masivoVista}"><small class="me-3 text-dark">
+              <i class="fa-solid fa-envelope-circle-check icon-custom me-2"></i></small></a>
           <div class="dropdown">
             <a href="#" class="dropdown-toggle text-dark" data-bs-toggle="dropdown"><small><i
                     class="fa fa-user-alt icon-custom me-2"></i> Perfil</small></a>
@@ -68,7 +68,7 @@
                 <div class="dropdown-menu rounded">
                   <a th:href="@{/actualizar_perfil}" class="dropdown-item"><i
                           class="fas fa-user-alt me-2"></i> Editar
-                    /a>
+                    </a>
                     <a th:href="@{/cerrarSesion}" class="dropdown-item"><i
                             class="fas fa-power-off me-2"></i> Cerrar
                       sesión</a>
