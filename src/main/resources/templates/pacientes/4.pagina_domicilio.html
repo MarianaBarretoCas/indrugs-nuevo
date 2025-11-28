@@ -12,6 +12,12 @@
     <link rel="stylesheet" th:href="@{/css/1.estilos_pagina_inicio.css}">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/estilos-form.css}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        #map { height: 400px; width: 100%; margin-top: 10px; }
+        body { font-family: Arial, sans-serif; }
+    </style>
 </head>
 
 <body>
@@ -93,72 +99,73 @@
 </main>
 
 <footer th:insert="~{Layouts/header_footerPaciente :: footer}"></footer>
+<script th:src="@{/JAVA_SCRIPT/mapas.js}"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-  const form = document.getElementById('formuno');
-  if (!form) return;
+      const form = document.getElementById('formuno');
+      if (!form) return;
 
 
-  let carritoError = document.getElementById('carrito-error');
-  if (!carritoError) {
-    carritoError = document.createElement('div');
-    carritoError.id = 'carrito-error';
-    carritoError.className = 'invalid-feedback d-block';
-    const submitBtn = form.querySelector('[type="submit"]');
-    if (submitBtn) submitBtn.parentNode.insertBefore(carritoError, submitBtn);
-    else form.appendChild(carritoError);
-  }
+      let carritoError = document.getElementById('carrito-error');
+      if (!carritoError) {
+        carritoError = document.createElement('div');
+        carritoError.id = 'carrito-error';
+        carritoError.className = 'invalid-feedback d-block';
+        const submitBtn = form.querySelector('[type="submit"]');
+        if (submitBtn) submitBtn.parentNode.insertBefore(carritoError, submitBtn);
+        else form.appendChild(carritoError);
+      }
 
-  form.addEventListener('submit', function (event) {
+      form.addEventListener('submit', function (event) {
 
-    form.querySelectorAll('.carrito-hidden').forEach(e => e.remove());
-    carritoError.textContent = '';
-    form.classList.remove('was-validated'); // reset visual
-
-
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
-    carrito.forEach((item, index) => {
-      const inputId = document.createElement('input');
-      inputId.type = 'hidden';
-      inputId.name = `medicamentos[${index}].idMedicamento`; // coincide con tu DTO
-      inputId.value = item.idMedicamento;
-      inputId.classList.add('carrito-hidden');
-      form.appendChild(inputId);
-
-      const inputCantidad = document.createElement('input');
-      inputCantidad.type = 'hidden';
-      inputCantidad.name = `medicamentos[${index}].cantidad`;
-      inputCantidad.value = item.cantidad;
-      inputCantidad.classList.add('carrito-hidden');
-      form.appendChild(inputCantidad);
-    });
+        form.querySelectorAll('.carrito-hidden').forEach(e => e.remove());
+        carritoError.textContent = '';
+        form.classList.remove('was-validated');
 
 
-    if (carrito.length === 0) {
-      event.preventDefault();
-      event.stopPropagation();
-      carritoError.textContent = 'El carrito está vacío. Agrega al menos un medicamento.';
-      form.classList.add('was-validated');
-      // opcional: desplazar a la alerta
-      carritoError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-    if (!form.checkValidity()) {
-      event.preventDefault();
-      event.stopPropagation();
-      form.classList.add('was-validated');
-      const firstInvalid = form.querySelector(':invalid');
-      if (firstInvalid) firstInvalid.focus();
-      return;
-    }
+        carrito.forEach((item, index) => {
+          const inputId = document.createElement('input');
+          inputId.type = 'hidden';
+          inputId.name = `medicamentos[${index}].idMedicamento`;
+          inputId.value = item.idMedicamento;
+          inputId.classList.add('carrito-hidden');
+          form.appendChild(inputId);
+
+          const inputCantidad = document.createElement('input');
+          inputCantidad.type = 'hidden';
+          inputCantidad.name = `medicamentos[${index}].cantidad`;
+          inputCantidad.value = item.cantidad;
+          inputCantidad.classList.add('carrito-hidden');
+          form.appendChild(inputCantidad);
+        });
 
 
-    const btn = form.querySelector('[type="submit"]');
-    if (btn) btn.disabled = true;
-  }, false);
+        if (carrito.length === 0) {
+          event.preventDefault();
+          event.stopPropagation();
+          carritoError.textContent = 'El carrito está vacío. Agrega al menos un medicamento.';
+          form.classList.add('was-validated');
+          // opcional: desplazar a la alerta
+          carritoError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+          form.classList.add('was-validated');
+          const firstInvalid = form.querySelector(':invalid');
+          if (firstInvalid) firstInvalid.focus();
+          return;
+        }
+
+
+        const btn = form.querySelector('[type="submit"]');
+        if (btn) btn.disabled = true;
+      }, false);
 });
 
 </script>

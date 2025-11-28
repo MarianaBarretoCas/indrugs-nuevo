@@ -1,6 +1,7 @@
 package com.example.Indrugs.controllers;
 
 import com.example.Indrugs.DTO.DomicilioDTO;
+import com.example.Indrugs.DTO.InventarioDTO;
 import com.example.Indrugs.DTO.OrdenDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
@@ -70,15 +71,25 @@ public class DomiciliarioController {
     }
 
     @GetMapping("/15.pagina_domicilio_domi")
-    public String Mostrartabla(HttpSession session,
+    public String Mostrartabla(@RequestParam(required = false) String estadoDomicilio,
+                                HttpSession session,
                                Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
         if (usuario == null) {
             return "redirect:/login"; // si no está logueado
         }
-        List<DomicilioDTO> domicilio= domicilioService.read(usuario.getIdUsuario());
+        List<DomicilioDTO> domicilio;
+
+        //filtros
+        if (estadoDomicilio != null && !estadoDomicilio.isEmpty()){
+            domicilio = domicilioService.findByEstadoDomicilio(estadoDomicilio, usuario.getIdUsuario());
+        }else {
+            domicilio = domicilioService.read(usuario.getIdUsuario());
+        }
         model.addAttribute("domicilios", domicilio);
+        model.addAttribute("estadoSelecionado", estadoDomicilio);
+
         return "domiciliario/15.pagina_domicilio_domi";
     }
 

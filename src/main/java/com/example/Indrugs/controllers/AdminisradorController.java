@@ -1,19 +1,25 @@
 package com.example.Indrugs.controllers;
 
+import com.example.Indrugs.DTO.MedicamentoDTO;
 import com.example.Indrugs.DTO.OrdenDTO;
+import com.example.Indrugs.DTO.Usuario.UsuarioCreateDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
 import com.example.Indrugs.entities.Usuario;
 import com.example.Indrugs.mapper.UsuarioMapper;
 import com.example.Indrugs.services.DashboardService;
+import com.example.Indrugs.services.EmailService;
 import com.example.Indrugs.services.UsuarioService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -31,10 +37,12 @@ public class AdminisradorController {
 
     private final UsuarioService usuarioService;
     private final DashboardService dashboardService;
+    private EmailService emailService;
 
-    public AdminisradorController(UsuarioService usuarioService, DashboardService dashboardService) {
+    public AdminisradorController(UsuarioService usuarioService, DashboardService dashboardService, EmailService emailService){
         this.usuarioService = usuarioService;
         this.dashboardService = dashboardService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/export/usuarios_registrados")
@@ -42,7 +50,7 @@ public class AdminisradorController {
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=usuarios.pdf");
 
-        List<UsuarioDTO> usuarios = usuarioService.read();
+        List<UsuarioDTO> usuarios = usuarioService.readExport();
         Document document = new Document(PageSize.A4.rotate());
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
@@ -149,31 +157,87 @@ public class AdminisradorController {
             @RequestParam(required = false) String rol,
             @RequestParam(required = false) String estado,
             HttpSession session,
-            Model model) {
+            Model model,
+            @RequestParam(defaultValue = "0") int page) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
         if (usuario == null) {
             return "redirect:/login"; // si no está logueado
         }
 
-        List<UsuarioDTO> usuarios;
+        Page<UsuarioDTO> usuarios;
+        Pageable pageable = PageRequest.of(page, 8);
 
         // aplicar filtros
         if (rol != null && !rol.isEmpty() && estado != null && !estado.isEmpty()) {
-            usuarios = usuarioService.findByRolNombreAndEstado(rol, estado);
+            usuarios = usuarioService.findByRolNombreAndEstado(rol, estado, pageable);
         } else if (rol != null && !rol.isEmpty()) {
-            usuarios = usuarioService.findByRolNombre(rol);
+            usuarios = usuarioService.findByRolNombre(rol, pageable);
         } else if (estado != null && !estado.isEmpty()) {
-            usuarios = usuarioService.findByStatus(estado);
+            usuarios = usuarioService.findByStatus(estado, pageable);
         } else {
-            usuarios = usuarioService.read(); // Todos los usuarios
+            usuarios = usuarioService.read(pageable); // Todos los usuarios
         }
 
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("rolSeleccionado", rol);
         model.addAttribute("estadoSeleccionado", estado);
+        model.addAttribute("usuarioNuevo", new UsuarioCreateDTO());
+
 
         return "administrador/21.pagina_usuarios";
+    }
+
+    @PostMapping({"/registrarAdmin"})
+    public String crearUsuarioAdmin(@Valid @ModelAttribute("usuarioNuevo")
+                                    UsuarioCreateDTO userCreate,
+                                    BindingResult bindingResult,
+                                    RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()){
+            System.out.println("❌ Errores de validación detectados:");
+            bindingResult.getAllErrors().forEach(e -> System.out.println(" - " + e.getDefaultMessage()));
+            return "administrador/21.pagina_usuarios";
+        }
+
+        try {
+            if (usuarioService.existsByCorreo(userCreate.getCorreo())) {
+                redirectAttributes.addFlashAttribute("error", "El correo ya está registrado");
+                return "redirect:/admin/21.pagina_usuarios";
+            }
+            userCreate.setRol(1L);
+            usuarioService.crear(userCreate);
+            System.out.println("📌 Después de crear usuario");
+            emailService.enviarCorreoRegistro(userCreate.getCorreo(), userCreate.getNombre());
+            System.out.println("📌 Después de crear usuario");
+            redirectAttributes.addFlashAttribute("mensaje", "Usuario registrado exitosamente");
+            return "redirect:/admin/21.pagina_usuarios";
+
+        } catch (Exception e) {
+            System.out.println("📌 Error al registrar usuario: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Error al registrar usuario: " + e.getMessage());
+            return "redirect:/admin/21.pagina_usuarios";
+        }
+
+    }
+
+
+    @GetMapping("/api/usuarios/buscar")
+    @ResponseBody
+    public ResponseEntity<List<UsuarioDTO>> buscarUsuarios(
+            @RequestParam(value = "termino") String termino) {
+
+        try {
+            if (termino == null || termino.trim().isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            List<UsuarioDTO> usuarios = usuarioService.buscarPorNombreRolEstado(termino);
+            return ResponseEntity.ok(usuarios);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 
     @GetMapping("/actualizar")
@@ -214,4 +278,5 @@ public class AdminisradorController {
         }
         return "redirect:/admin/21.pagina_usuarios";
     }
+
 }

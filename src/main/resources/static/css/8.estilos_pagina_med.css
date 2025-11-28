@@ -56,3 +56,14 @@
 .contenido_body, .contenido_head{
     border: 1px solid #000000;
 }
+
+
+/*modal*/
+.contenedorModel{
+    max-width: fit-content;
+    width: 100%;
+    margin: auto;
+}
+.texto_modal{
+    margin: auto;
+}

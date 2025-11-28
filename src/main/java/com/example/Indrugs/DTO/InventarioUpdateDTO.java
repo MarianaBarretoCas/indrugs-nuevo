@@ -14,8 +14,6 @@ public class InventarioUpdateDTO {
 
     private String nombreMedicamento;
 
-    private LocalDateTime fechaSalida;
-
     private Integer stock;
 
     private LocalDate vencimiento;
