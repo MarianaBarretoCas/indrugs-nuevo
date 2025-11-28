@@ -1,6 +1,4 @@
-  /* ================================
-     FUNCIONES BASE
-  ================================ */
+
   function obtenerCarrito() {
       return JSON.parse(localStorage.getItem("carrito")) || [];
   }
@@ -15,9 +13,6 @@
   }
 
 
-  /* ================================
-     AGREGAR AL CARRITO (con validación stock)
-  ================================ */
  async function agregarAlCarrito(idMedicamento) {
      try {
          // Obtener cantidad que eligió el usuario
@@ -55,7 +50,7 @@
                  return;
              }
          } else {
-             carrito.push({ idMedicamento: idMedicamento, cantidad: cantidadDeseada });
+             carrito.push({ idMedicamento: Number(idMedicamento), cantidad: cantidadDeseada });
          }
 
          guardarCarrito(carrito);
@@ -68,12 +63,10 @@
      }
  }
 
-  /* ================================
-     ELIMINAR MEDICAMENTO DEL CARRITO
-  ================================ */
+
   function eliminarDelCarrito(idMedicamento) {
       let carrito = obtenerCarrito();
-      carrito = carrito.filter(m => m.idMedicamento !== idMedicamento);
+      carrito = carrito.filter(m => Number(m.idMedicamento) !== Number(idMedicamento));
       guardarCarrito(carrito);
       mostrarCarrito();
   }
@@ -96,13 +89,13 @@
 
           if (nuevaCantidad > stock) {
               alert("Solo hay " + stock + " unidades disponibles.");
-              mostrarCarrito(); // volver a renderizar con valores correctos
+              mostrarCarrito();
               return;
           }
 
           // Actualizar carrito
           let carrito = obtenerCarrito();
-          let item = carrito.find(m => m.idMedicamento === idMedicamento);
+          let item = carrito.find(m => Number(m.idMedicamento) === Number(idMedicamento));
 
           if (item) {
               item.cantidad = nuevaCantidad;
@@ -115,14 +108,11 @@
       }
   }
 
-  /* ================================
-     MOSTRAR CARRITO
-  ================================ */
   async function mostrarCarrito() {
       let carrito = obtenerCarrito();
       let contenedor = document.getElementById("carritoContainer");
 
-      if (!contenedor) return; // prevenir error si no existe el div
+      if (!contenedor) return;
 
       if (carrito.length === 0) {
           contenedor.innerHTML = "<p>El carrito de medicamentos está vacío</p>";
@@ -133,13 +123,13 @@
 
       for (let item of carrito) {
           try {
-              // Obtener detalle del medicamento
+
               let response = await fetch(`/paciente/medicamentos/${item.idMedicamento}/json`);
               let medicamento = await response.json();
 
               html += `
                   <div class="medicamento-item">
-                      <img src="${medicamento.imagenMedicamento}" th:alt="${medicamento.nombreMedicamento}" width="50">
+                      <img src="${medicamento.imagenMedicamento}" alt="${medicamento.nombreMedicamento}" width="50">
                       <strong>${medicamento.nombreMedicamento}</strong>
                       <p>${medicamento.descripcionMedicamento}</p>
                       <p>
@@ -165,7 +155,7 @@
       contenedor.innerHTML = html;
   }
 
-  // Ejecutar al cargar la página del carrito
+
   document.addEventListener("DOMContentLoaded", mostrarCarrito);
 
      window.addEventListener("DOMContentLoaded", function() {
