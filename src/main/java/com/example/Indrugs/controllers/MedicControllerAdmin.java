@@ -3,6 +3,7 @@ package com.example.Indrugs.controllers;
 import com.example.Indrugs.DTO.MedicamentoDTO;
 import com.example.Indrugs.entities.Usuario;
 import com.example.Indrugs.services.ArchivosService;
+import com.example.Indrugs.services.ImgBBService;
 import com.example.Indrugs.services.MedicamentosService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -20,11 +22,12 @@ import java.util.List;
 public class MedicControllerAdmin {
 
     private final MedicamentosService medicService;
-    private ArchivosService archivosService;
+    private ImgBBService imgBBService;
 
-    public  MedicControllerAdmin(MedicamentosService medicService, ArchivosService archivosService){
+
+    public  MedicControllerAdmin(MedicamentosService medicService, ImgBBService imgBBService  ){
         this.medicService = medicService;
-        this.archivosService = archivosService;
+        this.imgBBService = imgBBService;
     }
 
     @GetMapping("/22.pagina_medicamento")
@@ -77,7 +80,7 @@ public class MedicControllerAdmin {
                 return "redirect:/admin/22.pagina_medicamento";
             }
 
-            String urlImagen = archivosService.guardarImagenMedicamento(imagenFile);
+            String urlImagen = imgBBService.uploadImage(imagenFile);
             medicamentoDTO.setImagenMedicamento(urlImagen);
 
             medicService.crear(medicamentoDTO);

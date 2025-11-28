@@ -6,7 +6,6 @@ import com.example.Indrugs.mapper.MedicamentosMap;
 import com.example.Indrugs.repositorios.MedicamentoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,10 +14,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class MedicamentosServiceImpl implements MedicamentosService{
 
+    private final ImgBBService imgBBService;
+
     MedicamentoRepository medicRepository;
 
-    public MedicamentosServiceImpl(MedicamentoRepository medicRepository){
+    public MedicamentosServiceImpl(MedicamentoRepository medicRepository, ImgBBService imgBBService){
         this.medicRepository = medicRepository;
+        this.imgBBService = imgBBService;
     }
 
     @Override

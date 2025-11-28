@@ -2,6 +2,7 @@ package com.example.Indrugs.services;
 
 import com.example.Indrugs.DTO.MedicamentoDTO;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface MedicamentosService {
