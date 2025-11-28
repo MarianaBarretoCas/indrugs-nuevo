@@ -20,6 +20,7 @@ public class SeguridadConfig {
                         .requestMatchers("/admin/**").hasAuthority("Administrador")
                         .requestMatchers("/paciente/**").hasAuthority("Paciente")
                         .requestMatchers("/domi/**").hasAuthority("Domiciliario")
+                        .requestMatchers("/actualizar_perfil").hasAnyAuthority("Administrador", "Paciente", "Domiciliario")
                         .requestMatchers(
                                 "/login", "/cerrarSesion", "/", "/error/**", "/publicas/**",
                                 "/registrarse", "/registrar", "/css/**", "/iconos/**", "/JAVA_SCRIPT/**", "/imagenes/**"

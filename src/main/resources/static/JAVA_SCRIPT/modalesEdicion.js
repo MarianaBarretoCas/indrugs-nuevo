@@ -4,7 +4,7 @@ function abrirModalEdicion(idUsuario) {
         .then(response => response.text())
         .then(html => {
             document.getElementById("contenedorModal").innerHTML = html;
-            const modal = new bootstrap.Modal(document.getElementById('formModal'));
+            const modal = new bootstrap.Modal(document.getElementById('formModalU'));
             modal.show();
         });
 }

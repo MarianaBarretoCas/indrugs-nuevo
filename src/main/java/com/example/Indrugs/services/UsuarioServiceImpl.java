@@ -1,6 +1,7 @@
 package com.example.Indrugs.services;
 
 import com.example.Indrugs.DTO.MedicamentoDTO;
+import com.example.Indrugs.DTO.Usuario.RequestChangePassword;
 import com.example.Indrugs.DTO.Usuario.UsuarioCreateDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
@@ -158,6 +159,27 @@ public class UsuarioServiceImpl implements UsuarioService{
 
         usuarioRepository.saveAll(usuarios);
         workbook.close();
+    }
+
+
+    @Override
+    public void cambiarPassword(Long idUsuario, RequestChangePassword req) {
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        if (!passwordEncoder.matches(req.getPasswordActual(), usuario.getPassword())) {
+            throw new RuntimeException("Contraseña actual incorrecta");
+        }
+
+        if (passwordEncoder.matches(req.getPasswordNueva(), usuario.getPassword())) {
+            throw new RuntimeException("La nueva contraseña no puede ser igual a la actual");
+        }
+        if(!req.getPasswordNueva().equals(req.getPasswordConfirmacion())) {
+            throw new RuntimeException("Las contraseñas no coinciden");
+        }
+
+        usuario.setPassword(passwordEncoder.encode((req.getPasswordNueva())));
+        usuarioRepository.save(usuario);
+
     }
 
     @Override

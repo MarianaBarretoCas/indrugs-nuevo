@@ -1,6 +1,7 @@
 package com.example.Indrugs.controllers;
 
 import com.example.Indrugs.DTO.OrdenDTO;
+import com.example.Indrugs.DTO.Usuario.RequestChangePassword;
 import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
 import com.example.Indrugs.entities.Usuario;
@@ -44,8 +45,10 @@ public class ActualizarperfilController {
             UsuarioUpdateDTO usuarioUpdate = UsuarioMapper.toUpdateDTO(usuariodto);
 
             model.addAttribute("usuario", usuarioUpdate);
-
             model.addAttribute("estados", List.of("ACTIVO", "INACTIVO"));
+
+            RequestChangePassword requestChangePassword = new RequestChangePassword();
+            model.addAttribute("cambioPasswordRequest", requestChangePassword);
 
             String rol = usuario.getRol().getNombreRol();
             return switch (rol) {
@@ -66,6 +69,7 @@ public class ActualizarperfilController {
                                     HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         try{
+            userUpdate.setRol(usuario.getRol().getNombreRol());
             usuarioService.actualizar(usuario.getIdUsuario(), userUpdate);
             redirectAttributes.addFlashAttribute("mensaje", "Usuario actualizado correctamente");
         }catch (Exception e){

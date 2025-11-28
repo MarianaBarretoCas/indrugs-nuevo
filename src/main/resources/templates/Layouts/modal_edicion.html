@@ -1,5 +1,5 @@
 <div th:fragment="modalEditarUsuario">
-    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal fade" id="formModalU" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content p-3">
                 <div class="modal-header">
@@ -119,6 +119,46 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="modalCambioPassword">
+    <div class="modal fade" id="formCambioPassword" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="formModalLabel">Cambio contraseña</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/cambiar-password}" method="post" class="custom-form row mt-0 col-12 g-3 needs-validation" novalidate th:object="${cambioPasswordRequest}">
+
+                        <div class="col-12">
+                            <label>Contraseña actual:</label>
+                            <input type="password" th:field="*{passwordActual}" min="1" class="form-control" required minlength="8">
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese una contraseña.</div>
+                        </div>
+                        <div class="col-12">
+                            <label>Contraseña nueva:</label>
+                            <input type="password" th:field="*{passwordNueva}" min="1" class="form-control" required minlength="8">
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese una contraseña de 8 caracteres.</div>
+                        </div>
+                        <div class="col-12">
+                            <label>Confirmar contraseña:</label>
+                            <input type="password" th:field="*{passwordConfirmacion}" min="1" class="form-control" required minlength="8">
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese una contraseña de 8 caracteres.</div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button class="btn btnform" type="submit">Guardar</button>
+                            <button type="button" class="btn btnform" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

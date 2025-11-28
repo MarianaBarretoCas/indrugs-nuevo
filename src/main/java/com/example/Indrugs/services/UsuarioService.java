@@ -2,6 +2,7 @@ package com.example.Indrugs.services;
 
 
 import com.example.Indrugs.DTO.MedicamentoDTO;
+import com.example.Indrugs.DTO.Usuario.RequestChangePassword;
 import com.example.Indrugs.DTO.Usuario.UsuarioCreateDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
@@ -33,5 +34,5 @@ public interface UsuarioService  {
     UsuarioDTO findById(Long idUsuario);
     List<UsuarioDTO> buscarPorNombreRolEstado(String termino);
     void importarExcel(MultipartFile file) throws IOException;
-
+    void cambiarPassword(Long idUsuario, RequestChangePassword req);
 }
