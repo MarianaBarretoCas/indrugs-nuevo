@@ -17,7 +17,7 @@ public class EmailService {
     @Value("${spring.sendgrid.api-key}")
     private String apiKey;
 
-    @Value("${spring.sendgrid.from.email}")
+    @Value("${spring.sendgrid.from}")
     private String fromEmail;
 
     public EmailService(SendGrid sendGrid) {
