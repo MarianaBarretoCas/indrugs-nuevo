@@ -16,7 +16,6 @@ public class InventarioMapper {
         dto.setIdInventario(inventario.getIdInventario());
         dto.setNombreMedicamento(inventario.getIdMedicamento().getNombreMedicamento());
         dto.setFechaEntrada(inventario.getFechaEntrada());
-        dto.setFechaSalida(inventario.getFechaSalida());
         dto.setStock(inventario.getStock());
         dto.setVencimiento(inventario.getVencimiento());
         dto.setEstadoMed(inventario.getEstadoMed());
@@ -30,7 +29,6 @@ public class InventarioMapper {
         inv.setIdInventario(dto.getIdInventario());
         inv.setIdMedicamento(medicamentos);
         inv.setFechaEntrada(dto.getFechaEntrada());
-        inv.setFechaSalida(dto.getFechaSalida());
         inv.setStock(dto.getStock());
         inv.setVencimiento(dto.getVencimiento());
         inv.setEstadoMed(dto.getEstadoMed());
@@ -40,7 +38,6 @@ public class InventarioMapper {
 
     public static void ToUpdate(InventarioUpdateDTO dto, Inventario inv){
 
-        inv.setFechaSalida(dto.getFechaSalida());
         inv.setStock(dto.getStock());
         inv.setVencimiento(dto.getVencimiento());
         inv.setEstadoMed(dto.getEstadoMed());
@@ -51,7 +48,6 @@ public class InventarioMapper {
 
         InventarioUpdateDTO DTO = new InventarioUpdateDTO();
         DTO.setIdInventario(dto.getIdInventario());
-        DTO.setFechaSalida(dto.getFechaSalida());
         DTO.setStock(dto.getStock());
         DTO.setVencimiento(dto.getVencimiento());
         DTO.setEstadoMed(dto.getEstadoMed());

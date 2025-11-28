@@ -16,23 +16,27 @@ public class SeguridadConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 🔒 Define quién puede acceder a qué
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasAuthority("Administrador")
                         .requestMatchers("/paciente/**").hasAuthority("Paciente")
                         .requestMatchers("/domi/**").hasAuthority("Domiciliario")
-                        .requestMatchers("/login", "/", "/error/**", "/publicas/**", "/registrarse", "/css/**", "/iconos/**", "/JAVA_SCRIPT/**", "/imagenes/**").permitAll()
+                        .requestMatchers("/actualizar_perfil").hasAnyAuthority("Administrador", "Paciente", "Domiciliario")
+                        .requestMatchers(
+                                "/login", "/cerrarSesion", "/", "/error/**", "/publicas/**",
+                                "/registrarse", "/registrar", "/css/**", "/iconos/**", "/JAVA_SCRIPT/**", "/imagenes/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
 
                 .formLogin(form -> form.disable())
-
                 .logout(logout -> logout.disable())
 
                 .csrf(csrf -> csrf.disable());
 
+
         return http.build();
     }
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

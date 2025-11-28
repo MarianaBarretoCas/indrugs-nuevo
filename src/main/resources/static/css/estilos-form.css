@@ -60,6 +60,9 @@ h2 {
 .btnform{
     width: 90%;
 }
+.btnTabla{
+    width: 100%;
+}
 .btnregistro {
     width: 90%;
     background: ghostwhite;

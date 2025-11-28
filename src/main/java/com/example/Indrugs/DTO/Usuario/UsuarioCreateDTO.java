@@ -32,8 +32,6 @@ public class UsuarioCreateDTO {
     @Email(message = "Debe ser un correo válido")
     private String correo;
 
-    @NotNull(message = "El rol es obligatorio")
-    @Min(value = 1, message = "Debe seleccionar un rol válido")
     private Long rol;
 
     @NotBlank(message = "La contraseña es obligatoria")

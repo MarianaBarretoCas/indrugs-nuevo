@@ -1,5 +1,5 @@
 <div th:fragment="modalEditarUsuario">
-    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal fade" id="formModalU" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content p-3">
                 <div class="modal-header">
@@ -7,30 +7,27 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/admin/actualizar}" method="post" class="custom-form row mt-3 col-12 g-3 needs-validation" novalidate th:object="${usuario}">
+                    <form th:action="@{/admin/actualizar}" method="post" class="custom-form row mt-0 col-12 g-3 needs-validation" novalidate th:object="${usuario}">
 
                         <input type="hidden" th:field="*{idUsuario}" />
-
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" id="nombre" class="form-control" th:field="*{nombre}" required />
-                        <div class="valid-feedback">BIEN.</div>
-                        <div class="invalid-feedback">Por favor ingrese su nombre/s.</div>
-
-                        <label for="direccion">Dirección:</label>
-                        <input type="text" id="direccion" class="form-control" th:field="*{direccion}" required />
-                        <div class="valid-feedback">BIEN.</div>
-                        <div class="invalid-feedback">Por favor ingrese la dirección.</div>
-
-                        <label for="telefono">Teléfono:</label>
-                        <input type="text" id="telefono" class="form-control" th:field="*{telefono}" required />
-                        <div class="valid-feedback">BIEN.</div>
-                        <div class="invalid-feedback">Por favor ingrese el teléfono.</div>
-
-                        <label for="correo">Correo:</label>
-                        <input type="email" id="correo" class="form-control" th:field="*{correo}" required />
-                        <div class="valid-feedback">BIEN.</div>
-                        <div class="invalid-feedback">Por favor ingrese un correo válido.</div>
-
+                        <input type="hidden" id="nombre" class="form-control" th:field="*{nombre}" required />
+                        <input type="hidden" id="direccion" class="form-control" th:field="*{direccion}" required />
+                        <input type="hidden" id="telefono" class="form-control" th:field="*{telefono}" required />
+                        <input type="hidden" id="correo" class="form-control" th:field="*{correo}" required />
+                        <div class="col-12">
+                            <label for="ROLES_USUARIOS" class="form-label">Rol:</label>
+                            <select id="ROLES_USUARIOS" class="form-select" th:field="*{rol}" required>
+                                <option value="" selected disabled>Elija su rol</option>
+                                <option value="Paciente">Paciente</option>
+                                <option value="Domiciliario">Domiciliario</option>
+                                <option value="Administrador">Administrador</option>
+                            </select>
+                            <div class="valid-feedback">Correcto.</div>
+                            <div class="invalid-feedback">Por favor seleccione una opción.</div>
+                            <div th:if="${#fields.hasErrors('rol')}" class="text-danger">
+                                <small th:errors="*{rol}"></small>
+                            </div>
+                        </div>
                         <label for="estado">Estado:</label>
                         <select id="estado" class="form-control" th:field="*{estado}">
                             <option th:each="estadoItem : ${estados}"
@@ -61,23 +58,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/admin/actualizarInventario}" method="post" class="custom-form row mt-3 col-12 g-3 needs-validation" novalidate th:object="${inventario}">
+                    <form th:action="@{/admin/actualizarInventario}" method="post" class="custom-form row mt-0 col-12 g-3 needs-validation" novalidate th:object="${inventario}">
 
                         <input type="hidden" th:field="*{idInventario}" />
-                        <div class="col-12">
-                            <label>Fecha salida:</label>
-                            <input type="datetime-local" th:field="*{fechaSalida}" class="form-control" required>
-                        </div>
 
                         <div class="col-12">
                             <label>Stock:</label>
                             <input type="number" th:field="*{stock}" min="1" class="form-control" required>
                         </div>
 
-                        <div class="col-12">
-                            <label>Vencimiento:</label>
-                            <input type="date" th:field="*{vencimiento}" class="form-control" required>
-                        </div>
+                        <input type="hidden" th:field="*{vencimiento}" class="form-control" required>
+
 
                         <div class="col-12">
                             <label>Estado:</label>
@@ -85,6 +76,82 @@
                                 <option value="ACTIVO">Activo</option>
                                 <option value="INACTIVO">Inactivo</option>
                             </select>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button class="btn btnform" type="submit">Guardar</button>
+                            <button type="button" class="btn btnform" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="formDetalle">
+    <div class="modal fade" id="modalMedicamento" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="tituloMedicamento"></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="d-flex gap-4">
+
+                        <img id="imgMedicamento" class="img-medicamento" style="width: 180px; height: 180px; object-fit: contain;">
+
+                        <div>
+                            <p id="descripcionMedicamento"></p>
+
+                            <label for="cantidadModal">Elija la cantidad</label>
+                            <input id="cantidadModal" type="number" min="1" max="10" class="form-control" required>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer d-flex justify-content-between">
+                    <button class="btn btn-primary" id="btnAgregarCarrito">
+                        Agregar al carrito
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="modalCambioPassword">
+    <div class="modal fade" id="formCambioPassword" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="formModalLabel">Cambio contraseña</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/cambiar-password}" method="post" class="custom-form row mt-0 col-12 g-3 needs-validation" novalidate th:object="${cambioPasswordRequest}">
+
+                        <div class="col-12">
+                            <label>Contraseña actual:</label>
+                            <input type="password" th:field="*{passwordActual}" min="1" class="form-control" required minlength="8">
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese una contraseña.</div>
+                        </div>
+                        <div class="col-12">
+                            <label>Contraseña nueva:</label>
+                            <input type="password" th:field="*{passwordNueva}" min="1" class="form-control" required minlength="8">
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese una contraseña de 8 caracteres.</div>
+                        </div>
+                        <div class="col-12">
+                            <label>Confirmar contraseña:</label>
+                            <input type="password" th:field="*{passwordConfirmacion}" min="1" class="form-control" required minlength="8">
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese una contraseña de 8 caracteres.</div>
                         </div>
                         <div class="modal-footer d-flex justify-content-between">
                             <button class="btn btnform" type="submit">Guardar</button>

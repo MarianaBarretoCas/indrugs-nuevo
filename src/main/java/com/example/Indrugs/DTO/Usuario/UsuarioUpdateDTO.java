@@ -17,7 +17,7 @@ public class UsuarioUpdateDTO {
 
     private String correo;
 
-    private Long rol;
+    private String rol;
 
     private String estado;
 

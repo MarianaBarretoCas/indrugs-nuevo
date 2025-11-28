@@ -15,8 +15,6 @@ public class InventarioDTO {
 
     private LocalDateTime fechaEntrada;
 
-    private LocalDateTime fechaSalida;
-
     private Integer stock;
 
     private LocalDate vencimiento;

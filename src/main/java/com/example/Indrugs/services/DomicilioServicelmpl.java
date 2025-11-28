@@ -55,8 +55,8 @@ public class DomicilioServicelmpl implements DomicilioService{
     }
 
     @Override
-    public List<DomicilioDTO> findByEstadoDomicilio(String estadoDomicilio) {
-        List<Domicilio> domicilio = domicilioRepository.findByEstadoDomicilio(estadoDomicilio);
+    public List<DomicilioDTO> findByEstadoDomicilio(String estadoDomicilio, long idUsuario) {
+        List<Domicilio> domicilio = domicilioRepository.findByEstadoDomicilio(estadoDomicilio, idUsuario);
         return domicilio.stream()
                 .map(DomicilioMapper::entityToDto)
                 .collect(Collectors.toList());
@@ -111,6 +111,7 @@ public class DomicilioServicelmpl implements DomicilioService{
 
             return domiciliosTop3.stream()
                     .map(DomicilioMapper::entityToDto)
+                    .limit(3)
                     .collect(Collectors.toList());
         }
 
@@ -123,6 +124,7 @@ public class DomicilioServicelmpl implements DomicilioService{
             }
             return ordenesTop3.stream()
                     .map(OrdenMapper::toDTO)
+                    .limit(3)
                     .collect(Collectors.toList());
         }
 

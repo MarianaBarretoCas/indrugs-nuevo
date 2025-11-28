@@ -82,7 +82,6 @@ public class InventarioController {
             addCellToTable(table, inventario.getNombreMedicamento() != null ? inventario.getNombreMedicamento() : "", dataFont, false, rowIndex);
             addCellToTable(table, inventario.getFechaEntrada() != null ? String.valueOf(inventario.getFechaEntrada())  : "", dataFont, false, rowIndex);
             addCellToTable(table, inventario.getStock() != null ? String.valueOf(inventario.getStock())  : "", dataFont, false, rowIndex);
-            addCellToTable(table, inventario.getFechaSalida() != null ? String.valueOf(inventario.getFechaSalida()) : "", dataFont, false, rowIndex);
             addCellToTable(table, inventario.getVencimiento() != null ? String.valueOf(inventario.getVencimiento()) : "", dataFont, false, rowIndex);
             addCellToTable(table, inventario.getEstadoMed() != null ? inventario.getEstadoMed() : "", dataFont, false, rowIndex);
             rowIndex++;

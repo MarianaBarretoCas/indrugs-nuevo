@@ -34,13 +34,47 @@
 
         <div class="medicamentos-grid" id="medicamentos-container">
             <div th:each="medicamento : ${medicamentos}" class="medicamento-item">
-                <a th:href="@{/paciente/medicamentos/{idMedicamento}(idMedicamento=${medicamento.idMedicamento})}">
+                <a href="#" th:onclick="'abrirModalMedicamento(' + ${medicamento.idMedicamento} + ')'">
                     <img class="img_tabla"
                          th:src="@{${medicamento.imagenMedicamento}}"
                          th:alt="${medicamento.nombreMedicamento}">
                 </a>
             </div>
         </div>
+        <div class="modal fade" id="modalMedicamento" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content p-3 contenedorModel">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="tituloMedicamento"></h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="d-flex gap-4">
+
+                            <img id="imgMedicamento" class="img-medicamento" style="width: 180px; height: 180px; object-fit: contain;">
+
+                            <div class="texto_modal">
+                                <p id="descripcionMedicamento"></p>
+
+                                <label for="cantidadModal">Elija la cantidad</label>
+                                <input id="cantidadModal" type="number" min="1" max="10" class="form-control" required>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button class="btn btn-primary" id="btnAgregarCarrito">
+                            Agregar al carrito
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
 
         <div id="no-resultados" style="display: none;" class="text-center mt-4">
             <h4>No se encontraron medicamentos</h4>
@@ -150,5 +184,22 @@
         guardarMedicamentosOriginales();
     });
 </script>
+<script th:src="@{/JAVA_SCRIPT/modalesEdicion.js}"></script>
+<script th:src="@{/JAVA_SCRIPT/carrito.js}"></script>
+<script>
+    document.getElementById("btnAgregarCarrito").addEventListener("click", function() {
+
+        const idMedicamento = this.getAttribute("data-id");
+        const cantidad = document.getElementById("cantidadModal").value;
+
+        if (cantidad < 1 || cantidad > 10) {
+            alert("Cantidad inválida");
+            return;
+        }
+        agregarAlCarrito(idMedicamento);
+
+    });
+</script>
+
 </body>
 </html>

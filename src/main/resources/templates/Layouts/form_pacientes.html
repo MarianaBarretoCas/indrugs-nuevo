@@ -8,7 +8,7 @@
                 </div>
                 <div class="modal-body">
                     <form method="post" th:action="@{/paciente/agregar_control}" th:object="${control}"
-                          class="custom-form row mx-auto mt-3 g-3 needs-validation" novalidate>
+                          class="custom-form row mx-auto mt-0 g-3 needs-validation" novalidate>
                         <h3>Información personal</h3>
 
                         <input type="hidden" name="idUsuario" th:value="${usuarioLogueado.idUsuario}" />
@@ -93,7 +93,7 @@
                 </div>
                 <div class="modal-body">
                     <form method="post" th:action="@{/admin/procesar_inventario}" th:object="${invetarioDTO}"
-                          class="custom-form row mx-auto mt-3 g-3 needs-validation" novalidate>
+                          class="custom-form row mx-auto mt-0 g-3 needs-validation" novalidate>
                         <div class="col-12">
                             <label>Medicamento:</label>
                             <select th:field="*{nombreMedicamento}" class="form-select" required>
@@ -101,12 +101,6 @@
                                         th:value="${med.nombreMedicamento}"
                                         th:text="${med.nombreMedicamento}"></option>
                             </select>
-                        </div>
-
-
-                        <div class="col-12">
-                            <label>Fecha salida:</label>
-                            <input type="datetime-local" th:field="*{fechaSalida}" class="form-control" required>
                         </div>
 
                         <div class="col-12">
@@ -148,7 +142,7 @@
                 <div class="modal-body">
                     <form th:action="@{/admin/guardar-medicamento}" method="post" enctype="multipart/form-data"
                           th:object="${medicamentoDTO}"
-                          id="formuno" class="custom-form row mt-3 g-3 needs-validation" novalidate>
+                          id="formuno" class="custom-form row mt-0 g-3 needs-validation" novalidate>
 
                         <div class="col-12">
                             <label for="nombres" class="form-label" id="form_text">Nombre del medicamento: </label>
@@ -194,7 +188,7 @@
                     <form th:action="@{/domi/agregar_vehiculo}"
                           method="post"
                           th:object="${vehiculo}"
-                          class="custom-form row mt-3 g-3 needs-validation" novalidate>
+                          class="custom-form row mt-0 g-3 needs-validation" novalidate>
 
                         <!-- Propietario logueado -->
                         <input type="hidden" name="idUsuario" th:value="${usuarioLogueado.idUsuario}" />
@@ -231,6 +225,142 @@
                                 <option value="Inactivo">Inactivo</option>
                             </select>
                         </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button class="btn btnform" type="submit">Agregar</button>
+                            <button type="button" class="btn btnform" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:fragment="contenedorModalAgregarUser">
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="formModalLabel">Agregar Administrador</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/registrarAdmin}"
+                          method="post"
+                          th:object="${usuarioNuevo}"
+                          class="custom-form row mt-0 g-3 needs-validation" novalidate>
+
+                        <input type="hidden" th:field="*{rol}" value="1">
+
+                        <div class="col-12">
+                            <label for="TIPODOC_USUARIOS" class="form-label">Tipo de documento:</label>
+                            <select id="TIPODOC_USUARIOS" class="form-select" th:field="*{tipoDoc}" required>
+                                <option value="" selected disabled>Elija tipo de documento</option>
+                                <option value="CC">Cédula de ciudadanía</option>
+                                <option value="PA">Pasaporte</option>
+                            </select>
+                            <div class="valid-feedback">Correcto.</div>
+                            <div class="invalid-feedback">Por favor seleccione una opción.</div>
+                            <div th:if="${#fields.hasErrors('tipoDoc')}" class="text-danger">
+                                <small th:errors="*{tipoDoc}"></small>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="NUMDOC_USUARIOS" class="form-label">Número de documento:</label>
+                            <input
+                                    type="number"
+                                    class="form-control"
+                                    th:field="*{numDoc}"
+                                    id="NUMDOC_USUARIOS"
+                                    required
+                                    minlength="8"
+                            />
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese su documento.</div>
+                            <div th:if="${#fields.hasErrors('numDoc')}" class="text-danger">
+                                <small th:errors="*{numDoc}"></small>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="NOMBRE_USUARIOS" class="form-label">Nombre completo:</label>
+                            <input type="text" id="NOMBRE_USUARIOS" th:field="*{nombre}" class="form-control" required />
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese su nombre/s.</div>
+                            <div th:if="${#fields.hasErrors('nombre')}" class="text-danger">
+                                <small th:errors="*{nombre}"></small>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="CORREO_USUARIOS" class="form-label">Correo Electrónico:</label>
+                            <input
+                                    id="CORREO_USUARIOS"
+                                    class="form-control"
+                                    th:field="*{correo}"
+                                    type="email"
+                                    required
+                            />
+                            <div class="valid-feedback">Hemos registrado su correo.</div>
+                            <div class="invalid-feedback">Por favor ingrese un correo válido.</div>
+                            <div th:if="${#fields.hasErrors('correo')}" class="text-danger">
+                                <small th:errors="*{correo}"></small>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="DIRECCION_USUARIOS" class="form-label">Dirección de Domicilio:</label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="DIRECCION_USUARIOS"
+                                    th:field="*{direccion}"
+                                    placeholder="Calle 123, Ciudad, País"
+                                    required
+                            />
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese una dirección válida.</div>
+                            <div th:if="${#fields.hasErrors('direccion')}" class="text-danger">
+                                <small th:errors="*{direccion}"></small>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="TELEFONO_USUARIOS" class="form-label">Teléfono:</label>
+                            <input
+                                    type="tel"
+                                    id="TELEFONO_USUARIOS"
+                                    th:field="*{telefono}"
+                                    class="form-control"
+                                    required
+                                    minlength="7"
+                                    maxlength="10"
+                            />
+                            <div class="valid-feedback">BIEN.</div>
+                            <div class="invalid-feedback">Por favor ingrese un número teléfono válido.</div>
+                            <div th:if="${#fields.hasErrors('telefono')}" class="text-danger">
+                                <small th:errors="*{telefono}"></small>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="CONTRASEÑA_USUARIOS">Contraseña</label>
+                            <input
+                                    id="CONTRASEÑA_USUARIOS"
+                                    class="form-control"
+                                    type="password"
+                                    th:field="*{password}"
+                                    required
+                                    minlength="8"
+                                    placeholder="Ingrese una contraseña"
+                            />
+                            <div class="valid-feedback">Hemos registrado su contraseña.</div>
+                            <div class="invalid-feedback">Por favor ingrese una contraseña de 8 caracteres.</div>
+                            <div th:if="${#fields.hasErrors('password')}" class="text-danger">
+                                <small th:errors="*{password}"></small>
+                            </div>
+                        </div>
+
                         <div class="modal-footer d-flex justify-content-between">
                             <button class="btn btnform" type="submit">Agregar</button>
                             <button type="button" class="btn btnform" data-bs-dismiss="modal">Cancelar</button>

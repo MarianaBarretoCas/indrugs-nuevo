@@ -22,7 +22,7 @@
     <div class="contenido">
         <h1>¿Quiénes somos?</h1>
         <p>
-            Somos un grupo de 4 estudiantes del Servicio Nacional de Aprendizaje, actualmente cursando el programa formativo de análisis y desarrollo de software.
+            Somos un grupo de 2 estudiantes del Servicio Nacional de Aprendizaje, actualmente cursando el programa formativo de análisis y desarrollo de software.
         </p>
         <h1>Acerca del proyecto</h1>
         <p>
@@ -32,48 +32,21 @@
         <p>Hacemos domicilios por todo Bogotá.</p>
         <h3>Buscar dirección</h3>
         <input type="text" id="busqueda" class="form-control" placeholder="Ejemplo: Clinica Colsanitas Bogotá">
-        <div class="text-center mt-2 mb-2"><button id="buscar" class="btn">Buscar</button></div>
-
-
-        <div id="map"></div>
+        <div class="text-center mt-2 mb-2"><button id="buscar" class="btn" data-bs-toggle="modal" data-bs-target="#formModal">Buscar</button></div>
+        <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content p-3">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="formModalLabel">Mapa</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 <footer th:insert="~{Layouts/header_footer :: footer}"></footer>
-<script>
-
-    var map = L.map('map').setView([4.6097, -74.0817], 12);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '© OpenStreetMap'
-    }).addTo(map);
-
-    var marker;
-
-    document.getElementById("buscar").addEventListener("click", async () => {
-      const lugar = document.getElementById("busqueda").value;
-      if (!lugar) return alert("Escribe una dirección o lugar.");
-
-
-      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(lugar)}&format=json`;
-
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.length === 0) {
-        alert("No se encontró el lugar.");
-        return;
-      }
-
-      const lat = data[0].lat;
-      const lon = data[0].lon;
-
-      if (marker) map.removeLayer(marker);
-      marker = L.marker([lat, lon]).addTo(map)
-        .bindPopup(`📍 ${data[0].display_name}`)
-        .openPopup();
-
-      map.setView([lat, lon], 15);
-    });
-</script>
+<script th:src="@{/JAVA_SCRIPT/mapas.js}"></script>
 </body>
 </html>

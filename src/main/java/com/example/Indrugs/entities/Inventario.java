@@ -24,9 +24,6 @@ public class Inventario {
     @Column(name = "FECHA_ENTRADA_INVENTARIO")
     private LocalDateTime fechaEntrada;
 
-    @Column(name = "FECHA_SALIDA_INVENTARIO")
-    private LocalDateTime fechaSalida;
-
     @Column(name = "STOCK_INVENTARIO")
     private Integer stock;
 

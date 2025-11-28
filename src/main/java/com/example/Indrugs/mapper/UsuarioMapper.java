@@ -3,9 +3,15 @@ package com.example.Indrugs.mapper;
 import com.example.Indrugs.DTO.Usuario.UsuarioCreateDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
+import com.example.Indrugs.entities.Rol;
 import com.example.Indrugs.entities.Usuario;
+import com.example.Indrugs.repositorios.RolRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 public class UsuarioMapper {
+
+    private RolRepository rolRepository;
 
     // Mapear a dto
     public static UsuarioDTO mapToDto(Usuario usuario){
@@ -75,6 +81,7 @@ public class UsuarioMapper {
         updateDTO.setTelefono(usuarioDTO.getTelefono());
         updateDTO.setCorreo(usuarioDTO.getCorreo());
         updateDTO.setEstado(usuarioDTO.getEstado());
+        updateDTO.setRol(usuarioDTO.getNombreRol());
 
         return updateDTO;
     }

@@ -34,12 +34,20 @@
                                 <button type="submit" class="btn btnfiltro">Filtrar</button>
                             </section>
                         </form>
-
-                        <form th:action="@{/admin/export/inventario}" method="get" style="margin: 1rem 1rem 1rem;">
-                            <button type="submit" class="btn btnform">
-                                <i class="fas fa-file-pdf"></i> Exportar PDF
+                        <div class="dropdown">
+                            <button type="button" class="btn btnform dropdown-toggle" data-bs-toggle="dropdown">
+                                Exportar
                             </button>
-                        </form>
+                            <div class="dropdown-menu rounded">
+                                <a href="#" class="dropdown-item" onclick="document.getElementById('exportPdfForm').submit()"><i
+                                        class="fas fa-file-pdf me-2"></i> Exportar PDF</a>
+                                <a href="#" class="dropdown-item" onclick="document.getElementById('exportExcelForm').submit()"><i
+                                        class="fas fa-file-excel me-2"></i> Exportar Excel</a>
+                            </div>
+                        </div>
+                        <form id="exportPdfForm" th:action="@{/admin/export/inventario}" method="get" style="display: none;"></form>
+                        <form id="exportExcelForm" th:action="@{/admin/export/inventario}" method="get" style="display: none;"></form>
+
                     </div>
 
                 </div>
@@ -51,7 +59,6 @@
                             <th>Medicamento</th>
                             <th>Fecha Entrada</th>
                             <th>Stock</th>
-                            <th>Fecha Salida</th>
                             <th>Vencimiento</th>
                             <th>Estado</th>
                             <th>Acciones</th>
@@ -63,7 +70,6 @@
                             <td th:text="${inventario.nombreMedicamento}"></td>
                             <td th:text="${inventario.fechaEntrada}"></td>
                             <td th:text="${inventario.stock}"></td>
-                            <td th:text="${inventario.fechaSalida}"></td>
                             <td th:text="${inventario.vencimiento}"></td>
                             <td th:text="${inventario.estadoMed}"></td>
                             <td>
