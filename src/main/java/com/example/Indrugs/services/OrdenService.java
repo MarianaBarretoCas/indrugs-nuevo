@@ -3,6 +3,7 @@ package com.example.Indrugs.services;
 import com.example.Indrugs.DTO.OrdenDTO;
 import com.example.Indrugs.entities.Orden;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -16,4 +17,7 @@ public interface OrdenService {
     void eliminar (Long idOrden);
     void crearDomicilioConOrden(Orden orden);
     List<OrdenDTO> findByEstadoOrden(String estadoOrden);
+
+    // excel metodo
+    byte[] generarReporteExcel(List<OrdenDTO> ordenes) throws IOException;
 }

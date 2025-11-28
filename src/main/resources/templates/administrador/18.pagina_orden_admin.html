@@ -24,10 +24,10 @@
                 <div class="table-header">
                     <h1 class="section-title">Gestión de Órdenes</h1>
                     <div class="formularios">
-                        <form method="get" th:action="@{/admin/18.pagina_orden_admin}" id="filtros" class="row mt-0 g-3 needs-validation">
+                        <form method="get" th:action="@{/admin/18.pagina_orden_admin}" id="filtro" class="row mt-0 g-3 needs-validation">
                             <section class="filtrar-usuarios" >
                                 <label for="estado">Estado:</label>
-                                <select name="estadoOrden" id="estado" class="form-select">
+                                <select name="estadoOrden" id="estados" class="form-select">
                                     <option value="">Todos</option>
                                     <option value="ACTIVO" th:selected="${estadoSeleccionado == 'ACTIVO'}">Activo</option>
                                     <option value="INACTIVO" th:selected="${estadoSeleccionado == 'INACTIVO'}">Inactivo</option>
@@ -36,6 +36,10 @@
                                 <button type="submit" class="btn btnfiltro">Filtrar</button>
                             </section>
                         </form>
+
+                        <button type="button" onclick="descargarExcel()" class="btn btnfiltro" style="background-color: #17a2b8; white-space: nowrap; width: auto; min-width: 150px;">
+                            <i class="fas fa-file-excel"></i> Exportar Excel
+                        </button>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -63,29 +67,11 @@
                             <td th:text="${orden.telefonoOrden}"></td>
                             <td th:text="${orden.estadoOrden}"></td>
                             <td>
-                                  <a th:href="@{'/VerDetalle?idOrden=' + ${orden.idOrden}}" class="btn btnform">Detalle</a>
+                                <a th:href="@{'/VerDetalle?idOrden=' + ${orden.idOrden}}" class="btn btnform">Detalle</a>
                             </td>
                             <td>
-                               <a th:href="@{/admin/ordenes/eliminar/{idOrden}(idOrden=${orden.idOrden})}" class="btn btnform">Eliminar</a>
+                                <a th:href="@{/admin/ordenes/eliminar/{idOrden}(idOrden=${orden.idOrden})}" class="btn btnform">Eliminar</a>
                             </td>
-
-        <!--                    <td> -->
-        <!--                        <span th:class="${orden.estadoOrden == 'Entregada' ? 'badge bg-success' : 'badge bg-warning'}"-->
-        <!--                              th:text="${orden.estadoOrden}"></span>-->
-        <!--                    </td>-->
-        <!--                    <td>-->
-        <!--                        <div class="btn-group" role="group">-->
-        <!--                            <a th:href="@{/administrador/ordenes/entregar/{id}(id=${orden.idOrden})}"-->
-        <!--                               class="btn btn-success btn-sm"-->
-        <!--                               th:if="${orden.estadoOrden != 'Entregada'}">-->
-        <!--                                <i class="fas fa-check"></i> Entregar-->
-        <!--                            </a>-->
-        <!--                            <span th:if="${orden.estadoOrden == 'Entregada'}"-->
-        <!--                                  class="badge bg-success">-->
-        <!--                                <i class="fas fa-check-circle"></i> Entregada-->
-        <!--                            </span>-->
-        <!--                        </div>-->
-        <!--                    </td>-->
                         </tr>
                         </tbody>
                     </table>
@@ -109,50 +95,32 @@
                             <button type="submit" class="btn btnfiltro">Filtrar</button>
                         </section>
                     </form>
+
+                    <button type="button" onclick="descargarExcel()" class="btn btnfiltro" style="background-color: #17a2b8; white-space: nowrap; width: auto; min-width: 150px;">
+                        <i class="fas fa-file-excel"></i> Exportar Excel
+                    </button>
                 </div>
             </div>
             <i class="fas fa-info-circle"></i> No hay órdenes registradas en el sistema.
         </div>
-
-        <!-- Estadísticas adicionales para el administrador -->
-<!--        <div class="row mt-4" th:if="${ordenes != null and #lists.isNotEmpty(ordenes)}">-->
-<!--            <div class="col-md-3">-->
-<!--                <div class="card bg-primary text-white">-->
-<!--                    <div class="card-body">-->
-<!--                        <h5 class="card-title">Total Órdenes</h5>-->
-<!--                        <p class="card-text fs-4" th:text="${#lists.size(ordenes)}">0</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-md-3">-->
-<!--                <div class="card bg-success text-white">-->
-<!--                    <div class="card-body">-->
-<!--                        <h5 class="card-title">Entregadas</h5>-->
-<!--                        <p class="card-text fs-4" th:text="${#lists.size(#lists.select(ordenes, o -> o.estadoOrden == 'Entregada'))}">0</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-md-3">-->
-<!--                <div class="card bg-warning text-white">-->
-<!--                    <div class="card-body">-->
-<!--                        <h5 class="card-title">Pendientes</h5>-->
-<!--                        <p class="card-text fs-4" th:text="${#lists.size(#lists.select(ordenes, o -> o.estadoOrden != 'Entregada'))}">0</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-md-3">-->
-<!--                <div class="card bg-info text-white">-->
-<!--                    <div class="card-body">-->
-<!--                        <h5 class="card-title">Medicamentos</h5>-->
-<!--                        <p class="card-text fs-4" th:text="${#aggregates.sum(ordenes.![cantidad])}">0</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 </main>
 
 <footer th:insert="~{Layouts/header_footerAdmin :: footer}"></footer>
+
+<script>
+    function descargarExcel() {
+        const estadoSelect = document.getElementById('estado');
+        const estado = estadoSelect ? estadoSelect.value : '';
+
+        let url = '/admin/ordenes/reporte/excel';
+        if (estado && estado !== '') {
+            url += '?estadoOrden=' + encodeURIComponent(estado);
+        }
+
+        window.location.href = url;
+    }
+</script>
 
 </body>
 </html>

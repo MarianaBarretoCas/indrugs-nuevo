@@ -8,6 +8,7 @@ import com.example.Indrugs.services.ArchivosService;
 import com.example.Indrugs.services.MedicamentosService;
 import com.example.Indrugs.services.OrdenService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.OutputStream;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class OrdenController {
     public String verOrdenesDirecto(Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
-            return "redirect:/login"; // Si no está logueado
+            return "redirect:/login";
         }
 
         model.addAttribute("ordenes", ordenService.listarOrdenesP(usuario.getIdUsuario()));
@@ -44,7 +47,7 @@ public class OrdenController {
     public String verOrdenesPaciente(Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
-            return "redirect:/login"; // Si no está logueado
+            return "redirect:/login";
         }
         model.addAttribute("ordenes", ordenService.listarOrdenesPa(usuario.getIdUsuario()));
         return "pacientes/3.pagina_de_ordenes";
@@ -54,7 +57,7 @@ public class OrdenController {
     public String verDetalle(@RequestParam Long idOrden, Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
-            return "redirect:/login"; // Si no está logueado
+            return "redirect:/login";
         }
         OrdenDTO orden = ordenService.listarDetalle(idOrden);
         model.addAttribute("orden", orden);
@@ -71,23 +74,20 @@ public class OrdenController {
     public String mostrarCarrito(Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
-            return "redirect:/login"; // Si no está logueado
+            return "redirect:/login";
         }
         return "pacientes/16.pagina_carrito_med";
     }
 
-    // Vista del administrador
     @GetMapping("/admin/18.pagina_orden_admin")
     public String verOrdenesAdmin(@RequestParam(required = false) String estadoOrden,Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
-            return "redirect:/login"; // Si no está logueado
+            return "redirect:/login";
         }
 
-        //filtro
         List<OrdenDTO> ordenes;
 
-        //filtros
         if (estadoOrden != null && !estadoOrden.isEmpty()){
             ordenes = ordenService.findByEstadoOrden(estadoOrden);
         }else {
@@ -110,18 +110,15 @@ public class OrdenController {
         return "pacientes/4.pagina_domicilio";
     }
 
-
     @PostMapping("/paciente/guardar")
     public String guardarOrden(@ModelAttribute OrdenDTO ordenDTO,
-//                               @RequestParam("formulaFile") MultipartFile formulaFile,
-                  //             @RequestParam("idMedicamento") Long idMedicamento,
                                HttpSession session, Model model,
                                RedirectAttributes redirectAttributes) {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-                if (usuario == null) {
-                    return "redirect:/login";
-                }
+            if (usuario == null) {
+                return "redirect:/login";
+            }
             if (ordenDTO.getMedicamentos() == null || ordenDTO.getMedicamentos().isEmpty()) {
                 model.addAttribute("error", "No hay medicamentos en la orden");
                 model.addAttribute("orden", new OrdenDTO());
@@ -131,9 +128,9 @@ public class OrdenController {
             ordenDTO.setPaciente(usuario.getIdUsuario());
             ordenDTO.setPacienteNombre(usuario.getNombre());
             ordenDTO.setEstadoOrden("ACTIVO");
-                if (ordenDTO.getFechaEntrega() == null) {
-                    ordenDTO.setFechaEntrega(LocalDateTime.now().plusDays(1));
-                }
+            if (ordenDTO.getFechaEntrega() == null) {
+                ordenDTO.setFechaEntrega(LocalDateTime.now().plusDays(1));
+            }
 
             List<OrdenMedicamentoDTO> meds = new ArrayList<>();
             for (OrdenMedicamentoDTO item : ordenDTO.getMedicamentos()) {
@@ -159,17 +156,55 @@ public class OrdenController {
         }
     }
 
-    // Marcar orden como entregada desde domiciliario
-//    @GetMapping("/domiciliario/ordenes/entregar/{id}")
-//    public String entregarOrdenDesdeDomiciliario(@PathVariable Long id) {
-//        ordenService.marcarComoEntregada(id);
-//        return "redirect:/domiciliario/14.pagina_ordenes";
-//    }
-
-    // Marcar orden como entregada desde administrador
     @GetMapping("/admin/ordenes/eliminar/{idOrden}")
     public String entregarOrdenDesdeAdmin(@PathVariable Long idOrden) {
         ordenService.eliminar(idOrden);
         return "redirect:/admin/18.pagina_orden_admin";
+    }
+
+    @GetMapping("/admin/ordenes/reporte/excel")
+    public void descargarReporteExcel(
+            @RequestParam(required = false) String estadoOrden,
+            HttpServletResponse response,
+            HttpSession session) {
+
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+            if (usuario == null) {
+                response.sendRedirect("/login");
+                return;
+            }
+
+            List<OrdenDTO> ordenes;
+
+            if (estadoOrden != null && !estadoOrden.isEmpty() && !estadoOrden.equalsIgnoreCase("Todos")) {
+                ordenes = ordenService.findByEstadoOrden(estadoOrden);
+            } else {
+                ordenes = ordenService.listarOrdenes();
+            }
+
+            if (ordenes == null || ordenes.isEmpty()) {
+                response.sendError(HttpServletResponse.SC_NO_CONTENT, "No hay órdenes para exportar");
+                return;
+            }
+
+            byte[] excelBytes = ordenService.generarReporteExcel(ordenes);
+
+            String timestamp = LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            String filename = "Reporte_Ordenes_" + timestamp + ".xlsx";
+
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+            response.setContentLength(excelBytes.length);
+
+            OutputStream out = response.getOutputStream();
+            out.write(excelBytes);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
