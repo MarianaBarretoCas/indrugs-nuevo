@@ -15,8 +15,9 @@
 
  async function agregarAlCarrito(idMedicamento) {
      try {
-         // Obtener cantidad que eligió el usuario
-       const cantidadInput = document.getElementById("cantidadModal");
+         idMedicamento = Number(idMedicamento);
+
+         const cantidadInput = document.getElementById("cantidadModal");
        let cantidadDeseada = parseInt(cantidadInput.value, 10)|| 1;
 
          // Consultar stock en backend
@@ -37,10 +38,8 @@
              return;
          }
 
-
-
          let carrito = obtenerCarrito();
-         let item = carrito.find(m => m.idMedicamento === idMedicamento);
+         let item = carrito.find(m => Number(m.idMedicamento) === idMedicamento);
 
          if (item) {
              if (item.cantidad + cantidadDeseada <= stock) {
