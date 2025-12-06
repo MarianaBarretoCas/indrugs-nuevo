@@ -64,6 +64,7 @@ body {
 .btn:hover {
     background-color: #2ec6da;
     transform: translateY(-2px);
+    color: var(--text-color);
 }
 
 
@@ -85,7 +86,9 @@ body {
     .hero_texto {
         max-width: 100%;
     }
-
+    .seccion-beneficios{
+        margin-top: 10px;
+    }
     .btn {
         width: 100%;
     }

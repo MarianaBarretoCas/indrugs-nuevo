@@ -42,24 +42,19 @@ public class LoginController {
             Usuario usuario = usuarioService.autenticar(correo, password);
             session.setAttribute("usuarioLogueado", usuario);
 
-            System.out.println("rol autenticado " + usuario.getRol().getNombreRol());
             SimpleGrantedAuthority autoridad =
                     new SimpleGrantedAuthority(usuario.getRol().getNombreRol());
             UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(usuario, null, List.of(autoridad));
             SecurityContextHolder.getContext().setAuthentication(authToken);
-            System.out.println("Auth en contexto: " + SecurityContextHolder.getContext().getAuthentication());
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
             //aceptacion
             if (usuario.getRol().getNombreRol().equals("Administrador")){
-                System.out.println("Auth en contexto: " + SecurityContextHolder.getContext().getAuthentication());
                 return "redirect:/admin/20.pagina_principal_administrador";
             } else if (usuario.getRol().getNombreRol().equals("Paciente")) {
-                System.out.println("Auth en contexto: " + SecurityContextHolder.getContext().getAuthentication());
                 return "redirect:/paciente/1.pagina_principal_paciente";
             } else if (usuario.getRol().getNombreRol().equals("Domiciliario")) {
-                System.out.println("Auth en contexto: " + SecurityContextHolder.getContext().getAuthentication());
                 return "redirect:/domi/11.pagina_principal_domiciliario";
             }
             redirectAttributes.addFlashAttribute("error", "Rol no encontrado");

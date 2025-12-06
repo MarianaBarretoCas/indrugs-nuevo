@@ -351,6 +351,7 @@ small {
     justify-content: center;
     border-radius: 50%;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .social-links a:hover {
@@ -449,5 +450,28 @@ small {
     transition: .5s;
     opacity: 1;
 
+}
+.no-scroll {
+    overflow: hidden !important;
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+}
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e7eef6;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #132945, #0c5971);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #132945, #0c5971);
 }
 

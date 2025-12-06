@@ -31,7 +31,6 @@
                     <table id="tabla1" class="table custom-table">
                         <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Paciente</th>
                             <th>Inicio Tratamiento</th>
                             <th>Fin Tratamiento</th>
@@ -45,7 +44,6 @@
                         <tbody>
                         <tr>
                         <tr th:each="control : ${controles}">
-                            <td th:text="${control.idControl}"></td>
                             <td th:text="${control.nombreUsuario}"></td>
                             <td th:text="${#temporals.format(control.fechaInicioTratamiento, 'yyyy-MM-dd HH:mm')}"></td>
                             <td th:text="${#temporals.format(control.fechaFinTratamiento, 'yyyy-MM-dd HH:mm')}"></td>
@@ -75,5 +73,14 @@
 </main>
 
 <footer th:insert="~{Layouts/header_footerPaciente :: footer}"></footer>
+<script>
+    const inicio =  new Date(document.getElementById(iniciot).value);
+    const fin =  new Date(document.getElementById(fint).value);
+    if(fin <= inicio){
+        alert("La fecha de fin debe ser posterior a la fecha de inicio");
+        document.getElementById(fint).value = "";
+        return;
+    }
+</script>
 </body>
 </html>

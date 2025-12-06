@@ -55,7 +55,6 @@
                     <table id="tabla1" class="table custom-table">
                         <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Medicamento</th>
                             <th>Fecha Entrada</th>
                             <th>Stock</th>
@@ -66,7 +65,6 @@
                         </thead>
                         <tbody>
                         <tr th:each="inventario : ${inventarios}">
-                            <td th:text="${inventario.idInventario}"></td>
                             <td th:text="${inventario.nombreMedicamento}"></td>
                             <td th:text="${inventario.fechaEntrada}"></td>
                             <td th:text="${inventario.stock}"></td>

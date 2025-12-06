@@ -20,30 +20,55 @@
 <header th:insert="~{Layouts/header_footer :: header}"></header>
 <main class="cuerpo_indrugs">
     <div class="contenido">
-        <h1>¿Quiénes somos?</h1>
-        <p>
-            Somos un grupo de 2 estudiantes del Servicio Nacional de Aprendizaje, actualmente cursando el programa formativo de análisis y desarrollo de software.
-        </p>
-        <h1>Acerca del proyecto</h1>
-        <p>
-            Actualmente, estamos creando un software que facilite a los pacientes (adultos mayores y personas con discapacidades) de las EPS recibir los medicamentos que necesitan en sus casas por medio de domicilios gratuitos y además que puedan llevar un control de sus tratamientos, por medio de alarmas pre-establecidas, de esta forma esperamos mejorar la calidad de los pacientes, adicionalmente ayudar al servicio que brindan los centros de dispensación y las EPS.
-        </p>
-        <h1>¿En dónde estamos ubicados?</h1>
-        <p>Hacemos domicilios por todo Bogotá.</p>
-        <h3>Buscar dirección</h3>
-        <input type="text" id="busqueda" class="form-control" placeholder="Ejemplo: Clinica Colsanitas Bogotá">
-        <div class="text-center mt-2 mb-2"><button id="buscar" class="btn" data-bs-toggle="modal" data-bs-target="#formModal">Buscar</button></div>
-        <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content p-3">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="formModalLabel">Mapa</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        <section>
+            <div class="hero_texto">
+                <h1 class="encabezado">Sobre Nosotros</h1>
+                <p class="parrafo">Conoce más sobre nuestro equipo y el proyecto que estamos desarrollando para mejorar la salud de nuestros usuarios.</p>
+            </div>
+        </section>
+        <section style="display: flex; align-items: center; gap: 20px; margin-top: 20px;">
+            <div class="hero_imagen">
+                <img th:src="@{/imagenes/nosotros.jpeg}"  style="border-radius: 100%; max-width: 400px; height: 300px;" alt="Imagen misión" class="hero_img">
+            </div>
+            <div class="hero_texto">
+                <h1 class="encabezado">Nuestro prósito</h1>
+                <p class="parrafo"> Indrugs tiene como propósito facilitar la obtención de los  medicamentos a los pacientes desde sus casas por medio de un domicilio gratuito, además de brindar herramientas que le permitan al paciente hacer un seguimiento del consumo de los medicamentos.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="hero_texto">
+                <h1 class="encabezado">¿Quiénes somos?</h1>
+                <p class="parrafo">Somos un grupo de 2 estudiantes del Servicio Nacional de Aprendizaje, actualmente cursando el programa formativo de análisis y desarrollo de software.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="hero_texto">
+                <h1 class="encabezado">Acerca del proyecto</h1>
+                <p class="parrafo">Actualmente, estamos creando un software que facilite a los pacientes (adultos mayores y personas con discapacidades) de las EPS recibir los medicamentos que necesitan en sus casas por medio de domicilios gratuitos y además que puedan llevar un control de sus tratamientos, por medio de alarmas pre-establecidas, de esta forma esperamos mejorar la calidad de los pacientes, adicionalmente ayudar al servicio que brindan los centros de dispensación y las EPS.</p>
+            </div>
+        </section>
+        <section>
+            <div class="hero_texto">
+                <h1 class="encabezado">¿En dónde estamos ubicados?</h1>
+                <p class="parrafo">Hacemos domicilios por todo Bogotá.</p>
+                <h3>Buscar dirección</h3>
+                <input type="text" id="busqueda" class="form-control" placeholder="Ejemplo: Clinica Colsanitas Bogotá">
+                <div class="text-center mt-2 mb-2"><button id="buscar" class="btn" data-bs-toggle="modal" data-bs-target="#formModal">Buscar</button></div>
+                <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content p-3">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="formModalLabel">Mapa</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div id="map"></div>
+                        </div>
                     </div>
-                    <div id="map"></div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 </main>
 <footer th:insert="~{Layouts/header_footer :: footer}"></footer>

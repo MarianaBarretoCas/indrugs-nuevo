@@ -69,7 +69,6 @@
                         <table id="tabla1" class="table custom-table">
                             <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Usurios</th>
                                 <th>Fecha de orden</th>
                                 <th>Estado de orden</th>
@@ -77,7 +76,6 @@
                             </thead>
                             <tbody>
                             <tr class="table" id="cuerpo_tabla2" th:each="orden : ${ordenesRecientes}">
-                                <td th:text="${orden.idOrden}">ID</td>
                                 <td th:text="${orden.pacienteNombre}">Usuario</td>
                                 <td th:text="${orden.fechaEntrega}">FechaEntregaOrden</td>
                                 <td th:text="${orden.estadoOrden}">Estado</td>
@@ -102,7 +100,6 @@
                         <table id="tabla1" class="table custom-table">
                             <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Ubicación</th>
                                 <th>Fecha de Entrega</th>
                                 <th>Estado de Domicilio</th>
@@ -110,7 +107,6 @@
                             </thead>
                             <tbody>
                                 <tr class="table" id="cuerpo_tabla2" th:each="domicilio : ${domiciliosRecientes}">
-                                    <td th:text="${domicilio.idDomicilio}">ID</td>
                                     <td th:text="${domicilio.ubicacionDomicilio}">Ubicación</td>
                                     <td th:text="${domicilio.fechaEntregaDomicilio}">FechaEntregaDomicilio</td>
                                     <td th:text="${domicilio.estadoDomicilio}">Estado</td>

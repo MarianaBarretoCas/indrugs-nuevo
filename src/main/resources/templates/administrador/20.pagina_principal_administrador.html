@@ -89,7 +89,6 @@
                         <table id="tabla1" class="table custom-table">
                             <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Usurios</th>
                                 <th>Fecha de orden</th>
                                 <th>Estado de orden</th>
@@ -97,7 +96,6 @@
                             </thead>
                             <tbody>
                             <tr class="table" id="cuerpo_tabla2" th:each="orden : ${ordenesRecientes}">
-                                <td th:text="${orden.idOrden}">ID</td>
                                 <td th:text="${orden.pacienteNombre}">Usuario</td>
                                 <td th:text="${orden.fechaEntrega}">FechaEntregaOrden</td>
                                 <td th:text="${orden.estadoOrden}">Estado</td>

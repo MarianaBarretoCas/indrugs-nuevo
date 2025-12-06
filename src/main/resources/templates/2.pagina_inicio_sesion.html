@@ -81,16 +81,16 @@
             let mensaje = '';
             switch (error) {
                 case 'correo_invalido':
-                    mensaje = '❌ Correo electrónico inválido.';
+                    mensaje = 'Correo electrónico inválido.';
                     break;
                 case 'clave_incorrecta':
-                    mensaje = '❌ Contraseña incorrecta.';
+                    mensaje = 'Contraseña incorrecta.';
                     break;
                 case 'usuario_no_encontrado':
-                    mensaje = '❌ Usuario no encontrado.';
+                    mensaje = 'Usuario no encontrado.';
                     break;
                 default:
-                    mensaje = '❌ Error desconocido.';
+                    mensaje = 'Error desconocido.';
             }
 
             alertContainer.innerHTML = `

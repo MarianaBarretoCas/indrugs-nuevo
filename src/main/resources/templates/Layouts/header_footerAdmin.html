@@ -132,11 +132,26 @@
       <p>&copy; 2025 Indrugs. Todos los derechos reservados.</p>
     </div>
   </footer>
-  <script>
-    document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
-        document.querySelector('.main-nav').classList.toggle('active');
-    });
-  </script>
+<!--  <script>-->
+<!--    document.querySelector('.mobile-menu-btn').addEventListener('click', function () {-->
+<!--        document.querySelector('.main-nav').classList.toggle('active');-->
+<!--    });-->
+<!--  </script>-->
+    <script>
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.main-nav');
+
+        menuBtn.addEventListener('click', function () {
+
+            nav.classList.toggle('active');
+
+            if (nav.classList.contains('active')) {
+                document.body.classList.add('no-scroll');
+            } else {
+                document.body.classList.remove('no-scroll');
+            }
+        });
+    </script>
     <script>
         (() => {
             'use strict'

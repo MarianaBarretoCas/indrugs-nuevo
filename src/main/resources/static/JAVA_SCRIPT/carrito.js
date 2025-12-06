@@ -136,7 +136,7 @@
                         <input type="number" min="1" value="${item.cantidad}"
                                onchange="actualizarCantidad(${item.idMedicamento}, this.value)">
                       </p>
-                      <button class="btn" onclick="eliminarDelCarrito(${item.idMedicamento})">Eliminar</button>
+                      <button class="btnEliminar" onclick="eliminarDelCarrito(${item.idMedicamento})">Eliminar</button>
                   </div>
               `;
           } catch (error) {

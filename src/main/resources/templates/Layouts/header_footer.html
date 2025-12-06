@@ -5,7 +5,7 @@
                 <div class="d-flex flex-wrap">
                     <a href="#" class="small me-4"><i class="fas fa-map-marker-alt icon-custom me-2"></i>Bogotá</a>
                     <a href="mailto:example@gmail.com" class="small me-0"><i
-                            class="fas fa-envelope icon-custom me-2"></i>indrugs@gmail.com</a>
+                            class="fas fa-envelope icon-custom me-2"></i>indrugs3@gmail.com</a>
                 </div>
             </div>
             <div class="col-lg-4 text-center text-lg-end">
@@ -86,7 +86,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3 class="titulos-foot">Sobre Nosotros</h3>
-                <p>Indrugs dispensadora de medicamentos, comprometida con tu salud y bienestar las 24 horas del día.</p>
+                <p>Indrugs dispensadora de medicamentos, comprometida con tu salud y bienestar.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
@@ -110,8 +110,8 @@
                 <ul class="contact-info">
                     <li><i class="fas fa-map-marker-alt"></i> Bogotá, Colombia</li>
                     <li><i class="fas fa-phone"></i> +57 601 234 5678</li>
-                    <li><i class="fas fa-envelope"></i> indrugs@gmail.com</li>
-                    <li><i class="fas fa-clock"></i> Lun - Dom: 24 horas</li>
+                    <li><i class="fas fa-envelope"></i> indrugs3@gmail.com</li>
+                    <li><i class="fas fa-clock"></i> Lun - Dom</li>
                 </ul>
             </div>
         </div>
@@ -121,8 +121,18 @@
         </div>
     </footer>
     <script>
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
-            document.querySelector('.main-nav').classList.toggle('active');
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.main-nav');
+
+        menuBtn.addEventListener('click', function () {
+
+            nav.classList.toggle('active');
+
+            if (nav.classList.contains('active')) {
+                document.body.classList.add('no-scroll');
+            } else {
+                document.body.classList.remove('no-scroll');
+            }
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

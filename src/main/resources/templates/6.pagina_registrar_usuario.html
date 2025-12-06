@@ -44,7 +44,7 @@
                     <select id="TIPODOC_USUARIOS" class="form-select" th:field="*{tipoDoc}" required>
                         <option value="" selected disabled>Elija tipo de documento</option>
                         <option value="CC">Cédula de ciudadanía</option>
-                        <option value="TI">Tarjeta de identidad</option>
+                        <option value="PA">Pasaporte</option>
                     </select>
                     <div class="valid-feedback">Correcto.</div>
                     <div class="invalid-feedback">Por favor seleccione una opción.</div>
@@ -149,12 +149,12 @@
                     </div>
                 </div>
 
-                    <button class="btn btnform" type="submit">Registrarse</button>
+                    <button class="btn btnform mt-3" type="submit">Registrarse</button>
             </form>
         </div>
     </div>
 </main>
-<footer th:insert="~{Layouts/header_footer :: footer}">
+<footer th:insert="~{Layouts/header_footer :: footer}"></footer>
     <script>
         (() => {
             'use strict';
@@ -175,6 +175,5 @@
             });
         })();
     </script>
-</footer>
 </body>
 </html>

@@ -38,6 +38,9 @@ public class ControlServiceImpl implements ControlService {
     @Override
     public void guardarControl(ControlDTO controlDTO) {
         Control control = ControlMapper.mapToEntity(controlDTO);
+        if (control.getFechaInicioTratamiento().isAfter(control.getFechaFinTratamiento())) {
+            throw new IllegalArgumentException("La fecha de inicio no puede ser mayor que la fecha fin.");
+        }
         controlRepository.save(control);
     }
 

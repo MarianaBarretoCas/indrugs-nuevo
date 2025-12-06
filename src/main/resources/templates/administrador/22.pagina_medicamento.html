@@ -28,14 +28,12 @@
                     <table id="tabla1" class="table tab1 custom-table text-center">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>MEDICAMENTO</th>
                                 <th>DESCRIPCION</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="medicamento : ${medicamentos}">
-                                <td th:text="${medicamento.idMedicamento}"></td>
                                 <td th:text="${medicamento.nombreMedicamento}"></td>
                                 <td th:text="${medicamento.descripcionMedicamento}"></td>
                             </tr>

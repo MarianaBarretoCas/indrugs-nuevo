@@ -11,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -96,6 +97,10 @@ public class OrdenServiceImpl implements OrdenService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         orden.setPaciente(usuario);
         orden.setEstadoOrden("ACTIVO");
+        LocalDateTime fechaLimite = LocalDateTime.now().plusDays(3);
+        if (orden.getFechaEntrega().isBefore(fechaLimite)) {
+            throw new IllegalArgumentException("La orden debe tener fecha de entrega de tres días o más después de la fecha creada.");
+        }
         ordenRepository.save(orden);
 
         for (OrdenMedicamentoDTO medDTO : ordenDTO.getMedicamentos()) {
