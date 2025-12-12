@@ -42,7 +42,7 @@
          let item = carrito.find(m => Number(m.idMedicamento) === idMedicamento);
 
          if (item) {
-             if (item.cantidad + cantidadDeseada <= stock && item.cantidad < 10) {
+             if (item.cantidad + cantidadDeseada <= stock && item.cantidad < 10 && item.cantidad + cantidadDeseada <= 10) {
                  item.cantidad += cantidadDeseada;
              } else {
                  alert("No puedes agregar más, solo hay " + stock + " unidades disponibles.");
