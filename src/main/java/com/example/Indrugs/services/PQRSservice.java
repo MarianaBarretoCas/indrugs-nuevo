@@ -6,9 +6,7 @@ import java.util.List;
 
 public interface PQRSservice {
     void crear (PQRSDTO pqrsdto,Long idUsuario);
-            // accesibilidad (pubic, private,),lo que se devuelve (list,void,dto),nombre del metodo(crear,actualizar),parametro()
-
-    List<PQRSDTO> listarTodo(); // opcional: para listar PQRS enviados
+    List<PQRSDTO> listarTodo();
 
     PQRSDTO obtenerPorId(Long id);
 
