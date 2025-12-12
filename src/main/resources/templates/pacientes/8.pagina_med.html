@@ -25,7 +25,7 @@
         <div class="search-container mb-4">
             <div class="input-group">
                 <input type="search" placeholder="Buscar medicamentos..." id="buscador" class="form-control">
-                <button class="btn-outline-secondary" type="button" id="btnLimpiar">
+                <button class="btnFilter" type="button" id="btnLimpiar" style="width: 10%;">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -56,7 +56,7 @@
 
                             <div class="texto_modal">
                                 <p id="descripcionMedicamento"></p>
-
+                                <p id="stockMedicamento">unidades disponibles en stock</p>
                                 <label for="cantidadModal">Elija la cantidad</label>
                                 <input id="cantidadModal" type="number" min="1" max="10" class="form-control" required>
                             </div>
@@ -74,7 +74,31 @@
                 </div>
             </div>
         </div>
+        <nav class="mt-4" >
+            <ul class="pagination justify-content-center">
 
+                <li class="page-item" th:classappend="${medicamentos.first} ? 'disabled'">
+                    <a class="page-link" th:href="@{/paciente/8.pagina_med(page=${medicamentos.number - 1})}">
+                        Anterior
+                    </a>
+                </li>
+
+                <li class="page-item"
+                    th:each="i : ${#numbers.sequence(0, medicamentos.totalPages - 1)}"
+                    th:classappend="${i == medicamentos.number} ? 'active'">
+                    <a class="page-link" th:text="${i + 1}"
+                       th:href="@{/paciente/8.pagina_med(page=${i})}">
+                    </a>
+                </li>
+
+                <li class="page-item" th:classappend="${medicamentos.last} ? 'disabled'">
+                    <a class="page-link" th:href="@{/paciente/8.pagina_med(page=${medicamentos.number + 1})}">
+                        Siguiente
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
 
         <div id="no-resultados" style="display: none;" class="text-center mt-4">
             <h4>No se encontraron medicamentos</h4>
@@ -143,7 +167,7 @@
                 const medicamentoDiv = document.createElement('div');
                 medicamentoDiv.className = 'medicamento-item';
                 medicamentoDiv.innerHTML = `
-                    <a href="/paciente/medicamentos/${medicamento.idMedicamento}">
+                    <a href="#" onclick="abrirModalMedicamento(${medicamento.idMedicamento})">
                         <img class="img_tabla"
                              src="${medicamento.imagenMedicamento}"
                              alt="${medicamento.nombreMedicamento}">

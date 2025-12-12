@@ -7,6 +7,8 @@ import com.example.Indrugs.entities.Medicamentos;
 import com.example.Indrugs.mapper.InventarioMapper;
 import com.example.Indrugs.repositorios.InventarioRepository;
 import com.example.Indrugs.repositorios.MedicamentoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +31,11 @@ public class InventarioServiceImpl implements InventarioService{
         return inventarios.stream()
                 .map(InventarioMapper::entiteToDto)
                 .collect(Collectors.toList());
+    }
+    @Override
+    public Page<InventarioDTO> readA(Pageable pageable) {
+        Page<Inventario> inventarios = inventarioRepository.findAll(pageable);
+        return inventarios.map(InventarioMapper::entiteToDto);
     }
 
     @Override
@@ -68,10 +75,8 @@ public class InventarioServiceImpl implements InventarioService{
     }
 
     @Override
-    public List<InventarioDTO> findByEstado(String estadoMed) {
-        List<Inventario> inventarios = inventarioRepository.findByEstadoMed(estadoMed);
-        return inventarios.stream()
-                .map(InventarioMapper::entiteToDto)
-                .collect(Collectors.toList());
+    public Page<InventarioDTO> findByEstado(String estadoMed, Pageable pageable) {
+        Page<Inventario> inventarios = inventarioRepository.findByEstadoMed(estadoMed,pageable);
+        return inventarios.map(InventarioMapper::entiteToDto);
     }
 }

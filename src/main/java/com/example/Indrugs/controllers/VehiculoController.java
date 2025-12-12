@@ -82,11 +82,11 @@ public class VehiculoController {
         return "redirect:/domi/12.pagina_vehiculos";
     }
 
-    @PostMapping("/eliminar_vehiculo")
-    public String eliminarVehiculo(@RequestParam Long idVehiculo, RedirectAttributes redirectAttributes) {
+    @GetMapping("/vehiulos/eliminar/{idVehiculo}")
+    public String desactivarVehiculo(@PathVariable Long idVehiculo, RedirectAttributes redirectAttributes) {
         try {
             vehiculoService.eliminar(idVehiculo);
-            redirectAttributes.addFlashAttribute("mensaje", "Vehículo eliminado correctamente");
+            redirectAttributes.addFlashAttribute("mensaje", "Vehículo desactivado correctamente");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }

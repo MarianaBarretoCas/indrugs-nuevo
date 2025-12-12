@@ -1,9 +1,21 @@
 package com.example.Indrugs.mapper;
 
+import com.example.Indrugs.DTO.InventarioDTO;
 import com.example.Indrugs.DTO.MedicamentoDTO;
+import com.example.Indrugs.entities.Inventario;
 import com.example.Indrugs.entities.Medicamentos;
+import com.example.Indrugs.services.InventarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MedicamentosMap {
+
+    private final InventarioService inventarioService;
+
+    public MedicamentosMap(InventarioService inventarioService) {
+        this.inventarioService = inventarioService;
+    }
 
     public static MedicamentoDTO mapToDtoAdmin(Medicamentos medicamentos){
 
@@ -15,14 +27,16 @@ public class MedicamentosMap {
         return dto;
     }
 
-    public static MedicamentoDTO mapToPaciente(Medicamentos medicamentos){
+    public MedicamentoDTO mapToPaciente(Medicamentos medicamentos){
+
+        InventarioDTO invDto = inventarioService.buscarPorId(medicamentos.getIdMedicamento());
 
         MedicamentoDTO dto = new MedicamentoDTO();
         dto.setIdMedicamento(medicamentos.getIdMedicamento());
         dto.setImagenMedicamento(medicamentos.getImagenMedicamento());
         dto.setNombreMedicamento(medicamentos.getNombreMedicamento());
         dto.setDescripcionMedicamento(medicamentos.getDescripcionMedicamento());
-
+        dto.setStockMedicamento(invDto.getStock());
         return dto;
     }
 

@@ -39,7 +39,6 @@ public class ControlController {
         //Controles tabla
         List<ControlDTO> controles = controlService.obtenerTodosLosControlesporUsuario(usuario.getIdUsuario());
         model.addAttribute("controles", controles);
-
         //formulario nuevo control
         model.addAttribute("usuarioLogueado",  usuario);
         model.addAttribute("medicamentos", medicamentosService.readAdmin());
@@ -60,13 +59,13 @@ public class ControlController {
     }
 
     @GetMapping("/actualizar_control")
-    public String mostrarFormularioEdicion(@RequestParam Long idControl, Model model) {
+    public String mostrarFormularioEdicion(@RequestParam Long idControl, Model model, HttpSession session) {
         try {
             ControlDTO control = controlService.findById(idControl);
             model.addAttribute("control", control);
-            return "pacientes/actualizar_control";
+            return "Layouts/modal_edicion :: actualizar_control";
         } catch (Exception e) {
-            return "redirect:/17.pagina_control?error=Control no encontrado";
+            return "redirect:/paciente/24.pagina_control?error=Control no encontrado";
         }
     }
 
@@ -80,7 +79,14 @@ public class ControlController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        return "redirect:/17.pagina_control";
+        return "redirect:/paciente/24.pagina_control";
     }
+    @GetMapping("/control/eliminar/{idControl}")
+    public String eliminarPaciente(@PathVariable Long idControl) {
+        controlService.eliminar(idControl);
+        return "redirect:/paciente/24.pagina_control";
+    }
+
 }
+
 

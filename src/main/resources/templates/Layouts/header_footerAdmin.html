@@ -10,8 +10,8 @@
       </div>
       <div class="col-lg-4 text-center text-lg-end">
         <div class="d-inline-flex align-items-center" style="height: 35px;">
-          <a th:href="@{/admin/enviar/masivoVista}">
-              <i class="fa-solid fa-envelope-circle-check icon-custom me-2"></i></a>
+            <a th:href="@{/admin/enviar/masivoVista}"><small class="me-3 text-dark"><i
+                    class="fa-solid fa-envelope-circle-check icon-custom me-2"></i>Correos</small></a>
           <div class="dropdown">
             <a href="#" class="dropdown-toggle text-dark" data-bs-toggle="dropdown"><small><i
                     class="fa fa-user-alt icon-custom me-2"></i> Perfil</small></a>
@@ -63,7 +63,9 @@
               <a th:href="@{/admin/18.pagina_orden_admin}" class="nav-link">Órdenes</a>
             </li>
             <li class="nav-item mobile-only-profile">
-              <a th:href="@{/admin/enviar/masivoVista}">Correos</a>
+              <a th:href="@{/admin/enviar/masivoVista}" class="nav-link me-3">Correos</a>
+            </li>
+            <li class="nav-item mobile-only-profile">
               <div class="dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Perfil</a>
                 <div class="dropdown-menu rounded">
@@ -98,7 +100,7 @@
     <div class="footer-content">
       <div class="footer-section">
         <h3 class="titulos-foot">Sobre Nosotros</h3>
-        <p>Indrugs dispensadora de medicamentos, comprometida con tu salud y bienestar las 24 horas del día.</p>
+        <p>Indrugs dispensadora de medicamentos, comprometida con tu salud y bienestar.</p>
         <div class="social-links">
           <a href="#"><i class="fab fa-facebook-f"></i></a>
           <a href="#"><i class="fab fa-twitter"></i></a>
@@ -109,10 +111,11 @@
       <div class="footer-section">
         <h3 class="titulos-foot">Enlaces Rápidos</h3>
         <ul>
-          <li><a class="foot-links" th:href="@{/1.pagina_principal_paciente}">Inicio</a></li>
-          <li><a class="foot-links" th:href="@{/8.pagina_med}">Medicamentos</a></li>
-          <li><a class="foot-links" th:href="@{/24.pagina_control}">Control</a></li>
-          <li><a class="foot-links" th:href="@{/5.pagina_pqrs}">PQRS</a></li>
+          <li><a class="foot-links" th:href="@{/admin/20.pagina_principal_administrador}">Inicio</a></li>
+          <li><a class="foot-links" th:href="@{/admin/21.pagina_usuarios}">Usuarios</a></li>
+          <li><a class="foot-links" th:href="@{/admin/17.pagina_inventario}">Inventario</a></li>
+            <li><a class="foot-links" th:href="@{/admin/22.pagina_medicamento}">Medicamentos</a></li>
+            <li><a class="foot-links" th:href="@{/admin/18.pagina_orden_admin}">Órdenes</a></li>
           <li><a class="foot-links" th:href="@{/actualizar_perfil}">Perfil</a></li>
         </ul>
       </div>
@@ -122,8 +125,8 @@
         <ul class="contact-info">
           <li><i class="fas fa-map-marker-alt"></i> Bogotá, Colombia</li>
           <li><i class="fas fa-phone"></i> +57 601 234 5678</li>
-          <li><i class="fas fa-envelope"></i> indrugs@gmail.com</li>
-          <li><i class="fas fa-clock"></i> Lun - Dom: 24 horas</li>
+          <li><i class="fas fa-envelope"></i> indrugs3@gmail.com</li>
+          <li><i class="fas fa-clock"></i> Lun - Dom</li>
         </ul>
       </div>
     </div>

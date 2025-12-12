@@ -79,7 +79,7 @@
     width: 100%;
     padding: 20px;
     display: grid;
-    grid-template-columns: 4fr 4fr;
+    grid-template-columns: 3fr 3fr;
     grid-gap: 80px;
     margin-top: 5px;
     z-index: 1;
@@ -89,7 +89,7 @@
 {
     position: relative;
     display: grid;
-    min-height: 300px;
+    min-height: 250px;
     background: white;
     padding: 20px;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
@@ -106,19 +106,29 @@
 }
 
 /*BUTTON*/
-.botonD{
-    font-family:Quicksand;
-    background-color: rgb(255, 255, 255); /* El color de fondo*/
-    border: 1px solid rgb(206, 216, 208);/*Es lo grueso de la imagen*/
-    border-radius: 10px; /*El borde muy redondo,o muy cuadrado*/
-    height: 40px;
-    width: 100px;
-    box-shadow: 0px 2px 9px 2px rgba(139, 137, 137, 0.5);
-}
-.botonD:hover{
+.btnd {
+    background: ghostwhite;
+    color: #2cb4c9;
+    border: 2px solid #2cb4c9;
     cursor: pointer;
-    background-color: #2ec6da; /* El color de fondo*/
+    transition: all 0.3s ease;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 5px;
+    justify-content: center;
 }
+.filtrar-usuarios{
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.btnd:hover {
+    background-color: #2ec6da;
+    transform: translateY(-2px);
+    color: var(--text-color);
+}
+
 .cabeza1{
     display: flex;
     justify-content: space-between;
@@ -146,6 +156,7 @@
 
     .cards .card .card_numeros {
         font-size: 2em;
+        height: 100px;
     }
 
     .cards .card .card_nombre {
@@ -156,7 +167,7 @@
 
     #topMedicamentos,
     #estadoEnvios {
-        height: auto !important;
+        height: 130px !important;
         margin-top: 1rem;
         padding: 5px;
     }
@@ -175,8 +186,8 @@
     }
 
     /* ---- BOTONES ---- */
-    .botonD {
-        width: 100%;
+    .btnd {
+        width: 50%;
         height: 45px;
     }
 

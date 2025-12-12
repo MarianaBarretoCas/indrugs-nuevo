@@ -29,6 +29,7 @@ function abrirModalMedicamento(idMedicamento) {
             document.getElementById("tituloMedicamento").innerText = data.nombreMedicamento;
             document.getElementById("descripcionMedicamento").innerText = data.descripcionMedicamento;
             document.getElementById("imgMedicamento").src = data.imagenMedicamento;
+            document.getElementById("stockMedicamento").innerText = "Unidades disponibles: " + data.stockMedicamento;
             document.getElementById("cantidadModal").value = 1;
 
             // Guardar el id en el botón
@@ -36,6 +37,30 @@ function abrirModalMedicamento(idMedicamento) {
 
             // Mostrar modal
             let modal = new bootstrap.Modal(document.getElementById("modalMedicamento"));
+            modal.show();
+        });
+}
+
+function abrirModalDomiciliario(idOrden) {
+    fetch(`/paciente/orden/${idOrden}/domiciliario`)
+        .then(r => r.json())
+        .then(data => {
+
+            document.getElementById("nombreDomi").innerText = data.nombreUsuario;
+            document.getElementById("telefonoDomi").innerText = data.telefonoUsuario;
+            document.getElementById("vehiculoDomi").innerText = data.tipoVehiculo + " - " + data.placaVehiculo;
+
+            let modal = new bootstrap.Modal(document.getElementById("formModalDomi"));
+            modal.show();
+        });
+}
+
+function abrirModalEdicionControl(idControl) {
+    fetch(`/admin/actualizar_control?idControl=${idControl}`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById("contenedorModalCtrl").innerHTML = html;
+            const modal = new bootstrap.Modal(document.getElementById('formModalCtrl'));
             modal.show();
         });
 }

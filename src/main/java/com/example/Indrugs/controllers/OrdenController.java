@@ -5,11 +5,16 @@ import com.example.Indrugs.entities.Medicamentos;
 import com.example.Indrugs.entities.Orden;
 import com.example.Indrugs.entities.Usuario;
 import com.example.Indrugs.services.ArchivosService;
+import com.example.Indrugs.services.DomicilioService;
 import com.example.Indrugs.services.MedicamentosService;
 import com.example.Indrugs.services.OrdenService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,15 +36,18 @@ public class OrdenController {
     private MedicamentosService medicamentosService;
     @Autowired
     private ArchivosService archivosService;
+    @Autowired
+    private DomicilioService domicilioService;
 
     @GetMapping("/domi/14.pagina_ordenes")
-    public String verOrdenesDirecto(Model model, HttpSession session) {
+    public String verOrdenesDirecto(Model model, HttpSession session, @RequestParam(defaultValue = "0") int page) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
 
-        model.addAttribute("ordenes", ordenService.listarOrdenesP(usuario.getIdUsuario()));
+        Pageable pageable = PageRequest.of(page, 8);
+        model.addAttribute("ordenes", ordenService.listarOrdenesP(usuario.getIdUsuario(), pageable));
         return "domiciliario/14.pagina_ordenes";
     }
 
@@ -70,6 +78,17 @@ public class OrdenController {
         };
     }
 
+    @GetMapping("/paciente/orden/{idOrden}/domiciliario")
+    @ResponseBody
+    public ResponseEntity<VehiculoDTO> obtenerDomiciliario(@PathVariable Long idOrden) {
+        try {
+            VehiculoDTO dto = domicilioService.obtenerDomiciliarioPorId(idOrden);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @GetMapping("/paciente/16.pagina_carrito_med")
     public String mostrarCarrito(Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
@@ -80,18 +99,22 @@ public class OrdenController {
     }
 
     @GetMapping("/admin/18.pagina_orden_admin")
-    public String verOrdenesAdmin(@RequestParam(required = false) String estadoOrden,Model model, HttpSession session) {
+    public String verOrdenesAdmin(@RequestParam(required = false) String estadoOrden,
+                                  Model model,
+                                  HttpSession session,
+                                  @RequestParam(defaultValue = "0") int page) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
 
-        List<OrdenDTO> ordenes;
+        Page<OrdenDTO> ordenes;
+        Pageable pageable = PageRequest.of(page, 8);
 
         if (estadoOrden != null && !estadoOrden.isEmpty()){
-            ordenes = ordenService.findByEstadoOrden(estadoOrden);
+            ordenes = ordenService.findByEstaOrden(estadoOrden, pageable);
         }else {
-            ordenes = ordenService.listarOrdenes();
+            ordenes = ordenService.listarOrdenesPage(pageable);
         }
 
         model.addAttribute("ordenes", ordenes);

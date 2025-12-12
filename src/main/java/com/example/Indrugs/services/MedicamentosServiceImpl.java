@@ -5,6 +5,9 @@ import com.example.Indrugs.entities.Medicamentos;
 import com.example.Indrugs.mapper.MedicamentosMap;
 import com.example.Indrugs.repositorios.MedicamentoRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,12 +18,13 @@ import java.util.stream.Collectors;
 public class MedicamentosServiceImpl implements MedicamentosService{
 
     private final ImgBBService imgBBService;
-
+    private final MedicamentosMap medicamentosMap;
     MedicamentoRepository medicRepository;
 
-    public MedicamentosServiceImpl(MedicamentoRepository medicRepository, ImgBBService imgBBService){
+    public MedicamentosServiceImpl(MedicamentoRepository medicRepository, ImgBBService imgBBService, MedicamentosMap medicamentosMap){
         this.medicRepository = medicRepository;
         this.imgBBService = imgBBService;
+        this.medicamentosMap = medicamentosMap;
     }
 
     @Override
@@ -32,11 +36,15 @@ public class MedicamentosServiceImpl implements MedicamentosService{
     }
 
     @Override
-    public List<MedicamentoDTO> mostarEnPaciente() {
-        List<Medicamentos> medic = medicRepository.findAll();
-        return medic.stream()
-                .map(MedicamentosMap::mapToPaciente)
-                .collect(Collectors.toList());
+    public Page<MedicamentoDTO> readAd(Pageable pageable) {
+        Page<Medicamentos> medic = medicRepository.findAll(pageable);
+        return medic.map(MedicamentosMap ::mapToDtoAdmin);
+    }
+
+    @Override
+    public Page<MedicamentoDTO> mostarEnPaciente(Pageable pageable) {
+        Page<Medicamentos> medic = medicRepository.findAll(pageable);
+        return medic.map(medicamentosMap::mapToPaciente);
     }
 
     @Override
@@ -61,7 +69,7 @@ public class MedicamentosServiceImpl implements MedicamentosService{
     public List<MedicamentoDTO> findByNombre(String nombreMedicamento) {
         List<Medicamentos> medic = medicRepository.findByNombreMedicamentoContainingIgnoreCase(nombreMedicamento);
         return medic.stream()
-                .map(MedicamentosMap ::mapToPaciente)
+                .map(medicamentosMap ::mapToPaciente)
                 .collect(Collectors.toList());
     }
 
@@ -69,7 +77,7 @@ public class MedicamentosServiceImpl implements MedicamentosService{
     public MedicamentoDTO buscarPorIdMedicamento(Long idMedicamento) {
         Medicamentos medicamento = medicRepository.findById(idMedicamento)
                 .orElseThrow(() -> new RuntimeException("Medicamento no encontrado"));
-        return MedicamentosMap.mapToPaciente(medicamento);
+        return medicamentosMap.mapToPaciente(medicamento);
 
     }
 }

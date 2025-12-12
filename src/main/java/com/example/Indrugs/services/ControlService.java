@@ -8,4 +8,5 @@ public interface ControlService {
     void guardarControl(ControlDTO controlDTO);
     void actualizar(Long idControl, ControlDTO controlDTO);
     ControlDTO findById(Long idControl);
+    void eliminar(Long idControl);
 }

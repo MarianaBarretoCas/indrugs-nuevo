@@ -2,6 +2,14 @@ package com.example.Indrugs.controllers;
 
 import com.example.Indrugs.DTO.InventarioDTO;
 import com.example.Indrugs.DTO.InventarioUpdateDTO;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.itextpdf.text.Font;
+
 import com.example.Indrugs.DTO.Usuario.UsuarioDTO;
 import com.example.Indrugs.DTO.Usuario.UsuarioUpdateDTO;
 import com.example.Indrugs.entities.Inventario;
@@ -16,6 +24,9 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,18 +78,15 @@ public class InventarioController {
         table.setWidths(columnWidths);
         int rowIndex = 0;
         Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
-        addCellToTable(table, "ID", headerFont, true, rowIndex);
         addCellToTable(table, "Medicamento", headerFont, true, rowIndex);
         addCellToTable(table, "Entrada", headerFont, true, rowIndex);
         addCellToTable(table, "Stock", headerFont, true, rowIndex);
-        addCellToTable(table, "Salida", headerFont, true, rowIndex);
         addCellToTable(table, "Vencimiento", headerFont, true, rowIndex);
         addCellToTable(table, "Estado", headerFont, true, rowIndex);
 
         Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 7);
 
         for (InventarioDTO inventario : inventarios) {
-            addCellToTable(table, String.valueOf(inventario.getIdInventario()), dataFont, false, rowIndex);
             addCellToTable(table, inventario.getNombreMedicamento() != null ? inventario.getNombreMedicamento() : "", dataFont, false, rowIndex);
             addCellToTable(table, inventario.getFechaEntrada() != null ? String.valueOf(inventario.getFechaEntrada())  : "", dataFont, false, rowIndex);
             addCellToTable(table, inventario.getStock() != null ? String.valueOf(inventario.getStock())  : "", dataFont, false, rowIndex);
@@ -118,19 +126,20 @@ public class InventarioController {
     @GetMapping("/admin/17.pagina_inventario")
     public String mostrarInventario(@RequestParam(required = false) String estadoMed,
                                     HttpSession session,
-                                    Model model){
+                                    Model model,
+                                    @RequestParam(defaultValue = "0") int page){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
         if (usuario == null) {
             return "redirect:/login"; // si no está logueado
         }
-        List<InventarioDTO> inventarios;
-
+        Page<InventarioDTO> inventarios;
+        Pageable pageable = PageRequest.of(page, 8);
         //filtros
         if (estadoMed != null && !estadoMed.isEmpty()){
-            inventarios = inventarioService.findByEstado(estadoMed);
+            inventarios = inventarioService.findByEstado(estadoMed, pageable);
         }else {
-            inventarios = inventarioService.read();
+            inventarios = inventarioService.readA(pageable);
         }
 
         model.addAttribute("inventarios", inventarios);
@@ -215,4 +224,117 @@ public class InventarioController {
         }
         return "redirect:/admin/17.pagina_inventario";
     }
+
+    @GetMapping("/admin/export/inventario/excel")
+    public void exportInventarioToExcel(HttpServletResponse response) throws IOException {
+
+        response.setContentType(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        response.setHeader(
+                "Content-Disposition",
+                "attachment; filename=inventario.xlsx"
+        );
+
+        List<InventarioDTO> inventarios = inventarioService.read();
+
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Inventario");
+
+
+        CellStyle titleStyle = workbook.createCellStyle();
+        XSSFFont titleFont = workbook.createFont();
+        titleFont.setFontHeight(18);
+        titleFont.setBold(true);
+        titleFont.setColor(new XSSFColor(new java.awt.Color(22,17,153), null));
+        titleStyle.setFont(titleFont);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+
+        CellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setFillForegroundColor(new XSSFColor(new java.awt.Color(200,225,255), null));
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        headerStyle.setAlignment(HorizontalAlignment.CENTER);
+        headerStyle.setBorderBottom(BorderStyle.THIN);
+        headerStyle.setBorderTop(BorderStyle.THIN);
+        headerStyle.setBorderLeft(BorderStyle.THIN);
+        headerStyle.setBorderRight(BorderStyle.THIN);
+        XSSFFont headerFont = workbook.createFont();
+        headerFont.setBold(true);
+        headerStyle.setFont(headerFont);
+
+        CellStyle evenStyle = workbook.createCellStyle();
+        evenStyle.setFillForegroundColor(new XSSFColor(new java.awt.Color(225,240,255), null));
+        evenStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        evenStyle.setBorderBottom(BorderStyle.THIN);
+        evenStyle.setBorderTop(BorderStyle.THIN);
+        evenStyle.setBorderLeft(BorderStyle.THIN);
+        evenStyle.setBorderRight(BorderStyle.THIN);
+
+        CellStyle oddStyle = workbook.createCellStyle();
+        oddStyle.setFillForegroundColor(new XSSFColor(new java.awt.Color(240,248,255), null));
+        oddStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        oddStyle.setBorderBottom(BorderStyle.THIN);
+        oddStyle.setBorderTop(BorderStyle.THIN);
+        oddStyle.setBorderLeft(BorderStyle.THIN);
+        oddStyle.setBorderRight(BorderStyle.THIN);
+
+        Row titleRow = sheet.createRow(0);
+        Cell titleCell = titleRow.createCell(0);
+        titleCell.setCellValue("Lista de Inventario");
+        titleCell.setCellStyle(titleStyle);
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));
+
+        Row dateRow = sheet.createRow(1);
+        Cell dateCell = dateRow.createCell(0);
+        dateCell.setCellValue("Fecha de generación: " + new Date());
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 4));
+
+        Row headerRow = sheet.createRow(3);
+        String[] headers = {"Medicamento", "Entrada", "Stock", "Vencimiento", "Estado"};
+
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+            cell.setCellStyle(headerStyle);
+        }
+
+        int rowIndex = 4;
+
+        for (InventarioDTO inventario : inventarios) {
+
+            Row row = sheet.createRow(rowIndex);
+            CellStyle rowStyle = (rowIndex % 2 == 0) ? evenStyle : oddStyle;
+
+            Cell c0 = row.createCell(0);
+            c0.setCellValue(inventario.getNombreMedicamento() != null ? inventario.getNombreMedicamento() : "");
+            c0.setCellStyle(rowStyle);
+
+            Cell c1 = row.createCell(1);
+            c1.setCellValue(inventario.getFechaEntrada() != null ? inventario.getFechaEntrada().toString() : "");
+            c1.setCellStyle(rowStyle);
+
+            Cell c2 = row.createCell(2);
+            c2.setCellValue(inventario.getStock() != null ? inventario.getStock() : 0);
+            c2.setCellStyle(rowStyle);
+
+            Cell c3 = row.createCell(3);
+            c3.setCellValue(inventario.getVencimiento() != null ? inventario.getVencimiento().toString() : "");
+            c3.setCellStyle(rowStyle);
+
+            Cell c4 = row.createCell(4);
+            c4.setCellValue(inventario.getEstadoMed() != null ? inventario.getEstadoMed() : "");
+            c4.setCellStyle(rowStyle);
+
+            rowIndex++;
+        }
+
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        workbook.write(response.getOutputStream());
+        workbook.close();
+    }
+
+
 }

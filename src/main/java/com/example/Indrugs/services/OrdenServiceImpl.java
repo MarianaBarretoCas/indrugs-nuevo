@@ -3,8 +3,12 @@ package com.example.Indrugs.services;
 import com.example.Indrugs.DTO.OrdenDTO;
 import com.example.Indrugs.DTO.OrdenMedicamentoDTO;
 import com.example.Indrugs.entities.*;
+import com.example.Indrugs.mapper.InventarioMapper;
 import com.example.Indrugs.mapper.OrdenMapper;
 import com.example.Indrugs.repositorios.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -47,6 +51,11 @@ public class OrdenServiceImpl implements OrdenService {
         List<Orden> ordenes = ordenRepository.findAll();
         return OrdenMapper.toDTOList(ordenes);
     }
+    @Override
+    public Page<OrdenDTO> listarOrdenesPage(Pageable pageable) {
+        Page<Orden> ordenes = ordenRepository.findAll(pageable);
+        return ordenes.map(OrdenMapper ::toDTO);
+    }
 
     @Override
     public OrdenDTO listarDetalle(Long idOrden) {
@@ -65,13 +74,16 @@ public class OrdenServiceImpl implements OrdenService {
                 .map(OrdenMapper::toDTO)
                 .collect(Collectors.toList());
     }
+    @Override
+    public Page<OrdenDTO> findByEstaOrden(String estadoOrden, Pageable pageable) {
+        Page<Orden> orden = ordenRepository.findByEstadoOrden(estadoOrden, pageable);
+        return orden.map(OrdenMapper::toDTO);
+    }
 
     @Override
-    public List<OrdenDTO> listarOrdenesP(Long idUsuario) {
-        List<Orden> ordenes = ordenRepository.findByOrdenByIdOrden(idUsuario, "ACTIVO");
-        return ordenes.stream()
-                .map(OrdenMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<OrdenDTO> listarOrdenesP(Long idUsuario, Pageable pageable) {
+        Page<Orden> ordenes = ordenRepository.findByOrdenByIdOrden(idUsuario, "ACTIVO", pageable);
+        return ordenes.map(OrdenMapper::toDTO);
     }
 
     @Override
@@ -156,7 +168,6 @@ public class OrdenServiceImpl implements OrdenService {
         return OrdenMapper.toDTO(orden);
     }
 
-//    NUEVO MÉTODOGenera reporte de órdenes en formato Excel
 
     @Override
     public byte[] generarReporteExcel(List<OrdenDTO> ordenes) throws IOException {
@@ -225,7 +236,6 @@ public class OrdenServiceImpl implements OrdenService {
         return outputStream.toByteArray();
     }
 
-    // MÉTODOS PRIVADOS: Crean estilos para el Excel
     private CellStyle createHeaderStyle(Workbook workbook) {
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();

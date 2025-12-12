@@ -30,29 +30,32 @@
                 <div class="table-responsive">
                     <table id="tabla1" class="table custom-table">
                         <thead>
-                        <tr>
-                            <th>Paciente</th>
-                            <th>Inicio Tratamiento</th>
-                            <th>Fin Tratamiento</th>
-                            <th>Problema Salud</th>
-                            <th>Cantidad Medic.</th>
-                            <th>Frecuencia Medic.</th>
-                            <th>Alarma</th>
-                            <th>Nombre Medicamento</th>
-                        </tr>
+                            <tr class="text-center">
+                                <th>Paciente</th>
+                                <th>Inicio Tratamiento</th>
+                                <th>Fin Tratamiento</th>
+                                <th>Problema Salud</th>
+                                <th>Cantidad</th>
+                                <th>Frecuencia</th>
+                                <th>Hora</th>
+                                <th>Medicamento</th>
+                                <th class="acciones-col">Acciones</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                        <tr th:each="control : ${controles}">
-                            <td th:text="${control.nombreUsuario}"></td>
-                            <td th:text="${#temporals.format(control.fechaInicioTratamiento, 'yyyy-MM-dd HH:mm')}"></td>
-                            <td th:text="${#temporals.format(control.fechaFinTratamiento, 'yyyy-MM-dd HH:mm')}"></td>
-                            <td th:text="${control.problemaSalud}"></td>
-                            <td th:text="${control.cantidadMedic}"></td>
-                            <td th:text="${control.frecuenciaMedic}"></td>
-                            <td th:text="${control.alarmaControl}"></td>
-                            <td th:text="${control.nombreMedicamento}"></td>
-                        </tr>
+                            <tr th:each="control : ${controles}" class="text-center" style="margin: 5px auto;">
+                                <td th:text="${control.nombreUsuario}"></td>
+                                <td th:text="${#temporals.format(control.fechaInicioTratamiento, 'yyyy-MM-dd HH:mm')}"></td>
+                                <td th:text="${#temporals.format(control.fechaFinTratamiento, 'yyyy-MM-dd HH:mm')}"></td>
+                                <td th:text="${control.problemaSalud}"></td>
+                                <td th:text="${control.cantidadMedic}"></td>
+                                <td th:text="${control.frecuenciaMedic}"></td>
+                                <td th:text="${control.alarmaControl}"></td>
+                                <td th:text="${control.nombreMedicamento}" ></td>
+                                <td class="acciones-col">
+                                    <a th:href="@{/paciente/control/eliminar/{idControl}(idControl=${control.idControl})}" class="btnborrar">Eliminar</a>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

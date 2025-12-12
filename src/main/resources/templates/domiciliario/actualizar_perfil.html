@@ -59,11 +59,11 @@
                 <div class="text-center col-12 mt-3">
                     <button type="submit" class="btn btnform">Guardar</button>
                 </div>
-
+                <div class="text-center me-3">
+                    <button type="button" class="btn btnregistro" data-bs-toggle="modal" data-bs-target="#formCambioPassword">Cambiar contraseña</button>
+                </div>
             </form>
-            <div class="text-center me-3">
-                <button type="button" class="btn btnform" data-bs-toggle="modal" data-bs-target="#formCambioPassword">Cambiar contraseña</button>
-            </div>
+
             <div th:insert="~{Layouts/modal_edicion :: modalCambioPassword}"></div>
         </div>
 

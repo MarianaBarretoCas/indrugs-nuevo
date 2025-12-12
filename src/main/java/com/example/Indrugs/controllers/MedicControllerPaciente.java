@@ -6,6 +6,9 @@ import com.example.Indrugs.entities.Usuario;
 import com.example.Indrugs.services.ArchivosService;
 import com.example.Indrugs.services.MedicamentosService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,14 +41,14 @@ public class MedicControllerPaciente {
     }
 
     @GetMapping("/8.pagina_med")
-    public String mostrarMedic(HttpSession session, Model model){
+    public String mostrarMedic(HttpSession session, Model model, @RequestParam(defaultValue = "0") int page){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
         if (usuario == null) {
             return "redirect:/login"; // si no está logueado
         }
-
-        List<MedicamentoDTO> medicamentos = medicService.mostarEnPaciente();
+        Pageable pageable = PageRequest.of(page, 6);
+        Page<MedicamentoDTO> medicamentos = medicService.mostarEnPaciente(pageable);
         model.addAttribute("medicamentos", medicamentos);
         return "pacientes/8.pagina_med";
     }

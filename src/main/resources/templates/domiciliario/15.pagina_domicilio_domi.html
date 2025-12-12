@@ -38,7 +38,6 @@
                                     <option value="">Todos</option>
                                     <option value="EN ESPERA" th:selected="${estadoSeleccionado == 'EN ESPERA'}">EN ESPERA</option>
                                     <option value="ENTREGADO" th:selected="${estadoSeleccionado == 'ENTREGADO'}">ENTREGADO</option>
-                                    <option value="EN CAMINO" th:selected="${estadoSeleccionado == 'EN CAMINO'}">EN CAMINO</option>
                                 </select>
 
                                 <button type="submit" class="btn btnfiltro">Filtrar</button>
@@ -50,7 +49,7 @@
                 <div class="table-responsive">
                     <table id="tabla1" class="table custom-table">
                         <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>ID</th>
                             <th>Ubicación</th>
                             <th>Fecha de Entrega</th>
@@ -63,7 +62,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="domicilio : ${domicilios}">
+                        <tr th:each="domicilio : ${domicilios}" class="text-center">
                             <td th:text="${domicilio.idDomicilio}"></td>
                             <td th:text="${domicilio.ubicacionDomicilio}"></td>
                             <td th:text="${#temporals.format(domicilio.fechaEntregaDomicilio, 'yyyy-MM-dd HH:mm')}"></td>
@@ -72,7 +71,7 @@
                             <td th:text="${domicilio.telefonoOrden}"></td>
                             <td th:text="${domicilio.estadoDomicilio}"></td>
                             <td>
-                                <a th:href="@{/domi/actualizar/domicilio/{idDomicilio}(idDomicilio=${domicilio.idDomicilio})}" class="btn btnTabla">Entregar</a>
+                                <a th:href="@{/domi/actualizar/domicilio/{idDomicilio}(idDomicilio=${domicilio.idDomicilio})}" class="btn btnTabla1">Entregar</a>
                             </td>
                             <td>
                                 <button class="btn btnTabla" data-bs-toggle="modal" data-bs-target="#formModal" th:attr="data-direccion=${domicilio.ubicacionDomicilio}">
@@ -109,6 +108,31 @@
                         </div>
                     </div>
                 </div>
+                <nav class="mt-4" >
+                    <ul class="pagination justify-content-center">
+
+                        <li class="page-item" th:classappend="${domicilios.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/domi/15.pagina_domicilio_domi(page=${domicilios.number - 1})}">
+                                Anterior
+                            </a>
+                        </li>
+
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0, domicilios.totalPages - 1)}"
+                            th:classappend="${i == domicilios.number} ? 'active'">
+                            <a class="page-link" th:text="${i + 1}"
+                               th:href="@{/domi/15.pagina_domicilio_domi(page=${i})}">
+                            </a>
+                        </li>
+
+                        <li class="page-item" th:classappend="${domicilios.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/domi/15.pagina_domicilio_domi(page=${domicilios.number + 1})}">
+                                Siguiente
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
             </div>
         </div>
         <div th:if="${domicilios == null or domicilios.isEmpty()}">

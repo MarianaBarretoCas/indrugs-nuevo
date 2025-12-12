@@ -33,6 +33,12 @@ public class VehiculoServiceImpl implements VehiculoService {
     @Override
     public void crear(VehiculoDTO vehiculoDTO) {
         Vehiculo vehiculo = VehiculoMapper.mapToEntity(vehiculoDTO);
+        if (vehiculo.getPlacaVehiculo() != null) {
+            boolean existePlaca = vehiculoRepository.existsByPlacaVehiculo(vehiculo.getPlacaVehiculo());
+            if (existePlaca) {
+                throw new RuntimeException("La placa del vehículo ya está registrada: " + vehiculo.getPlacaVehiculo());
+            }
+        }
         vehiculoRepository.save(vehiculo);
     }
 
@@ -49,7 +55,10 @@ public class VehiculoServiceImpl implements VehiculoService {
 
     @Override
     public void eliminar(Long idVehiculo) {
-        vehiculoRepository.deleteById(idVehiculo);
+        Vehiculo vehiculo = vehiculoRepository.findById(idVehiculo)
+                .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
+        vehiculo.setEstadoVehiculo("INACTIVO");
+        vehiculoRepository.save(vehiculo);
     }
 
     @Override

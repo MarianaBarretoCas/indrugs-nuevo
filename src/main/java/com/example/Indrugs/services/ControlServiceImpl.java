@@ -49,7 +49,7 @@ public class ControlServiceImpl implements ControlService {
         Optional<Control> optionalControl = controlRepository.findById(idControl);
         if (optionalControl.isPresent()) {
             Control control = optionalControl.get();
-            // Actualiza los campos necesarios
+
             control.setIdMedicamento(controlDTO.getIdMedicamento() != null ? medicamentoRepository.findById(controlDTO.getIdMedicamento()).orElse(null) : null);
             control.setUsuario(controlDTO.getIdUsuario() != null ? usuarioRepository.findById(controlDTO.getIdUsuario()).orElse(null) : null);
             control.setCantidadMedic(controlDTO.getCantidadMedic());
@@ -69,5 +69,14 @@ public class ControlServiceImpl implements ControlService {
         return controlRepository.findById(idControl)
                 .map(ControlMapper::mapToDto)
                 .orElseThrow(() -> new RuntimeException("Control no encontrado"));
+    }
+
+    @Override
+    public void eliminar(Long idControl) {
+        if (controlRepository.existsById(idControl)) {
+            controlRepository.deleteById(idControl);
+        } else {
+            throw new RuntimeException("Control no encontrado");
+        }
     }
 }

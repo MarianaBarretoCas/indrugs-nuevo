@@ -206,7 +206,7 @@ body {
 
 .partner-card img {
     width: 100%;
-    height: auto;
+    height: -webkit-fill-available;
     object-fit: contain;
 }
 

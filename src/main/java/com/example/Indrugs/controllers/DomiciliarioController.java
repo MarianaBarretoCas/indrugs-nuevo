@@ -9,6 +9,9 @@ import com.example.Indrugs.entities.Usuario;
 import com.example.Indrugs.mapper.UsuarioMapper;
 import com.example.Indrugs.services.*;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -73,19 +76,21 @@ public class DomiciliarioController {
     @GetMapping("/15.pagina_domicilio_domi")
     public String Mostrartabla(@RequestParam(required = false) String estadoDomicilio,
                                 HttpSession session,
-                               Model model){
+                               Model model,
+                               @RequestParam(defaultValue = "0") int page){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
         if (usuario == null) {
             return "redirect:/login"; // si no está logueado
         }
-        List<DomicilioDTO> domicilio;
+        Page<DomicilioDTO> domicilio;
+        Pageable pageable = PageRequest.of(page, 8);
 
         //filtros
         if (estadoDomicilio != null && !estadoDomicilio.isEmpty()){
-            domicilio = domicilioService.findByEstadoDomicilio(estadoDomicilio, usuario.getIdUsuario());
+            domicilio = domicilioService.findByEstadoDomicilio(estadoDomicilio, usuario.getIdUsuario(), pageable);
         }else {
-            domicilio = domicilioService.read(usuario.getIdUsuario());
+            domicilio = domicilioService.read(usuario.getIdUsuario(), pageable);
         }
         model.addAttribute("domicilios", domicilio);
         model.addAttribute("estadoSelecionado", estadoDomicilio);

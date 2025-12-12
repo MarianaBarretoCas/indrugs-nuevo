@@ -37,7 +37,7 @@
                             </section>
                         </form>
 
-                        <button type="button" onclick="descargarExcel()" class="btn btnfiltro" style="background-color: #17a2b8; white-space: nowrap; width: auto; min-width: 150px;">
+                        <button type="button" onclick="descargarExcel()" class="btn btnfiltro">
                             <i class="fas fa-file-excel"></i> Exportar Excel
                         </button>
                     </div>
@@ -45,7 +45,7 @@
                 <div class="table-responsive">
                     <table id="tabla1" class="table custom-table">
                         <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>ID</th>
                             <th>Paciente</th>
                             <th>EPS</th>
@@ -58,7 +58,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="orden : ${ordenes}">
+                        <tr th:each="orden : ${ordenes}" class="text-center">
                             <td th:text="${orden.idOrden}"></td>
                             <td th:text="${orden.pacienteNombre}"></td>
                             <td th:text="${orden.epsOrden}"></td>
@@ -70,16 +70,41 @@
                                 <a th:href="@{'/VerDetalle?idOrden=' + ${orden.idOrden}}" class="btn btnform">Detalle</a>
                             </td>
                             <td>
-                                <a th:href="@{/admin/ordenes/eliminar/{idOrden}(idOrden=${orden.idOrden})}" class="btn btnform">Eliminar</a>
+                                <a th:href="@{/admin/ordenes/eliminar/{idOrden}(idOrden=${orden.idOrden})}" class="btn btnborrar" onclick="return confirmarEliminacion()">Eliminar</a>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
+                <nav class="mt-4" >
+                    <ul class="pagination justify-content-center">
+
+                        <li class="page-item" th:classappend="${ordenes.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/18.pagina_orden_admin(page=${ordenes.number - 1})}">
+                                Anterior
+                            </a>
+                        </li>
+
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0, ordenes.totalPages - 1)}"
+                            th:classappend="${i == ordenes.number} ? 'active'">
+                            <a class="page-link" th:text="${i + 1}"
+                               th:href="@{/admin/18.pagina_orden_admin(page=${i})}">
+                            </a>
+                        </li>
+
+                        <li class="page-item" th:classappend="${ordenes.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/18.pagina_orden_admin(page=${ordenes.number + 1})}">
+                                Siguiente
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
             </div>
         </div>
 
-        <div th:if="${ordenes == null or #lists.isEmpty(ordenes)}" class="alert alert-info text-center">
+        <div th:if="${ordenes == null or ordenes.isEmpty()}" class="alert alert-info text-center">
             <div class="table-header">
                 <h1 class="section-title">Gestión de Órdenes</h1>
                 <div class="formularios">
@@ -96,9 +121,6 @@
                         </section>
                     </form>
 
-                    <button type="button" onclick="descargarExcel()" class="btn btnfiltro" style="background-color: #17a2b8; white-space: nowrap; width: auto; min-width: 150px;">
-                        <i class="fas fa-file-excel"></i> Exportar Excel
-                    </button>
                 </div>
             </div>
             <i class="fas fa-info-circle"></i> No hay órdenes registradas en el sistema.
@@ -109,6 +131,9 @@
 <footer th:insert="~{Layouts/header_footerAdmin :: footer}"></footer>
 
 <script>
+    function confirmarEliminacion() {
+        return confirm("¿Estás seguro(a) de que deseas eliminar esta orden?");
+    }
     function descargarExcel() {
         const estadoSelect = document.getElementById('estado');
         const estado = estadoSelect ? estadoSelect.value : '';

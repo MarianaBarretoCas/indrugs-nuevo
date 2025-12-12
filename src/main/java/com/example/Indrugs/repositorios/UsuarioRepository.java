@@ -23,7 +23,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Page<Usuario> findByRol_nombreRolAndEstado(String nombreRol, String estado, Pageable pageable);
     Page<Usuario> findByRol_nombreRol(String nombreRol, Pageable pageable);
     Optional<Usuario> findByIdUsuario(Long idUsuario);
-    List<Usuario> findByNombreContainingIgnoreCase(String nombre);
     @Query("SELECT u FROM Usuario u " +
             "JOIN u.rol r " +
             "WHERE LOWER(u.nombre) LIKE %:termino% " +

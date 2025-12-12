@@ -68,7 +68,7 @@
                         </div>
 
                         <div class="mt-3 col-6">
-                            <label for="alarma">Hora de alarma:</label>
+                            <label for="alarma">Hora:</label>
                             <input type="time" name="alarmaControl" class="form-control" id="alarma" required>
                             <div class="valid-feedback">BIEN.</div>
                             <div class="invalid-feedback">Por favor ingrese una hora.</div>
@@ -216,15 +216,8 @@
                             <label for="marca" class="form-label">Marca:</label>
                             <input type="text" id="marca" th:field="*{marcaVehiculo}" class="form-control" required />
                         </div>
-
-                        <div class="col-12 mt-2 mb-2">
-                            <label for="estado" class="form-label">Estado:</label>
-                            <select id="estado" th:field="*{estadoVehiculo}" class="form-select" required>
-                                <option value="" selected disabled>Elija estado</option>
-                                <option value="Activo">Activo</option>
-                                <option value="Inactivo">Inactivo</option>
-                            </select>
-                        </div>
+                        
+                        <input type="hidden" name="estadoVehiculo" th:value="Activo" />
                         <div class="modal-footer d-flex justify-content-between">
                             <button class="btn btnform" type="submit">Agregar</button>
                             <button type="button" class="btn btnform" data-bs-dismiss="modal">Cancelar</button>

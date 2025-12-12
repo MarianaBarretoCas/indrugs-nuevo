@@ -15,4 +15,6 @@ public class MedicamentoDTO {
     private String descripcionMedicamento;
 
     private String imagenMedicamento;
+
+    private Integer stockMedicamento;
 }

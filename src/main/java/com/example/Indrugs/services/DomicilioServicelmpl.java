@@ -2,13 +2,18 @@ package com.example.Indrugs.services;
 
 import com.example.Indrugs.DTO.DomicilioDTO;
 import com.example.Indrugs.DTO.OrdenDTO;
+import com.example.Indrugs.DTO.VehiculoDTO;
 import com.example.Indrugs.entities.Domicilio;
 import com.example.Indrugs.entities.Orden;
+import com.example.Indrugs.entities.Usuario;
+import com.example.Indrugs.entities.Vehiculo;
 import com.example.Indrugs.mapper.DomicilioMapper;
 import com.example.Indrugs.mapper.OrdenMapper;
 import com.example.Indrugs.repositorios.DomicilioRepository;
 import com.example.Indrugs.repositorios.OrdenRepository;
 import com.example.Indrugs.repositorios.VehiculoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -31,11 +36,9 @@ public class DomicilioServicelmpl implements DomicilioService{
         this.ordenService = ordenService;
     }
     @Override
-    public List<DomicilioDTO> read(Long idUsuario) {
-        List<Domicilio> domicilio = domicilioRepository.findByVehiculo_IdPropietario_IdUsuario(idUsuario);
-        return domicilio.stream()
-                .map(DomicilioMapper::entityToDto)
-                .collect(Collectors.toList());
+    public Page<DomicilioDTO> read(Long idUsuario, Pageable pageable) {
+        Page<Domicilio> domicilio = domicilioRepository.findByVehiculo_IdPropietario_IdUsuario(idUsuario, pageable);
+        return domicilio.map(DomicilioMapper::entityToDto);
     }
 
     @Override
@@ -55,18 +58,25 @@ public class DomicilioServicelmpl implements DomicilioService{
     }
 
     @Override
-    public List<DomicilioDTO> findByEstadoDomicilio(String estadoDomicilio, long idUsuario) {
-        List<Domicilio> domicilio = domicilioRepository.findByEstadoDomicilio(estadoDomicilio, idUsuario);
-        return domicilio.stream()
-                .map(DomicilioMapper::entityToDto)
-                .collect(Collectors.toList());
+    public Page<DomicilioDTO> findByEstadoDomicilio(String estadoDomicilio, long idUsuario, Pageable pageable) {
+        Page<Domicilio> domicilio = domicilioRepository.findByEstadoDomicilio(estadoDomicilio, idUsuario, pageable);
+        return domicilio.map(DomicilioMapper::entityToDto);
     }
 
-//    @Override
-//    public long countDomicilioActivo() {
-//        return domicilioRepository.countByEstadoDomicilio("EN ESPERA");
-//    }
+    @Override
+    public VehiculoDTO obtenerDomiciliarioPorId(Long idOrden){
+        Orden orden = ordenRepository.findById(idOrden)
+                .orElseThrow(() -> new RuntimeException("Orden no encontrada"));
+        Vehiculo vehiculo = orden.getDomicilio().getVehiculo();
+        Usuario domiciliario = vehiculo.getIdPropietario();
+        VehiculoDTO DTO = new VehiculoDTO();
+        DTO.setNombreUsuario(domiciliario.getNombre());
+        DTO.setTelefonoUsuario(domiciliario.getTelefono());
+        DTO.setTipoVehiculo(vehiculo.getTipoVehiculo());
+        DTO.setPlacaVehiculo(vehiculo.getPlacaVehiculo());
 
+        return DTO;
+    }
     @Override
     public List<DomicilioDTO> ObtenerDomiciliosRecientes() {
         List<Domicilio> domicilio = domicilioRepository.findTop3ByOrderByIdDomicilioDesc();

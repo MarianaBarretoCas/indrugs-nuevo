@@ -81,26 +81,28 @@
                 <div class="ordenes_recientes">
                     <div class="cabeza1">
                         <h2>Órdenes recientes</h2>
-                        <a th:href="@{/admin/18.pagina_orden_admin}">
-                            <input class="botonD" type="button" value="VER TODO">
-                        </a>
+                        <a th:href="@{/admin/18.pagina_orden_admin}" class="btnd">Ver todo</a>
                     </div>
-                    <div class="table-responsive" style="margin-top: auto;">
-                        <table id="tabla1" class="table custom-table">
+                    <div class="table-responsive" style="margin-top: 0;">
+                        <table id="tabla1" class="table custom-table" style="margin-top: 0;">
                             <thead>
-                            <tr>
-                                <th>Usurios</th>
-                                <th>Fecha de orden</th>
-                                <th>Estado de orden</th>
-                            </tr>
+                                <tr>
+                                    <th>Usurios</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr class="table" id="cuerpo_tabla2" th:each="orden : ${ordenesRecientes}">
-                                <td th:text="${orden.pacienteNombre}">Usuario</td>
-                                <td th:text="${orden.fechaEntrega}">FechaEntregaOrden</td>
-                                <td th:text="${orden.estadoOrden}">Estado</td>
-                                </td>
-                            </tr>
+                                <tr class="table" id="cuerpo_tabla2" th:each="orden : ${ordenesRecientes}">
+                                    <td th:text="${orden.pacienteNombre}">Usuario</td>
+                                    <td th:text="${orden.fechaEntrega}">FechaEntregaOrden</td>
+                                    <td>
+                                        <span class="badge"
+                                              th:classappend="${orden.estadoOrden == 'ACTIVO' ? 'bg-success' : 'bg-danger'}"
+                                              th:text="${orden.estadoOrden}">
+                                        </span>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -109,14 +111,12 @@
                 <div class="domicilio">
                     <div class="cabeza1">
                         <h2>Resumen de usuarios</h2>
-                        <a th:href="@{/admin/21.pagina_usuarios}">
-                            <input class="botonD" type="button" value="VER TODO">
-                        </a>
+                        <a th:href="@{/admin/21.pagina_usuarios}" class="btnd">Ver todo</a>
                     </div>
 
                     <!-- Usuarios recientes -->
-                    <div class="table-responsive" style="margin-top: auto;">
-                        <table id="tabla1" class="table custom-table">
+                    <div class="table-responsive" style="margin-top: 0;">
+                        <table id="tabla1" class="table custom-table" style="margin-top: 0;">
                             <thead>
                                 <tr>
                                     <th>Rol</th>

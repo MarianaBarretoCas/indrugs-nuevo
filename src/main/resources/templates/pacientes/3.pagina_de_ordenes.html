@@ -29,30 +29,55 @@
                 <div class="table-responsive">
                     <table id="tabla1" class="table custom-table">
                         <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>Paciente</th>
                             <th>EPS</th>
                             <th>Fecha de entrega</th>
                             <th>Dirección</th>
                             <th>Teléfono</th>
-                            <th>Estado</th>
                             <th>Detalle</th>
+                            <th>Domiciliario</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="orden : ${ordenes}">
+                        <tr th:each="orden : ${ordenes}" class="text-center">
                             <td th:text="${orden.pacienteNombre}"></td>
                             <td th:text="${orden.epsOrden}"></td>
                             <td th:text="${#temporals.format(orden.fechaEntrega, 'yyyy-MM-dd HH:mm')}"></td>
                             <td th:text="${orden.direccionOrden}"></td>
                             <td th:text="${orden.telefonoOrden}"></td>
-                            <td th:text="${orden.estadoOrden}"></td>
                             <td>
                                 <a th:href="@{'/VerDetalle?idOrden=' + ${orden.idOrden}}" class="btn btnform">Detalle</a>
+                            </td>
+                            <td>
+                                <button class="btn btnregistro"
+                                        th:onclick="'abrirModalDomiciliario(' + ${orden.idOrden} + ')'">
+                                    Domiciliario
+                                </button>
                             </td>
                         </tr>
                         </tbody>
                     </table>
+                    <div class="modal fade" id="formModalDomi" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content p-3">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="formModalLabel">Domiciliario Asignado</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="d-flex gap-4 text-center">
+                                        <p><strong>Nombre:</strong> <span id="nombreDomi"></span></p>
+                                        <p><strong>Teléfono:</strong> <span id="telefonoDomi"></span></p>
+                                        <p><strong>Vehículo:</strong> <span id="vehiculoDomi"></span></p>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-between">
+                                        <button type="button" class="btn btnform" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,5 +93,6 @@
 
 <footer th:insert="~{Layouts/header_footerPaciente :: footer}"></footer>
 <script th:src="@{/JAVA_SCRIPT/carrito.js}"></script>
+<script th:src="@{/JAVA_SCRIPT/modalesEdicion.js}"></script>
 </body>
 </html>

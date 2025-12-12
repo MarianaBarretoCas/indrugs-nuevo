@@ -46,7 +46,7 @@
                             </div>
                         </div>
                         <form id="exportPdfForm" th:action="@{/admin/export/inventario}" method="get" style="display: none;"></form>
-                        <form id="exportExcelForm" th:action="@{/admin/export/inventario}" method="get" style="display: none;"></form>
+                        <form id="exportExcelForm" th:action="@{/admin/export/inventario/excel}" method="get" style="display: none;"></form>
 
                     </div>
 
@@ -54,7 +54,7 @@
                 <div class="table-responsive">
                     <table id="tabla1" class="table custom-table">
                         <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>Medicamento</th>
                             <th>Fecha Entrada</th>
                             <th>Stock</th>
@@ -64,7 +64,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="inventario : ${inventarios}">
+                        <tr th:each="inventario : ${inventarios}" class="text-center">
                             <td th:text="${inventario.nombreMedicamento}"></td>
                             <td th:text="${inventario.fechaEntrada}"></td>
                             <td th:text="${inventario.stock}"></td>
@@ -81,6 +81,31 @@
                     </table>
                     <div id="contenedorModalInv"></div>
                 </div>
+                <nav class="mt-4" >
+                    <ul class="pagination justify-content-center">
+
+                        <li class="page-item" th:classappend="${inventarios.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/17.pagina_inventario(page=${inventarios.number - 1})}">
+                                Anterior
+                            </a>
+                        </li>
+
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0, inventarios.totalPages - 1)}"
+                            th:classappend="${i == inventarios.number} ? 'active'">
+                            <a class="page-link" th:text="${i + 1}"
+                               th:href="@{/admin/17.pagina_inventario(page=${i})}">
+                            </a>
+                        </li>
+
+                        <li class="page-item" th:classappend="${inventarios.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/17.pagina_inventario(page=${inventarios.number + 1})}">
+                                Siguiente
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
             </div>
         </div>
 

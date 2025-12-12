@@ -25,21 +25,46 @@
                     <h1 class="section-title">MEDICAMENTOS</h1>
                 </div>
                 <div class="table-responsive">
-                    <table id="tabla1" class="table tab1 custom-table text-center">
+                    <table id="tabla1" class="table custom-table text-center">
                         <thead>
-                            <tr>
+                            <tr class="text-center">
                                 <th>MEDICAMENTO</th>
                                 <th>DESCRIPCION</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="medicamento : ${medicamentos}">
+                            <tr th:each="medicamento : ${medicamentos}" class="text-center">
                                 <td th:text="${medicamento.nombreMedicamento}"></td>
                                 <td th:text="${medicamento.descripcionMedicamento}"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                <nav class="mt-4" >
+                    <ul class="pagination justify-content-center">
+
+                        <li class="page-item" th:classappend="${medicamentos.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/22.pagina_medicamento(page=${medicamentos.number - 1})}">
+                                Anterior
+                            </a>
+                        </li>
+
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0, medicamentos.totalPages - 1)}"
+                            th:classappend="${i == medicamentos.number} ? 'active'">
+                            <a class="page-link" th:text="${i + 1}"
+                               th:href="@{/admin/22.pagina_medicamento(page=${i})}">
+                            </a>
+                        </li>
+
+                        <li class="page-item" th:classappend="${medicamentos.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/22.pagina_medicamento(page=${medicamentos.number + 1})}">
+                                Siguiente
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
             </div>
         </div>
 

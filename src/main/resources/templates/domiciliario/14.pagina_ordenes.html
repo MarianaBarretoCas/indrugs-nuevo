@@ -28,7 +28,7 @@
                 <div class="table-responsive">
                     <table id="tabla1" class="table custom-table">
                         <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>Paciente</th>
                             <th>EPS</th>
                             <th>Fecha de entrega</th>
@@ -39,7 +39,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="orden : ${ordenes}">
+                        <tr th:each="orden : ${ordenes}" class="text-center">
                             <td th:text="${orden.pacienteNombre}"></td>
                             <td th:text="${orden.epsOrden}"></td>
                             <td th:text="${#temporals.format(orden.fechaEntrega, 'yyyy-MM-dd HH:mm')}"></td>
@@ -53,6 +53,31 @@
                         </tbody>
                     </table>
                 </div>
+                <nav class="mt-4" >
+                    <ul class="pagination justify-content-center">
+
+                        <li class="page-item" th:classappend="${ordenes.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/14.pagina_ordenes(page=${ordenes.number - 1})}">
+                                Anterior
+                            </a>
+                        </li>
+
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0, ordenes.totalPages - 1)}"
+                            th:classappend="${i == ordenes.number} ? 'active'">
+                            <a class="page-link" th:text="${i + 1}"
+                               th:href="@{/admin/14.pagina_ordenes(page=${i})}">
+                            </a>
+                        </li>
+
+                        <li class="page-item" th:classappend="${ordenes.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/14.pagina_ordenes(page=${ordenes.number + 1})}">
+                                Siguiente
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
             </div>
         </div>
 

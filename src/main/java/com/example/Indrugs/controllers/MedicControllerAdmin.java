@@ -7,6 +7,9 @@ import com.example.Indrugs.services.ImgBBService;
 import com.example.Indrugs.services.MedicamentosService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,14 +34,16 @@ public class MedicControllerAdmin {
     }
 
     @GetMapping("/22.pagina_medicamento")
-    public String mostrarMedic(HttpSession session, Model model){
+    public String mostrarMedic(HttpSession session, Model model, @RequestParam(defaultValue = "0") int page){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
         if (usuario == null) {
             return "redirect:/login"; // si no está logueado
         }
+        Pageable pageable = PageRequest.of(page, 8);
+        Page<MedicamentoDTO> medicamentos = medicService.readAd(pageable);
 
-        List<MedicamentoDTO> medicamentos = medicService.readAdmin();
+
         model.addAttribute("medicamentos", medicamentos);
 
         //form

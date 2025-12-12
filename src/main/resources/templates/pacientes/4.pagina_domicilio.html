@@ -61,9 +61,9 @@
 
                 <div class="col-12">
                     <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" th:field="*{telefonoOrden}" class="form-control" required />
+                    <input type="tel" id="telefono" th:field="*{telefonoOrden}" class="form-control" pattern="3[0-9]{9}" required />
                     <div class="valid-feedback">Correcto.</div>
-                    <div class="invalid-feedback">Por favor escriba un teléfono.</div>
+                    <div class="invalid-feedback">Por favor escriba un teléfono válido.</div>
                     <div th:if="${#fields.hasErrors('telefonoOrden')}" class="text-danger">
                         <small th:errors="*{telefonoOrden}"></small>
                     </div>

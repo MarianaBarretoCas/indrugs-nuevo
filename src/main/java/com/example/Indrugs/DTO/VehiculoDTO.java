@@ -8,6 +8,7 @@ import lombok.Setter;
 public class VehiculoDTO {
     private Long idVehiculo;
     private Long idUsuario;
+    private String telefonoUsuario;
     private String nombreUsuario;
     private String tipoVehiculo;
     private String placaVehiculo;

@@ -42,7 +42,7 @@
          let item = carrito.find(m => Number(m.idMedicamento) === idMedicamento);
 
          if (item) {
-             if (item.cantidad + cantidadDeseada <= stock) {
+             if (item.cantidad + cantidadDeseada <= stock && item.cantidad < 10) {
                  item.cantidad += cantidadDeseada;
              } else {
                  alert("No puedes agregar más, solo hay " + stock + " unidades disponibles.");
@@ -75,6 +75,7 @@
           // Validar que la cantidad sea un número válido
           if (isNaN(nuevaCantidad) || nuevaCantidad < 1) {
               alert("Cantidad inválida");
+              mostrarCarrito();
               return;
           }
 
@@ -88,6 +89,11 @@
 
           if (nuevaCantidad > stock) {
               alert("Solo hay " + stock + " unidades disponibles.");
+              mostrarCarrito();
+              return;
+          }
+          if (nuevaCantidad > 10) {
+              alert("Solo puedes solicitar 10 unidades de un mismo medicamento.");
               mostrarCarrito();
               return;
           }
@@ -136,7 +142,7 @@
                         <input type="number" min="1" value="${item.cantidad}"
                                onchange="actualizarCantidad(${item.idMedicamento}, this.value)">
                       </p>
-                      <button class="btnEliminar" onclick="eliminarDelCarrito(${item.idMedicamento})">Eliminar</button>
+                      <button class="btn btnEliminar" onclick="eliminarDelCarrito(${item.idMedicamento})">Eliminar</button>
                   </div>
               `;
           } catch (error) {
